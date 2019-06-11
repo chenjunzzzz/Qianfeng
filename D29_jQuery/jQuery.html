@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .div,.span,.p{
+
+        }
+        #div,span,p{
+            /*visibility:hidden;*/
+            /*display:none;*/
+        }
+    </style>
+    <script type="text/javascript" src="jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        /**
+         * $();这个小括号里面可以接受任意css选择器，作用和css选择器类似。可以选择到关联的DOM元素。
+         * jQuery对象转原生对象 .get(index)||[_index]
+         * 原生对象转jQuery对象: $(原生对象)
+         */
+
+        function main(){
+            // $("body>div div").css({
+            //     width:"100px",
+            //     height:"100px"
+            // });
+
+
+            // console.log($("div").css({
+            //         width:"100px",
+            //         height:"100px"
+            //     }).css({
+            //     backgroundColor:"red"
+            // }));
+
+            // $("#div").append("<p></p>");
+
+            // console.log($("div").get(0));
+            // console.log($($("div")[0]));
+
+            // console.log($(":hidden"));
+            // $("span").wrap("<div></div>");
+        }
+        // window.onload=main;
+
+
+
+        // $(document).ready(function(){
+        //     $("span").wrap("<div></div>");
+        // });
+
+        $(function(){
+            // $("span").html("abc").on("click",function(e){
+            //     console.log(e);
+            // });
+            // function myHandler(event) {
+            //     console.log(event);
+            //     alert(event.data.foo);
+            // }
+            // function on(_type,_data,fx){
+            //     this["on"+_type]=function(e) {
+            //         e.data=_data;
+            //         fx(e);
+            //     }
+            // }
+            // on("click",{foo:"xyz"},myHandler);
+            // $("span").html("abc").on("click", {foo: "bar"}, myHandler);
+        });
+    </script>
+</head>
+<body lang="">
+    <div id="div">
+        <input name="apple" />
+        <input name="flower" checked="checked" />
+        <input type="hidden" value="100">
+    </div>
+    <div></div>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+</body>
+</html>

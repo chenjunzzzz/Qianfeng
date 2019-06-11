@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * ES5种面向对象的语法
+         *      首字母大写是习惯,不是规范
+         */
+
+
+        /**
+         * 购物车中用json格式的对象进行存储
+         *      {"product001":7,"product002":3}
+         *      1.+按钮
+         *      2.-按钮
+         *      3.删除按钮
+         *      4.统计
+         *      5.文本框重新输入的功能
+         */
+        function Cart(){
+            this.storage={};//这个属性的作用:用来存储购物车中的产品信息
+            this.insert=function(_identify,_counter){
+                //TODO: add a product information to cart
+                if(_counter>0) {
+                    if (this.storage[_identify]) {
+                        this.storage[_identify] += _counter;
+                    } else {
+                        this.storage[_identify] = _counter;
+                    }
+                }else{
+                    alert("加入失败");
+                }
+            };
+            this.subtract=function(_identify,_counter){
+                //TODO:pop a product from cart
+                if(this.storage[_identify]){
+                    if(this.storage[_identify]>_counter){
+                        this.storage[_identify]-=_counter;
+                    }else{
+                        delete this.storage[_identify];
+                    }
+                }else{
+                    alert("购物车中无此数据.");
+                }
+            };
+            this.remove=function(_identify){
+                //TODO:delete a product or more from cart
+                if(this.storage[_identify]){
+                    delete this.storage[_identify];
+                }else{
+                    alert("购物车中无此数据");
+                }
+            };
+            this.statistics=function(){
+                //TODO:..................
+                var _sum=0;
+                for(var key in this.storage){
+                    if(this.storage.hasOwnProperty(key)) {
+                        _sum += this.storage[key];
+                    }
+                }
+                return _sum;
+            };
+            this.reset=function(_identify,_counter){//重置购物车中产品的数量
+                if(/^[1-9]\d*$/g.test(_counter+"") && this.storage[_identify]){
+                    this.storage[_identify]=_counter;
+                }
+            }
+        }
+        // Cart();//this===window;非严格模式
+        function events(_cart){
+            var _products=document.getElementsByTagName("body")[0].children;
+            for(var i=0;i<_products.length;i++){
+                _products[i].children[0].onclick=function(){
+                    _cart.subtract(this.parentNode.id,1);
+                    console.log(_cart,_cart.statistics());
+                };
+                _products[i].children[1].onchange=function(){
+                    _cart.reset(this.parentNode.id,this.value);
+                    console.log(_cart.statistics());
+                };
+                _products[i].children[2].onclick=function(){
+                    _cart.insert(this.parentNode.id,1);
+                    console.log(_cart.statistics());
+                };
+                _products[i].children[3].onclick=function(){
+                    _cart.remove(this.parentNode.id);
+                    console.log(_cart,_cart.statistics());
+                };
+            }
+        }
+        function main(){
+            var _cart=new Cart();
+            _cart.insert("TINKPADT400",7);
+            _cart.insert("DELL",5);
+            _cart.insert("ASUS",5);
+            events(_cart);
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="HP10001">
+    <span>-</span>
+    <input type="text" value="1">
+    <span>+</span>
+    <sanp>删除</sanp>
+</div>
+<div id="Hasee">
+    <span>-</span>
+    <input type="text" value="1">
+    <span>+</span>
+    <sanp>删除</sanp>
+</div>
+<div id="lenovo">
+    <span>-</span>
+    <input type="text" value="1">
+    <span>+</span>
+    <sanp>删除</sanp>
+</div>
+
+<div id="acer">
+    <span>-</span>
+    <input type="text" value="1">
+    <span>+</span>
+    <sanp>删除</sanp>
+</div>
+</body>
+</html>

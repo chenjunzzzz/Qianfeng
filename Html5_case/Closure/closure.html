@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        function People(){//如果是普通函数，一般习惯首字母小写；如果是类，习惯首字母大写
+//并非强行规定，只是方便代码阅读。建议按照这样的规则来写；
+            this.arm=2;
+            this.leg=2;
+            this.head=1;
+            this.eat=function(){}
+            this.run=function(){}
+            this.walk=function(){}
+        }
+        //var _p=new People();//构造函数会自动给new People()对象添加以上所有属性和所有方法
+        var _obj=new Object();
+        People.prototype.abc=10;
+        var _p=new People();
+        //console.log(window);
+        console.log(_p.__proto__);
+        console.log(People.prototype);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

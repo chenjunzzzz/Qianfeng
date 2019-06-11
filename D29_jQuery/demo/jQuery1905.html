@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #block{
+            width:100px;
+            height:100px;
+            background-color:red;
+        }
+    </style>
+    <script type="text/javascript" src="../jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+//         window.onload=function() {
+//             // console.log($("body"));
+//             var _obj = [document.getElementsByTagName("body")[0], document.getElementById("block")];
+//
+//             function H51905() {
+//                 this.append = function (_param) {
+//                     var _html="";
+//                     if (typeof _param === "string") {
+//                         for (var i = 0; i < _obj.length; i++) {
+//                             // _html=_obj[i].innerHTML;
+//                             // console.log(_html===document.getElementById("block"));
+// // console.log(typeof _html);
+//                             _obj[i].appendChild(document.createDocumentFragment().appendChild(document.createTextNode(_param)));
+//                         }
+//                         // document.getElementById("block").innerHTML="block";
+//                     }
+//                 };
+//                 this.css=function(){
+//
+//                 };
+//             }
+//
+//             H51905.call(_obj);
+//             _obj.append("<div>123456789</div>");
+//         }
+        // $("div").append("<span></span>");
+        // $("span").appendTo("div");
+
+
+$(function(){
+    console.log($("input").map(function(){
+        return $(this).val();
+    }).get());
+    // $("p").append( .join(", ") );
+});
+
+
+
+
+
+
+
+
+        // $(function(){
+        //     $("body").append("3456").append("<div>wertyui</div>");
+        // });
+        // $(document).ready(function(){});
+    </script>
+</head>
+<body>
+<p><b>Values: </b></p>
+<form>
+    <input type="text" name="name" value="John"/>
+    <input type="text" name="password" value="password"/>
+    <input type="text" name="url" value="http://ejohn.org/"/>
+</form>
+</body>
+</html>

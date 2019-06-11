@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        div{
+            position:absolute; top:0;
+            width:30px; height:30px; border:solid 1px #f1f1f1;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            line-height:30px; text-align:center;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 需求分析
+         * 1.按下键盘的时候要消除对应的元素
+         *      ？如果有个相同的元素是否要同时移除
+         * 2.当键盘按下的时候比较键码值和页面上的元素
+         * 3.元素落到浏览器的最下放要移除，并减分。
+         * 4.元素需要不停的逐渐往下落
+         */
+
+        function create(){
+            var _timer=0;
+            var _node=document.createElement("div");
+            var _body=document.getElementsByTagName("body")[0];
+            var _width=document.documentElement.clientWidth||document.body.clientWidth;
+            _node.innerText=String.fromCharCode(Math.floor(Math.random()*26)+65);
+            _node.style.left=Math.floor(Math.random()*_width)+"px";
+            for(var i=0;i<_body.children.length;i++){
+                _body.children[i].style.top=_body.children[i].offsetTop+30+"px";
+            }
+            _body.appendChild(_node);
+            _timer=window.setTimeout(function(){
+                window.clearTimeout(_timer);
+                create();
+            },800);
+        }
+        function events(){
+            document.onkeypress=function(e){
+                var _code;
+                var _body=document.getElementsByTagName("body")[0];
+                e=e||window.event;
+                _code=e.keyCode||e.which;
+                _code=String.fromCharCode(_code).toUpperCase();
+                for(var i=0;i<_body.children.length;i++){
+                    if(_code===_body.children[i].innerText){
+                        _body.removeChild(_body.children[i]);
+                        break;//作用？
+                    }
+                }
+            }
+        }
+        function main(){
+            create();
+            events();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

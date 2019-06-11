@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+//        function Single(){
+//            this.name="tom";
+//        }
+//        var _p1=new Single();
+//        _p1.name="Lily";
+        /**单例模式
+         * 这里有很多代码，而且写了好几天了，上面申明的变量名我已经忘记了
+         *
+         *
+         *
+         *
+         *
+         *
+         * 但是到这里假设已经写了好几千行代码了，但是我又想用上面的对象了。而且最重要的是上面对象的操作记录对我
+         * 目前的开发非常重要。几千行代码我还得阅读。还得找，好心烦。为什么选择了编程？奔溃中.....
+         * 再申明一个对象试试？能读取到Lily的值吗？
+         */
+//        var _p2=new Single();
+//        console.log(_p2.name);
+
+
+        /**苦思悯想，百思不得其解！！！
+         * 突然旁边的妹子说了一句让猴子害羞的话：“试一试单例模式”
+         * 设计目的：当我两次获取相同对象的时候。我希望多次操作对象是同一个对象，但是我并没有使用变量保存。
+         */
+//        function Single(){
+//            if(!Single.instance){
+//                Single.instance={
+//                    "name":"tom"
+//                }
+//            }
+//            return Single.instance;
+//        }
+//        var _obj1=Single();
+//        _obj1.name="lily";
+//
+//        var _obj2=Single();
+//        console.log(_obj2.name);
+        /**
+         * 总结：
+         * 变量随便写，给你的永远都是同一个变量
+         * 操作记录可以永久保存
+         *
+         * 核心思想：只要返回的永远是同一个变量就可以称之为单例模式
+         */
+//        var _final={};
+//        function Single(){
+//            return _final;
+//        }
+        //也是单例模式，只是这样写的时候多了一个全局变量。
+
+
+        /**
+         * 代理模式
+         * 在现实生活中有很多这样的例子，比如皮包公司。他没有生产，没有技术，只有销售团队。
+         * 比如我们知道的，招生老师，他们会不会教你们课程？显然绝大部分是不可以的。当然我们也是干不了招生老师的工作。
+         * 但是招生老师想要教你们学习H5，怎么办？
+         * 招生老师就代理培训机构的业务，当然这里只是比方。
+         * 那么招生老师就是代理方，培训机构就是委托方。
+         * 这么就形成了代理委托机制。
+         */
+        function Delegated(){//培训机构，被委托方
+            this.job=function(){
+                alert("就业");
+            }
+            this.skill=function(){
+                alert("教学");
+            }
+            this.loan=function(){
+                alert("贷款助学");
+            }
+        }
+        function Agent(){//招生老师，但是对外公布的是我们可以教会你们
+            this.job=function(){
+                alert("就业");
+            }
+            this.loan=function(){
+                alert("贷款助学");
+            }
+            this.skill=function(){
+                alert("招生");
+            }
+            //以上是代理机构的特长；
+            /**
+             * 到这里代理方发现他们只缺教学的，代理放也能办助学贷款，也能保证就业，只是缺少一项：教学
+             * 所以找到培训机构，谈代理，我们代理你们公司的教学业务，每年给你多少钱合适？ok就这么定了。
+             */
+            this.teach=new Delegated().skill;//合作成功
+        }
+        /**
+         * 跟继承有什么区别？
+         * 如果代理他们的就业，和助学贷款，跟代理机构本身的业务冲突，代理机构要花额外的费用。心里不平衡
+         * 在编程中，被委托对象体积那么大。一次继承过来很多方法没用不说，还占内存，所以我只挑有用的，节省内存，更重要的是没有冲突。
+         * 合作成功后开展业务；
+         */
+//        var _agent=new Agent();
+//        _agent.teach();
+
+
+        /**
+         * 工厂模式：
+         * 我们所熟悉的工厂是不是重复生产，编程中称为迭代！
+         * 比如生产一颗螺丝钉，一个流水线就是不停的生产螺丝钉。
+         * 再如联想电脑，联想公司的笔记本生产生只负责生产笔记本，不能生产出TV吧。
+         * 但是如果有TV生产线，那么TV生产生只能生产TV，而且每天都是重复的工作。
+         * 当然笔记本生产想也是重复的。
+         * 编程中我们也想让编程跟流水线一样，想用的时候开启一下工厂就可以得到一个想要的程序！
+         * 注意，每次得到的程序和已经得到的程序不会是同一个程序。
+         * 就好像生产出两台笔记本，肯定不是同一个笔记本！！
+         *
+         * 开始实践！！！！！！！！！！！！
+         */
+        function Factory(color){//生产笔记本的流水线
+            return {
+                "screen":"this is screen",
+                "keybord":"this is keybord",
+                "mouse":"this is mouse",
+                "USB":"this is API of USB",
+                "storage":"this is storage",
+                "color":color
+            }
+        }
+        //来一个黄色的笔记本
+        var _yellow=Factory("yellow");
+        //来一个黑色的笔记本
+        var _black=Factory("black");
+        //来一个紫色的笔记本
+        var _purple=Factory("purple");
+        //console.log(_yellow,_black,_purple);
+        //是不是很完美
+
+
+
+        /**
+         * 抽象工厂
+         * 抽象工厂模式是所有形态的工厂模式中最为抽象和最具一般性的一种形态。
+         * 抽象工厂模式是指当有多个抽象角色时，使用的一种工厂模式。
+         * 抽象工厂模式可以向客户端提供一个接口，使客户端在不必指定产品的具体的情况下，创建多个产品族中的产品对象。
+         */
+        function AbstractFactory(){//生产5.8inch两毫米厚度钻石手机屏幕
+            return {
+                "thickness":"2mm",
+                "size":"5.8inch",
+                "material":"Diamonds"
+            }
+        }
+        function Iphone(){
+            this.shell="铝合金";
+            this.model="7Plus";
+            this.screen=AbstractFactory();
+        }
+        function Mate8(){
+            this.shell="铝合金";
+            this.model="Mate8";
+            this.screen=AbstractFactory();
+        }
+        function P9(){
+            this.shell="铝合金";
+            this.model="P9";
+            this.screen=AbstractFactory();
+        }
+        //那货是个热门货，什么手机都能用，要发财的节奏
+
+
+        /**
+         * 适配器模式
+         * 所谓的适配器模式就是寻早合适的零件安装到对象上
+         * 拆过笔记本吗？螺丝钉放一起，都搞混了，不知道哪个螺丝对哪个眼了怎么办？
+         * 找到眼，一个一个螺丝往里放，试试，合适了拧紧了就行了。
+         * 合适了就是适配了。合适切匹配上了
+         */
+        function Adapter(part){
+            switch(typeof part){
+                case "Number":
+                    //TO DO....
+                    //A 是数字类型吗？
+                    //B 是。
+                    //A 一个月你要多少工资。
+                    break;
+                case "String":
+                    //TO DO....
+                    //A 是字符串类型吗？
+                    //B 是。
+                    //A 那还不写代码？
+                    break;
+                case "Object":
+                    //TO DO....
+                    //A 是对象吗?
+                    //B 是
+                    //A 我们什么时候结婚
+                    //......
+                    break;
+                case "undefined":
+                    //TO DO...
+                    //A 你是几个意思？
+                    //B 跟你不配
+                    //A 那你走吧！！
+                    break;
+            }
+        }
+
+
+        /**
+         * 观察者模式
+         * 见过发传单的没？看到人就上。
+         * 发传单的人在观察，来人就给你传单，只要你被他逮着。
+         * 首先发传单的人会给你东西，有可能是卡片，有可能是一张A4纸，还有可能是钱（这是白天，请不要做梦）！！！
+         */
+        function Scan(obj){
+            Scan.prototype.card={
+                "number":"1120",
+                "type":"vip"
+            };
+            Scan.prototype.paper={
+                "content":"请你周六来消费",
+                "type":"A4paper"
+            }
+            for(var k in Scan.prototype){
+                obj[k]=Scan.prototype[k];
+            }
+            return obj;
+        }
+        window.onload=function(){
+            Scan(document.getElementsByTagName("div")[0]);
+            console.log(document.getElementsByTagName("div")[0].card);
+        }
+    </script>
+</head>
+<body>
+<div></div>
+</body>
+</html>

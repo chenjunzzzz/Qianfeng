@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0;
+        }
+        div{
+            width:100px; height:100px; background-color:red; position:absolute; top:0; left:0;
+        }
+        span{
+            width:5px; height:5px; background-color:#555; position:absolute;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 运动的原理
+         *      修改CSS
+         *          left
+         *          top
+         *          marginLeft
+         *          marginTop
+         *          paddingLeft
+         *          paddingTop
+         *          scrollLeft
+         *          scrollTop
+         *
+         *          opacity
+         */
+
+        /**
+         * 让ID为block的div加速向右进行移动
+         */
+        function sport(){
+            let _block=document.getElementById("block");
+            let _time=1,_speed;
+            let _timer=window.setInterval(function(){
+                // _block.style.left=_block.offsetLeft+(_time+=1)+"px";//匀加速
+
+
+                // _block.style.left=_block.offsetLeft+(_time+=Math.floor(Math.random()*10))+"px";//变加速
+
+
+                // _speed=Math.floor(Math.random()*10);
+                // if(_speed % 2===0) {
+                //     _block.style.left = _block.offsetLeft + (_speed) + "px";//走走停停
+                // }
+                if(_block.offsetLeft>=500){
+                    window.clearInterval(_timer);
+                }
+            },30);
+        }
+
+
+        function opacity(){
+            let _block=document.getElementById("block");
+            let _opacity=1,_speed=-1;
+            let _timer=window.setInterval(function(){
+                _block.style.opacity=(_opacity+=0.04*_speed).toString();
+                if(_opacity<=0){
+                    _speed=1;
+                }
+                if(_opacity>=1){
+                    _speed=-1;
+                }
+            },30);
+        }
+
+
+        // function lock(){
+            // let _block=document.getElementById("block");
+            // let _lock=0;
+            // _block.onclick=function(){
+            //     if(!_lock) {
+            //         _lock=1;
+            //         window.setTimeout(function () {
+            //             console.log("complete");
+            //             _lock=0;
+            //         }, 50);
+            //     }
+            // }
+
+
+            // function fn(){
+            //     _block.onclick=null;
+            //     window.setTimeout(function () {
+            //         console.log("complete");
+            //         _block.onclick=fn;
+            //     }, 3000);
+            // }
+            // _block.onclick=fn;
+        // }
+
+
+
+        function circle(){
+            let _r=100,_span,n=0,_body=document.getElementsByTagName("body")[0];
+            let _timer=window.setInterval(function(){
+                _span=document.createElement("span");
+                _span.style.left=_r*Math.cos(n*2*Math.PI/100)+_r+"px";
+                _span.style.top=_r*Math.sin(n++*2*Math.PI/100)+_r+100+"px";
+                _body.appendChild(_span);
+                if(n>=100){
+                    window.clearInterval(_timer);
+                }
+            },200);
+        }
+
+        function main(){
+            //vt=v0+at;
+            // sport();//加速运动
+            // opacity();
+            // lock();
+            circle();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="block"></div>
+</body>
+</html>

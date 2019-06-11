@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            width:100%; height:100%; margin:0; padding:0;
+        }
+    </style>
+    <script type="text/javascript" src="jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            // $("#demo").css({
+            //     width:"100px",
+            //     height:"100px",
+            //     backgroundColor:"red"
+            // }).click(function(){
+            //     alert("ok");
+            // });
+            // function abc(){
+            //     let _me=this;
+            //     this.onclick=null;
+            //     Ajax.request({
+            //         api:'',
+            //         success:function(){
+            //             alert("completed");
+            //             _me.onclick=abc;
+            //         }
+            //     });
+            // }
+            // $("#demo").css({
+            //     width:"100px",
+            //     height:"100px",
+            //     backgroundColor:"red"
+            // }).get(0).onclick=abc;
+
+
+
+
+
+            // $("#demo").css({
+            //     width:"100px",
+            //     height:"100px",
+            //     backgroundColor:"red"
+            // });// .click(function (e){
+            //     e.stopPropagation();
+            //     alert("ok");
+            // });
+            // $("body").click(function(){
+            //     $("#demo").trigger("click");
+            // });
+
+
+            // $("#demo").get(0).on12345=function(){
+            //     console.log(this);
+            // };
+            // $("#demo").get(0).launch=function(_type){
+            //     this[_type]();
+            // };
+            // $("#demo").get(0).launch("on12345");
+
+
+
+            // $("#demo").css({
+            //     width:"100px",
+            //     height:"100px",
+            //     backgroundColor:"red"
+            // }).click(function (e){
+            //     e.stopPropagation();
+            //     alert("ok");
+            // });
+            // $("body").click(function(){
+            //     $("#demo").get(0).click();
+            // });
+
+
+
+            // document.getElementById("demo").onclick=function(){
+            //     alert("you clicked me");
+            // };
+            // function trigger(_type){
+            //     this[_type]();
+            // }
+            // document.getElementById("demo").trigger("click");
+
+            // window.close();
+
+
+            // $(window).unload( function () { alert("Bye now!"); } );
+
+
+            // $("#demo").css({
+            //     width:"100px",
+            //     height:"100px",
+            //     backgroundColor:"red",
+            //     position:"absolute"
+            // });
+            //
+            // let _points=[];
+            // function player(){
+            //     var _point;
+            //     var _timer=window.setInterval(function(){
+            //         _point=_points.shift();
+            //         $("#demo").css({
+            //             left:_point[0],
+            //             top:_point[1]
+            //         });
+            //         if(_points.length<=0){
+            //             window.clearInterval(_timer);
+            //         }
+            //     },30)
+            // }
+            // $(document).mousedown(function(){
+            //     $(document).on("mousemove",function(e){
+            //         _points.push([e.offsetX,e.offsetY]);
+            //     });
+            // });
+            // $(document).mouseup(function(){
+            //     $(document).off("mousemove");
+            //     player();
+            // });
+
+
+
+
+            $("#demo").css("width","1000px");
+            $("#demo").html();
+            $("#demo").attr("title","this div's identify is demo");
+            $("#demo").on("click",function(){});
+            $("#demo").click(function(){});
+
+
+        });
+
+    </script>
+</head>
+<body>
+<div id="demo">1234567</div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; height:100%;
+        }
+        div{
+            width:100px; height:100px; position:absolute; top:0px; left:0px; background-color:red;
+            opacity:0.2;
+        }
+        div#demo{
+            left:800px; top:0px;
+        }
+        div#green{
+            background-color:green; top:210px; left:0px;
+        }
+    </style>
+    <script type="text/javascript">
+        /***
+         * 面向对象编程，最好的情况是我们要有整体概念。
+         */
+        //v1:
+        // class Animate{
+        //     constructor(_target,_hz) {
+        //         //属性一般情况下在构造器中声明
+        //         this.timer=0;
+        //         this.hz=_hz;
+        //         this.dom=_target;
+        //     }
+        //     //方法在构造器外，在class内声明
+        //     /**
+        //      * 注意点：定时器中的this指向问题
+        //      */
+        //     move(_time){
+        //         let _me=this;//这样的方式保存_me变量，_me就指向move方法的当前对象
+        //         let _left=_time/this.hz;
+        //         this.timer=window.setInterval(function(){
+        //             _me.dom.style.left=_me.dom.offsetLeft+5+"px";
+        //             _me.dom.style.top=_me.dom.offsetTop+8+"px";
+        //         },this.hz);
+        //     }
+        // }
+            //v2：产生的原因的是第一个版本中步长不能通用，然后且每次使用都需要手工计算，所以麻烦。
+        // class Animate{
+        //     constructor(_target,_hz) {
+        //         //属性一般情况下在构造器中声明
+        //         this.timer=0;
+        //         this.hz=_hz;
+        //         this.dom=_target;
+        //     }
+        //     //方法在构造器外，在class内声明
+        //     step(_css,_time){
+        //         this.times=Math.ceil(_time / this.hz);
+        //         if(_css.left || _css.left===0) {
+        //             this.left = (_css.left - this.dom.offsetLeft) / (_time / this.hz);//(_time/this.hz)===次数
+        //         }
+        //         if(_css.top || _css.top===0) {
+        //             this.top = (_css.top - this.dom.offsetTop) / (_time / this.hz);//(_time/this.hz)===次数
+        //         }
+        //     }
+        //     move(_css,_time){
+        //         let _me=this;//这样的方式保存_me变量，_me就指向move方法的当前对象
+        //         this.step(_css,_time);//计算完坐标位置的步长的同时添加两个步长属性
+        //         this.timer=window.setInterval(function(){
+        //             /**注意点：定时器中的this指向问题*/
+        //             _me.times--;
+        //             if(_css.left || _css.left===0) {
+        //                 _me.dom.style.left = _me.dom.offsetLeft + _me.left + "px";
+        //             }
+        //             if(_css.top || _css.top===0) {
+        //                 _me.dom.style.top = _me.dom.offsetTop + _me.top + "px";
+        //             }
+        //             if(_me.times===1){
+        //                 if(_css.left || _css.left===0) {
+        //                     _me.dom.style.left = _css.left + "px";
+        //                 }
+        //                 if(_css.top || _css.top===0) {
+        //                     _me.dom.style.top = _css.top + "px";
+        //                 }
+        //                 window.clearInterval(_me.timer);
+        //             }
+        //         },this.hz);
+        //     }
+        // }
+            //v3第三个版本产生的原因，是我有一个愿望：既能改变位置，又能改变透明度。
+        // class Animate{
+        //     constructor(_target,_hz) {
+        //         //属性一般情况下在构造器中声明
+        //         this.timer=0;
+        //         this.hz=_hz;
+        //         this.dom=_target;
+        //     }
+        //     //方法在构造器外，在class内声明
+        //     step(_css,_time){
+        //         this.times=Math.ceil(_time / this.hz);
+        //         if(_css.left || _css.left===0) {
+        //             this.left = (_css.left - this.dom.offsetLeft) / this.times;//(_time/this.hz)===次数
+        //         }
+        //         if(_css.top || _css.top===0) {
+        //             this.top = (_css.top - this.dom.offsetTop) / this.times;//(_time/this.hz)===次数
+        //         }
+        //         if(_css.opacity) {
+        //             let _opacity = window.getComputedStyle ? window.getComputedStyle(this.dom, null)["opacity"] : this.dom.currentStyle["opacity"];
+        //             _opacity = Number(this.dom.style.opacity === "" ? _opacity : this.dom.style.opacity);
+        //             this.opactiy=_opacity?_opacity:1;//目标元素的初始透明度
+        //             this.alpha = (_css.opacity-_opacity) / this.times;//透明度的步长
+        //         }
+        //     }
+        //     move(_css,_time){
+        //         let _me=this;//这样的方式保存_me变量，_me就指向move方法的当前对象
+        //         let _counter=0;
+        //         this.step(_css,_time);
+        //         this.timer=window.setInterval(function(){
+        //             /**注意点：定时器中的this指向问题*/
+        //             _me.times--;
+        //             if(_css.left || _css.left===0) {
+        //                 _me.dom.style.left = _me.dom.offsetLeft + _me.left + "px";
+        //             }
+        //             if(_css.top || _css.top===0) {
+        //                 _me.dom.style.top = _me.dom.offsetTop + _me.top + "px";
+        //             }
+        //             if(_css.opacity){
+        //                 _me.dom.style.opacity=_me.opactiy+_me.alpha*_counter++;//counter++是记录运行次数的变量
+        //             }
+        //             if(_me.times===1){
+        //                 if(_css.left || _css.left===0) {
+        //                     _me.dom.style.left = _css.left + "px";
+        //                 }
+        //                 if(_css.top || _css.top===0) {
+        //                     _me.dom.style.top = _css.top + "px";
+        //                 }
+        //                 if(_css.opacity){
+        //                     _me.dom.style.opacity=_css.opacity;
+        //                 }
+        //                 window.clearInterval(_me.timer);
+        //             }
+        //         },this.hz);
+        //     }
+        // }
+            //v4:第四个版本产生的原因：我们又有了一个愿望->希望前一个动画能街上下一个动画。
+        class Animate{
+            constructor(_target,_hz) {
+                //属性一般情况下在构造器中声明
+                this.timer=0;
+                this.hz=_hz;
+                this.dom=_target;
+            }
+            //方法在构造器外，在class内声明
+            step(_css,_time){
+                this.times=Math.ceil(_time / this.hz);
+                if(_css.left || _css.left===0) {
+                    this.left = (_css.left - this.dom.offsetLeft) / this.times;//(_time/this.hz)===次数
+                }
+                if(_css.top || _css.top===0) {
+                    this.top = (_css.top - this.dom.offsetTop) / this.times;//(_time/this.hz)===次数
+                }
+                if(_css.opacity) {
+                    let _opacity = window.getComputedStyle ? window.getComputedStyle(this.dom, null)["opacity"] : this.dom.currentStyle["opacity"];
+                    _opacity = Number(this.dom.style.opacity === "" ? _opacity : this.dom.style.opacity);
+                    this.opactiy=_opacity?_opacity:1;//目标元素的初始透明度
+                    this.alpha = (_css.opacity-_opacity) / this.times;//透明度的步长
+                }
+            }
+            move(_css,_time,_callback,_delay){
+                let _me=this;//这样的方式保存_me变量，_me就指向move方法的当前对象
+                let _counter=0;
+                this.step(_css,_time);
+                this.timer=window.setInterval(function(){
+                    /**注意点：定时器中的this指向问题*/
+                    _me.times--;
+                    if(_css.left || _css.left===0) {
+                        _me.dom.style.left = _me.dom.offsetLeft + _me.left + "px";
+                    }
+                    if(_css.top || _css.top===0) {
+                        _me.dom.style.top = _me.dom.offsetTop + _me.top + "px";
+                    }
+                    if(_css.opacity){
+                        _me.dom.style.opacity=_me.opactiy+_me.alpha*_counter++;
+                    }
+                    if(_me.times===1){
+                        if(_css.left || _css.left===0) {
+                            _me.dom.style.left = _css.left + "px";
+                        }
+                        if(_css.top || _css.top===0) {
+                            _me.dom.style.top = _css.top + "px";
+                        }
+                        if(_css.opacity){
+                            _me.dom.style.opacity=_css.opacity;
+                        }
+                        window.clearInterval(_me.timer);
+                        if(_callback){
+                            _me.timer=window.setTimeout(function(){
+                                _callback();
+                            },_delay?0:_delay);
+                        }
+                    }
+                },this.hz);
+            }
+        }
+        function main(){
+            new Animate(document.getElementById("block"),50).move({
+                left:800,
+                top:500,
+                opacity:1
+            },800,function(){
+                new Animate(document.getElementById("green"),80).move({
+                    top:0
+                },800,function(){
+                    alert("over");
+                },1000);
+            },2000);
+            new Animate(document.getElementById("demo"),30).move({
+                top:0,
+                left:0
+            },800);
+
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="block" style=""></div>
+<div id="demo"></div>
+<div id="green"></div>
+</body>
+</html>

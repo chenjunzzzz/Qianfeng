@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{ margin:0 auto; width:100%; height:100%;}
+        div#container{ width:auto; height:auto;
+            border:solid 3px #f1f1f1; position:relative;
+            margin:0 auto;
+        }
+        div.module{ width:150px; height:auto; padding:2px;
+            overflow:hidden; position:absolute;}
+        div.module img{ width:150px; border:none; float:left;}
+        div.module span{ width:100%; height:30px; line-height:30px;
+            text-align:center; display:block; float:left;}
+    </style>
+    <script type="text/javascript">
+        /**
+         * 分析文档：
+         *
+         * 4.创建网页元素
+         * 5.检测图片是否加载完成
+         *
+         * 1.自适应
+         * 2.鼠标滚动条往下拉到最底部时，会加载更多
+         * 3.每张图定位需要寻找空白最大的列的位置
+         *
+         * 数据结构：
+         * [{
+         *     img:"fghjklfghjk.jpg",
+         *     name:H51905Waterfall
+         * },{
+         *     img:"fghjklfghjk.jpg",
+         *     name:H51905Waterfall
+         * }]
+         */
+        class Waterfall{
+            constructor(){
+                this.start=0;
+                this.size=20;
+                this.columns=[];
+                this.data=[];//测试数据
+                this.container=document.getElementById("container");//不具有通用性
+            }
+
+            /**
+             * 2.自己建立测试数据，正式上线需要删除，或者注释
+             */
+            initData(){
+                for(var i=1;i<=75;i++){
+                    this.data.push({
+                        img:"images/"+i+".jpg",
+                        title:"H51905Waterfall"
+                    });
+                }
+            }
+
+            /**
+             * 1.创建网页元素
+             */
+            create(){
+                var _div=null,_fragment=document.createDocumentFragment();
+                for(var i=this.start;i<this.start+this.size && i<this.data.length;i++){
+                    _div=document.createElement("div");
+                    _div.className="module";
+                    _div.appendChild(document.createElement("img"));
+                    _div.appendChild(document.createElement("span"));
+                    _div.children[0].src=this.data[i].img;
+                    _div.children[1].innerText=this.data[i].title;
+                    _fragment.appendChild(_div);
+                }
+                document.getElementById("container").appendChild(_fragment);
+                this.check();
+            }
+
+            /**
+             * 记账
+             */
+            initColumns(){
+                let _width=document.documentElement.clientWidth|| document.body.clientWidth;
+                let _columns=Math.floor(_width/154);
+                for(let i=0;i<_columns;i++){
+                    this.columns[i]=0;
+                }
+            }
+
+            /**
+             * 计算最小高度
+             */
+            min(){
+                let _min=this.columns[0];
+                let _index=0;
+                // [8,5,6,9,8]
+                for(let i=1;i<this.columns.length;i++){
+                    if(_min>this.columns[i]){
+                        _min=this.columns[i];
+                        _index=i;
+                    }
+                }
+                return _index;
+            }
+
+            /**
+             * 计算最大高度
+             */
+            max(){
+                let _max=this.columns[0];
+                for(let i=1;i<this.columns.length;i++){
+                    if(_max<this.columns[i]){
+                        _max=this.columns[i];
+                    }
+                }
+                return _max;
+            }
+
+            /**
+             * 检测图片是否加载完成
+             */
+            check(){
+                let _timer=0,_completed=true,_me=this;
+                let _length=this.container.children.length;
+                for(let i=this.start;i<_length;i++){
+                    if(!this.container.children[i].children[0].complete){//判断图片是否加载完成
+                        _completed=false;
+                        break;
+                    }
+                }
+                if(_completed){
+                    this.position();
+                }else{
+                    _timer=window.setInterval(function(){
+                        window.clearInterval(_timer);
+                        _me.check();
+                    },100);
+                }
+            }
+
+            /**
+             * 3.将每张图片放到合理位置
+             *      就是每一列当中所有图片高度总和最小的列就是当前这张图要放的列
+             */
+            position(){
+                let _length=this.container.children.length;
+                let _index;
+                for(let i=this.start;i<_length;i++){
+                    _index=this.min();
+                    this.container.children[i].style.left=_index*154+"px";
+                    this.container.children[i].style.top=this.columns[_index]+"px";
+                    this.columns[_index]+=this.container.children[i].clientHeight;
+                }
+            }
+
+            init(){
+                this.initData();
+                this.initColumns();
+                return this;
+            }
+        }
+        function main(){
+            let _water=new Waterfall().init();
+            _water.create();
+            window.onscroll=function(){
+                let _ch=document.documentElement.clientHeight||document.body.clientHeight;
+                let _st=document.documentElement.scrollTop||document.body.scrollTop;
+                //?什么时候是滚动条到最低端？
+                //最大高度？
+                if(_water.max()<=_ch+_st){
+                    //TODO:load more.....
+                    _water.start+=_water.size;
+                    _water.create();
+                }
+            };
+            window.onresize=function(){
+                let _save=_water.start;
+                _water.init();
+                _water.start=0;
+                _water.position();
+                _water.start=_save;
+            };
+        }
+        window.onload=main;
+
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

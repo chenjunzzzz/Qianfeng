@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script type="text/javascript">
+    var _a=1;_b=1;
+    function main(_a,_b){
+        console.log(++_a,++_b);
+    }
+    function inject(_array,_fx){
+        //console.log(_fx);
+        _fx.apply(null,_array);
+    }
+    inject([_a,_b],main);
+    //main.apply(null,[_a,_b]);
+    //console.log(_a,_b);
+</script>

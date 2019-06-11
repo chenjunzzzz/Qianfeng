@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; height:100%;
+        }
+        div{
+            width:66px; height:45px; overflow:hidden;
+            background-image:url("image/1.gif");
+            background-repeat: no-repeat;
+            position:absolute; top:0; left:0;
+        }
+    </style>
+    <script type="text/javascript">
+        // function ghost(_points){
+        //     var i=0;
+        //     var _block=document.getElementById("block");
+        //     var _timer=window.setInterval(function(){
+        //         _block.style.left=_points[i][0]+"px";
+        //         _block.style.top=_points[i][1]+"px";
+        //         i++;
+        //     },80);
+        // }
+        function ghost(_points){
+            var _small,_timer;
+            var _block=document.getElementById("block");
+            _block.style.backgroundImage="url(image/2.gif)";
+            _timer=window.setInterval(function(){
+                _small=_points.shift();
+                _block.style.left=_small[0]+"px";
+                _block.style.top=_small[1]+"px";
+                if(_points.length<=0){
+                    _block.style.backgroundImage="url(image/1.gif)";
+                    window.clearInterval(_timer);
+                }
+            },80);
+        }
+        function main(){
+            var _points=[];
+            document.onmousedown=function(e){
+                e=e||window.event;
+                document.onmousemove=function(_event){
+                    _event=_event||window.event;
+                    _points.push([_event.clientX,_event.clientY]);
+                }
+            };
+            document.onmouseup=function(){
+                document.onmousemove=null;
+                console.log(_points);
+                ghost(_points);
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="block"></div>
+</body>
+</html>

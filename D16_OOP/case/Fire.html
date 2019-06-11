@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        html,body{
+            background-color:#fff; margin:0; padding:0; height:100%; overflow:hidden;
+        }
+        img{
+            width:20px; position:absolute;
+        }
+    </style>
+    <script type="text/javascript">
+        class Fire{
+            constructor(){
+                this.height=document.documentElement.clientHeight||document.body.clientHeight;
+                this.body=document.getElementsByTagName("body")[0];
+                this.url="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557751445342&di=0641c31779f9280b879c65027decd78e&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fdesign%2F00%2F23%2F31%2F57%2F5a2cc18b88554.png";
+                this.timer=0;
+            }
+            /**
+             * 1.事件
+             * 2.抵达终点时显示一张烟花效果，
+             * 3.烟花的动画效果
+             * 4.删除掉图片
+             */
+            player(){
+                let _opacity=0.2,_me=this,_left,_top,_width,_height;
+                let _images=document.getElementsByTagName("img");
+                this.timer=window.setInterval(function(){
+                    for(let i=0;i<_images.length;i++) {
+                        _opacity=_images[i].style.opacity===""?0.2:Number(_images[i].style.opacity);
+                        if(_opacity<1 && !_images[i].locked){
+                            _images[i].style.opacity=(_opacity+=0.1);
+                        }else{
+                            _images[i].locked=1;
+                            _images[i].style.opacity=(_opacity-=0.2);
+                            if(Number(_images[i].style.opacity)<=0){
+                                _me.body.removeChild(_images[i]);
+                                continue;
+                            }
+                        }
+                        _left=_images[i].offsetLeft;
+                        _top=_images[i].offsetTop;
+                        _width=_images[i].clientWidth;
+                        _height=_images[i].clientHeight;
+                        _images[i].style.width = _images[i].clientWidth * 1.5 + "px";
+                        _images[i].style.height = _images[i].clientHeight * 1.5 + "px";
+                        _images[i].style.left = _left-(_images[i].clientWidth-_width)/2 + "px";
+                        _images[i].style.top = _top-(_images[i].clientHeight-_height)/2 + "px";
+                    }
+                },30);
+            }
+            fly(_fire,_distance,_step){
+                let _me=this,_img;
+                let _timer=window.setInterval(function(){
+                    _fire.style.top=_fire.offsetTop-_step+"px";
+                    if(_fire.offsetTop<=_distance){
+                        window.clearInterval(_timer);
+                        _img=document.createElement("img");//创建烟花的效果
+                        _img.src=_me.url;
+                        _img.style.opacity=0.3;
+                        _img.style.width="20px";
+                        _img.style.left=_fire.offsetLeft-5+"px";
+                        _img.style.top=_distance-10+"px";
+                        _me.body.removeChild(_fire);//小的火种已经飞到最高处，实现烟花效果，同时删除小伙种。
+                        _me.body.appendChild(_img);
+                        _me.player();
+                    }
+                },30);
+            }
+            events(){
+                let _me=this;
+                document.onclick=function(e){
+                    let _fire;
+                    e=e||window.event;
+                    _fire=document.createElement("div");
+                    _fire.style.position="absolute";
+                    _fire.style.left=e.clientX-5+"px";
+                    _fire.style.top=_me.height+"px";
+                    _fire.style.width="10px";
+                    _fire.style.height="20px";
+                    _fire.style.backgroundColor="red";
+                    _me.body.appendChild(_fire);
+                    window.clearInterval(_me.timer);
+                    _me.fly(_fire,e.clientY,Math.ceil(Math.random()*9));
+                }
+            }
+        }
+        function main(){
+            new Fire().events();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+</body>
+</html>

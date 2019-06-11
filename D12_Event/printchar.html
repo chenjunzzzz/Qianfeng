@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            position:absolute; top:0;
+            width:30px; height:30px; border:solid 1px #f1f1f1;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+        }
+    </style>
+    <script type="text/javascript">
+        function create(){
+            var _width=document.documentElement.clientWidth||document.body.clientWidth;
+            var _char=document.createElement("div");
+            _char.innerText=String.fromCharCode(Math.floor(Math.random()*26)+65);
+            _char.style.left=_width*Math.random()-_char.offsetWidth+"px";
+            document.getElementsByTagName("body")[0].appendChild(_char);
+        }
+        function drop(){
+            var _height=document.documentElement.clientHeight||document.body.clientHeight;
+            var _body=document.getElementsByTagName("body")[0];
+            var _chars=document.getElementsByTagName("div");
+            for(var i=0;i<_chars.length;i++){
+                _chars[i].style.top=_chars[i].offsetTop+1+"px";
+                if(_chars[i].offsetTop>=_height){
+                    _body.removeChild(_chars[i]);
+                }
+            }
+        }
+        function main(){
+            var _timer=window.setInterval(create,2000);
+            var _drop=window.setInterval(drop,80);
+            var _body=document.getElementsByTagName("body")[0];
+            document.onkeydown=function(e){
+                var _char;
+                var _chars=document.getElementsByTagName("div");
+                e=e||window.event;
+                _char=e.key.toUpperCase();
+                for(var i=0;i<_chars.length;i++){
+                    if(_char===_chars[i].innerText){
+                        _body.removeChild(_chars[i]);
+                        break;
+                    }
+                }
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

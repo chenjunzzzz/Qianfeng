@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * 闭包：函数作用域外访问函数作用域内变量的函数
+         *      表达式是不长驻内存的
+         *      函数调用也是一个表达式。
+         *      调用函数就等于复制函数
+         *
+         *
+         *      函数保存在代码区
+         *
+         *      表达式是在内存区中执行计算
+         */
+        function Outer(){
+            var a=10;
+            return function (){
+                a++;
+                return a;
+            }
+        }
+        function main() {
+            var _handle = Outer();
+            console.log(_handle());//11
+            _handle = Outer();
+            console.log(_handle());//11
+            console.log(_handle());//12
+            console.log(_handle());//13
+        }
+        main();
+
+
+        function Closure(){
+            var _timer=0;
+            function player(){
+                _timer=window.setInterval();
+            }
+            function create(){
+
+            }
+        }
+        Closure();
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

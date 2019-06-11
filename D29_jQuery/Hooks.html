@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        class App{
+            constructor(){
+                this.hooks=null;
+            }
+            hidden(){
+                if(this.main){
+                    this.hooks.main();
+                }else{
+                    this.main();
+                }
+            }
+        }
+        var _app=new App();
+        _app.hooks.main=function(){
+
+        };
+        _app.hidden();
+    </script>
+</head>
+<body>
+
+</body>
+</html>

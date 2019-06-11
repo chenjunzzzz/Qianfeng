@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin:0; padding:0; height:100%; width:100%;
+        }
+        div{
+            width:100px; height:100px; background-color:red;
+            position:absolute; top:0; left:0;
+        }
+    </style>
+    <script type="text/javascript">
+        function main(){
+            var _block=document.getElementById("block");
+            var _step=10;
+            var _timer=0;
+            var _width=document.getElementsByTagName("body")[0].offsetWidth-10;
+            var _height=document.getElementsByTagName("body")[0].offsetHeight-10;
+            var _forward=0;
+
+            _timer=window.setInterval(function(){
+                switch (_forward) {
+                    case 0:
+                        if(_width>=_block.offsetLeft+100) {
+                            _block.style.left = _block.offsetLeft + _step + "px";
+                        }else{
+                            _forward++;
+                        }
+                        break;
+                    case 1:
+                        if(_height>=_block.offsetTop+100) {
+                            _block.style.top = _block.offsetTop + _step + "px";
+                        }else{
+                            _forward++;
+                        }
+                        break;
+                    case 2:
+                        if(_block.offsetLeft>=0) {
+                            _block.style.left = _block.offsetLeft + -_step + "px";
+                        }else{
+                            _forward++;
+                        }
+                        break;
+                    case 3:
+                        if(_block.offsetTop>=0) {
+                            _block.style.top = _block.offsetTop + -_step + "px";
+                        }else{
+                            _forward=0;
+                        }
+                        break;
+                }
+
+
+            },30);
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="block"></div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            margin:0; padding:0; height:100%;
+        }
+        #demo>div{
+
+        }
+        div span{
+            font-size:18px;
+            color:red;
+        }
+    </style>
+    <script type="text/javascript" src="../jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            // console.log($("#demo>div,.demo,span,a"));
+            // $("#demo>div,.demo,span,a")[0].style.height="100px";//从jquery对象中获取原生对象的方法:get(0)，也可以直接使用中括号+索引值
+            // $("#demo>div,.demo,span,a")[0].style.width="100px";
+            // $("#demo>div,.demo,span,a")[0].style.backgroundColor="red";
+
+
+            // console.log($("div:not(.demo)"));
+            // console.log($("div,.demo,span,a").css({
+            //     height:"100px",
+            //     width:"100px",
+            //     display:"block",
+            //     margin:"10px",
+            //     float:"left",
+            //     backgroundColor:"red"
+            // }));
+            console.log($(document.getElementById("demo")).css("fontSize"));//原生对象转成jquery对象
+        });
+        $(function(){
+            // (function($) {
+            //     function styleSupport(prop) {
+            //         var vendorProp, supportedProp,
+            //             // capitalize first character of the prop to test vendor prefix
+            //             capProp = prop.charAt(0).toUpperCase() + prop.slice(1),//将首字母变大写
+            //             prefixes = [ "Moz", "Webkit", "O", "ms" ],
+            //             div = document.createElement( "div" );//在内存中创建div，不会被放到页面中。
+            //         // div用来干什么？答：在内存中测试DOM元素是否拥有prop属性
+            //         if ( prop in div.style ) {
+            //             // browser supports standard CSS property name
+            //             supportedProp = prop;
+            //         } else {
+            //             // otherwise test support for vendor-prefixed property names
+            //             for ( var i = 0; i < prefixes.length; i++ ) {
+            //                 vendorProp = prefixes[i] + capProp;//MozBorderRadius||WebkitBorderRadius.......
+            //                 if ( vendorProp in div.style ) {
+            //                     supportedProp = vendorProp;
+            //                     break;
+            //                 }
+            //             }
+            //         }
+            //         // avoid memory leak in IE
+            //         div = null;
+            //         // add property to $.support so it can be accessed elsewhere
+            //         $.support[ prop ] = supportedProp;//$.support.borderRadius="MozBorderRadius";
+            //         return supportedProp;
+            //     }
+            //     // call the function, e.g. testing for "border-radius" support:
+            //     styleSupport( "borderRadius" );
+            // })(jQuery);
+
+
+            // (function($) {
+            //     if ( !$.cssHooks ) {
+            //         throw("jQuery 1.4.3+ is needed for this plugin to work");
+            //         return;
+            //     }
+            //     function styleSupport( prop ) {
+            //         var vendorProp, supportedProp,
+            //             capProp = prop.charAt(0).toUpperCase() + prop.slice(1),
+            //             prefixes = [ "Moz", "Webkit", "O", "ms" ],
+            //             div = document.createElement( "div" );
+            //         if ( prop in div.style ) {
+            //             supportedProp = prop;
+            //         } else {
+            //             for ( var i = 0; i < prefixes.length; i++ ) {
+            //                 vendorProp = prefixes[i] + capProp;
+            //                 if ( vendorProp in div.style ) {
+            //                     supportedProp = vendorProp;
+            //                     break;
+            //                 }
+            //             }
+            //         }
+            //         div = null;
+            //         $.support[ prop ] = supportedProp;
+            //         return supportedProp;
+            //     }
+            //     var borderRadius = styleSupport( "borderRadius" );
+            //     // Set cssHooks only for browsers that
+            //     // support a vendor-prefixed border radius
+            //     if ( borderRadius && borderRadius !== "borderRadius" ) {
+            //         $.cssHooks.borderRadius = {
+            //             get: function( elem, computed, extra ) {
+            //                 return $.css( elem, borderRadius );
+            //             },
+            //             set: function( elem, value) {
+            //                 elem.style[ borderRadius ] = value;//elem.style.WebkitBorderRadius="3px";
+            //             }
+            //         };
+            //     }
+            // })(jQuery);
+
+
+
+            $(function(){
+                var p = $("p:last");
+                var offset = p.offset();
+                p.html( "left: " + offset.left + ", top: " + offset.top );
+                $("p:last").css("backgroundColor","red");
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="demo" class="demo" lang="">
+    <div id="text"></div>
+    <span></span>
+</div>
+<span class="demo"></span>
+<a></a>
+<p class="demo"></p>
+<div style="position:relative; width:800px; height:500px; left:100px;">
+    <p>Hello</p>
+    <p style="position:absolute; left:50px; top:0;">2nd Paragraph</p>
+</div>
+</body>
+</html>

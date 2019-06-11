@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; height:100%;
+        }
+        div{
+            position:absolute; width:5px; height:5px; overflow:hidden;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 1.div
+         * 2.opacity
+         * 3.div的颜色是随机的
+         * 4.div往下走的步长是随机的
+         * 5.定时器
+         * 6.鼠标移动事件
+         * 7.获取鼠标的坐标点
+         */
+
+
+        /**
+         * 先获取鼠标的坐标点
+         */
+        function randomColor(){
+            var _color=[0,1,2,3,4,5,6,7,8,9,"A","B","C","D","E","F"];
+            var _result="";
+            for(var i=0;i<6;i++){
+                _result+=_color[Math.floor(Math.random()*_color.length)];
+            }
+            return _result;
+        }
+        function events(){
+            document.onmousemove=function(e){
+                var _div;
+                e=e||window.event;
+                //e.clientX,e.clientY;
+                _div=document.createElement("div");
+                _div.style.left=e.clientX+"px";
+                _div.style.top=e.clientY+"px";
+                _div.style.backgroundColor="#"+randomColor();////////
+                // _div.style.backgroundColor="rbga("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+",1)";
+                document.getElementsByTagName("body")[0].appendChild(_div);
+            }
+        }
+        function player(){
+            var _body=document.getElementsByTagName("body")[0];
+            var _divs=_body.children;
+            // var _step=0;
+            var _timer=window.setInterval(function(){
+                // _step+=5;
+                for(var i=0;i<_divs.length;i++){
+                    // _divs[i].style.top=_step+"px";
+                    _divs[i].style.opacity=Math.floor(Math.random()*10)/10;
+                    _divs[i].style.top=(_divs[i].offsetTop+Math.floor(Math.random()*10))+"px";////
+                    if(_divs[i].offsetTop>=(document.documentElement.offsetHeight||document.body.offsetHeight)-5){//////当元素落到浏览器的最低端时，要从html中清除掉元素。保证网页中的效果的流畅
+                        _body.removeChild(_divs[i]);
+                    }
+                }
+            },30);
+        }
+        function main(){
+            events();
+            player();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

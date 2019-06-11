@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="Ajax2.js"></script>
+    <script type="text/javascript">
+        // Ajax.request("GET","http://localhost:8080/HTML5/D21_MySQL_PHP/API/query.php",true,null,function(_data){
+        //     console.log(_data);
+        // });
+
+        /**
+         * 许愿
+         *      1.希望传递一个无序的实参
+         *      2.希望向服务器发送一个json格式的数据
+         *      3.希望参数少一点
+         */
+        // Ajax.request({
+        //     api:"http://localhost:8080/HTML5/D21_MySQL_PHP/API/insert.php",
+        //     send:{
+        //         name:"wangdachui",
+        //         score:"100",
+        //         profession:"HTML5",
+        //         pwd:"654321",
+        //         phone:"78945612312"
+        //     },
+        //     success:function(_data){
+        //         console.log(_data);
+        //     }
+        // });
+        Ajax.request({
+            api:"http://localhost:8080/HTML5/D21_MySQL_PHP/API/query.php",
+
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

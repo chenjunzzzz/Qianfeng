@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0 auto; padding:0; height:100%;
+        }
+        div#container{ width:auto; height:100%; overflow:hidden;
+            border:solid 3px #f1f1f1; position:relative;
+            margin:0 auto;}
+        div.module{ width:150px; height:auto; padding:2px;
+            overflow:hidden; position:absolute; left:-154px;}
+        div img{ width:150px; border:none; float:left;}
+        div span{ width:100%; height:30px; line-height:30px;
+            text-align:center; display:block; float:left;}
+    </style>
+    <script type="text/javascript">
+        /**
+         * 要求：面向对象
+         *
+         *
+         * 1.瀑布流？
+         * 2.瀑布流有什么要求？
+         *
+         * 技术分析：
+         *      1.document.documentElement.clientWidth||document.body.clientWidth
+         *      2.onscroll
+         *      3.onresize
+         *      4.position布局
+         */
+        class Waterfall{
+            constructor() {
+                this.heights=null;//如何确定数组长度
+                this.start=0;
+                this.size=20;
+                this.container=document.getElementById("container");
+            }
+            array(){
+                let _width=document.documentElement.clientWidth||document.body.clientWidth;
+                this.heights=new Array(Math.floor(_width/154));//计算出数组的长度
+                for(let i=0;i<this.heights.length;i++){//动态初始化数组，让数组的每个元素的初始值==0
+                    this.heights[i]=0;
+                }
+            }
+            create(){
+                let _module,_fragment=document.createDocumentFragment();
+                for(let i=0;i<20;i++){
+                    _module=document.createElement("div");
+                    _module.className="module";
+                    _module.appendChild(document.createElement("img"));
+                    _module.children[0].src="images/"+(i+1)+".jpg";
+                    _module.appendChild(document.createElement("span"));
+                    _module.children[1].innerText="H51908WATERFALL";
+                    _fragment.appendChild(_module);
+                }
+                this.container.appendChild(_fragment);
+            }
+            min(){
+                let _index=0;
+                for(let i=1;i<this.heights.length;i++){
+                    if(this.heights[_index]>this.heights[i]){
+                        _index=i;
+                    }
+                }
+                return _index;
+            }
+            reset(){//重置每一个className名称为module的div的位置
+                let _index;
+                for(let i=0;i<this.container.children.length;i++){
+                    //TODO:find min value from arry
+                    _index=this.min();//因为放下一张图之后原来的列的高度不一定是最小的了。
+                    this.container.children[i].style.left=154*_index+"px";
+                    this.container.children[i].style.top=this.heights[_index]+"px";
+                    this.heights[_index]+=this.container.children[i].offsetHeight;//作用是将新的小模块的高度保存到数组中
+                }
+            }
+            check(){
+                let _me=this;
+                let _timer=window.setInterval(function(){
+                    let _completed=true;//假设所有图片全部加载完成
+                    for(let i=0;i<this.container.children.length;i++){
+                        if(!this.container.children[i].children[0].complete){
+                            _completed=false;
+                            break;
+                        }
+                    }
+                    if(_completed){
+                        window.clearInterval(_timer);
+                        _me.reset();
+                    }
+                },100);
+
+            }
+        }
+        function main(){
+            var _wf=new Waterfall();
+            _wf.create();
+            _wf.array();
+            _wf.check();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+    <div id="container">
+
+    </div>
+</body>
+</html>

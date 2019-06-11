@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * Promise的三个状态码
+         *      pendding
+         *      fulfilled
+         *      rejected
+         *
+         * resolve()什么时候被调用
+         *      调用该方后Promise的状态变为：fulfilled
+         * reject()什么时候被调用
+         *      调用该方后Promise的状态变为：rejected
+         */
+
+        new Promise((_resolve,_reject)=>{
+            if(success){
+                _resolve();
+            }else{
+                _reject();
+            }
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

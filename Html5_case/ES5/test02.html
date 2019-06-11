@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+    </style>
+    <script type="text/javascript" src="../javascript/jquery.js"></script>
+    <script type="text/javascript">
+        /**您现在看到的是由千锋H5教学部为您录制的教学视频。
+         *
+         * JSON.parse / JSON.stringify
+         *
+         * 我们从eval方法，过渡到了JSON.parse()，去除了eval方法注入代码的风险
+         * JSON提供了两个方法 JSON.parse，解析一个字符串，并返回对象
+         * 举例：
+         */
+        //var obj = JSON.parse('{"id":3, "value":30}');
+//        function main(){
+//            var str='{"id":3, "value":30}';//这是一个字符串，符合JSON格式
+//            var _json=JSON.parse(str);
+//            console.log(_json.value);//输出30;
+//        }
+
+        /**
+         * obj.value; //30
+         * 注意：id\value都使用了双引号，否则解析不正确
+         * JSON.stringify，解析一个对象，并返回字符串
+         *
+         * 需求：就是我需要将一个json格式的对象转换成一个字符串；
+         * 实现方法：
+         */
+//        function main() {
+//            var obj = {id: 3, value: 30};
+//            console.log(typeof JSON.stringify(obj)); //'{"id":3, "value":30}'
+//
+//            var _test= {
+//                "id": "key", "classes": {
+//                    "No1":"01",
+//                    "No2":"02"
+//                }
+//            }
+//            console.log(JSON.stringify(_test));
+//            //stringify方法，可以将多层json格式的对象逐层转换成字符串，转换的结果跟原对象没有差别，只是数据类型不同
+//            console.log(JSON.toString(_test));
+//            //这个方法只是简单的将一个对象转换成一个字符串，不能深层次的转换。转换出来的object很多情况下不是我们想要的
+//        }
+
+
+
+
+        /**
+         * 扩展: 额外的处理函数
+         *
+         * 需求：四舍五入某一个属性值
+         */
+//        function main() {
+//            var obj = JSON.parse('{"id":3, "value":30.99}');
+//            obj.value; //30.99 四舍五入
+//            //四舍五入代码如下：
+//            JSON.parse('{"id":3, "value":30.99}', function (key,val) {
+//                console.log(arguments);
+//                if (typeof val == "string") {
+//                    return Math.round(Number(val));//Number(val):强制的将val转换成数字类型；然后再由Math.round方法进行四舍五入；
+//                } else {
+//                    return Math.round(val);
+//                }
+//            });
+//        }//最终结果: obj.value // 31
+
+
+
+
+
+
+
+
+        /**
+         * 数组的额外方法:indexOf()
+         *
+         * 需求：找到数组中第一个复合条件的元素所在的当前数组中的索引值（位置）,如果没有符合条件的情况返回值：-1；
+         */
+        //string：字符串章节当中讲过indexOf方法；
+//        function main(){
+//            var _arr=[2, 5, 7, 3, 5];
+//            console.log(_arr.indexOf(5));//1
+//
+//            var _str="abcde";
+//            console.log(_str.indexOf("z"));//-1
+//            console.log(_str.indexOf("a"));//0
+//            console.log(_str.indexOf("d"));//3
+//        }
+//        function main(){
+//            var _arr=[2, 5, 7, 3, 5];
+//            _arr.indexOf(5) //返回1 跟字符串一样，真心不用解释
+//            //跟字符串中的indexOf方法意义相同。
+//        }
+
+
+
+
+
+        /**
+         * 数组的额外方法遍历数组：forEach()
+         *
+         * 需求：循环遍历一个数组；
+         * 注：效果同for循环差不多，使用方法不同而已。
+         * 实现代码：
+         */
+//        function main() {
+//            var _arr = ["a", "b", "c", "d", "e"];
+//            _arr.forEach(function (item, index, array) {
+//                /**
+//                 * item：表示循环遍历数组的时候数组中的当前数组元素
+//                 * index：表示循环遍历数组的时候数组中的当前元素的索引值
+//                 * array：表示数组
+//                 *
+//                 * 告诉大家如果在以后不记得每个参数所表示的内容可以进行console.log()方法输出
+//                 */
+//                //console.log(item,index,array);
+//                //这里有个问题？array===_arr?true:false
+//                //console.log(array===_arr);
+//                //思考一下为什么要传递array这个参数。这个自己思考不解释！
+//                //引用数据类型传参；
+//            });
+//
+//            //其实也可以更简单:
+//            _arr.forEach(alert);//alert();
+//            //注意:
+//            _arr.forEach(console.log);//会报错的，请问一下为什么会报错。
+//            //会出现Uncaught TypeError: Illegal invocation(...) 因为执行上下文非法导致的，我们需要指定一下上下文:
+//            _arr.forEach(console.log, console); //正确执行的解决方法。
+//
+//
+//
+//            var _obj={};
+//            _obj.fx=function(){
+//                console.log(this);
+//            }
+//            function fn(fx){
+//                fx();//我在输出的结果还是指向这个_obj这个对象吗？显然这个地方输出的是window了；
+//                //原因很简单，这个fx还是不是_obj对象的fx方法了，这个fx是一个形参，在非严格模式下，它是window对象下的fx
+//                //所以this指向window，也就是说执行的上下文，也可以说是执行的环境放生了改变。
+//            }
+//            fn(_obj.fx);
+//        }
+
+
+
+
+
+
+        /**
+         * 数组的额外方法映射遍历数组：map() 映射，遍历---->操作----->返回
+         *
+         * 需求：遍历数组，并按照特定的条件修改当前数组，然后返回一个新数组。
+         * 实现代码：
+         */
+//        function main(){
+//            var _arr = [1,2,3,4,5];
+//
+//            var newArr=_arr.map(function(item, index, array){
+//                //参数所表示的内容和forEach是一样的
+//                return item+2;
+//            });
+//            console.log(newArr);//结果: [3, 4, 5, 6, 7]
+//
+//            var newArr=_arr.map(function(item, index, array){
+//                //参数所表示的内容和forEach是一样的
+//                return item;
+//            });
+//            console.log(_arr===newArr);//false
+//            console.log(_arr==_arr.map(function(item, index, array){
+//                    //参数所表示的内容和forEach是一样的
+//                    return item;
+//                }));//false
+//            //校验是不是返回的一个新数组，跟元素组不是同一数组。
+//            console.log(_arr);
+//        }
+
+
+
+        /**
+         * 数组的额外方法:reduce()归并算法;
+         *
+         * 需求：需要把数组中的每两个相邻的元素进行操作，可以比较大小，可以四则运算等等，并返回最终结果。
+         * 实现方法如下：
+         */
+//        function main(){
+//            var _arr= [1,2,3,4];
+//            console.log(_arr.reduce(function(pre, next, index, array){
+//                //console.log(pre,next,pre+next,index);//注意是每两个相邻的元素进行相加操作和结果作为前一个元素,对应的形参变量就是：pre
+//                return pre+next;
+//            }));//返回值：所有操作的合并
+//        }
+
+
+
+
+
+
+        /**
+         * 数组的额外方法: filter() 过滤
+         *
+         * 需求：我需要按照特定的方法过滤数组中所有大于或者小于某个数字的元素，并返回过滤筛选结果
+         * 实现方法：
+         */
+//        function main(){
+//            var _arr = [88,69,92,77,90,96,98,99];
+//            console.log(_arr.filter(function(item, index, array){
+//                return item>80; //找出所有大于80的元素
+//            }));//结果:[88,92,90,96,98,99]
+//        }
+
+
+        /**
+         * 数组的额外方法: some()
+         *
+         * 需求：我需要按照特定的方法过滤数组中的元素是否包含某个值，并返回过滤筛选boolean类型的结果
+         * 实现方法：
+         */
+//        function main(){
+//            var _arr=["yt","hr","wc","jk"];
+//            var _result=_arr.some(function(item){//判断数组中是否存在yt?
+//                return item=="abc";
+//            });
+//            if(_result){
+//                alert("存在!");
+//            }else{
+//                alert("不存在！");
+//            }
+//            //跟过滤器好像差不多，但它只会返回一个布尔类型，如果匹配成功，则返回true 而且一旦匹配成功，后面就不再遍历了，如果没有匹配成功，最后返回false 可以用来做一些检测
+//        }
+
+
+        /**
+         * 数组的额外方法: every()
+         * 跟some一样，但要求每一项都符合，才返回true 有一项不合格就返回false
+         */
+
+
+        /**
+         * String的trim方法：去除字符串的两端的空格
+         *
+         * 需求：当某个用户在填写注册信息时用户名的开头位置不小心敲了一个空格，而且我们程序也是明确规定用户名开头和结束位置不允许包含空格
+         * 那么如果，客户不小心输入了空格怎么办：程序自动格式化，或者说是程序自动清除用户名两端的所有空格；
+         * 实现如下：
+         */
+//        function main(){
+//            var _str="      account   ";
+//            console.log(_str+"这是有空格的输出内容");
+//            console.log(_str.trim());
+//            console.log(_str.replace(/^\s*|\s*$/g,""));//正则表达式消除开始和结束位置的空格，效果同上
+//        }
+
+
+        /**ES5当中Object对象的扩展方法
+         * 创建对象的方法：Object.create()
+         *
+         * 需求：创建一个新对象同时继承一个现有的对象
+         * 实现方法：
+         */
+        function main() {
+//            function Root(){//构造函数用，也可以说是申明一个类；
+//                this.rootName="this is root Object";
+//            }
+//            var _root=new Root();//构造函数实例化对象
+//            var _node=Object.create(_root);
+//            console.log(_node);//这个对象和Root有什么关系呢？
+//            console.log(_node.rootName);//能访问到rootName属性，而且还有值！！
+//            //我们可以接受_node对象和_root对象之间的关系肯定有点特殊，下面我们应该如何检查？？？？；
+//            console.log(_node.hasOwnProperty("rootName"));//检测自己是否拥有该属性。如果这个地方输出的结果是：false
+//            //那么就说明该属性是继承过来的。
+
+
+
+            //如果上面的例子接受起来比较繁琐请看下面：
+//            var _root={
+//                "rootName":"this is root Object"
+//            };
+//            var _node=Object.create(_root);
+//            console.log(_node);//这个对象和Root有什么关系呢？
+//            console.log(_node.rootName);//能访问到rootName属性，而且还有值！！
+//            //我们可以接受_node对象和_root对象之间的关系肯定有点特殊，下面我们应该如何检查？？？？；
+//            console.log(_node.hasOwnProperty("rootName"));
+
+//            function Node(){
+//
+//            }
+//            Node.prototype=_root;
+//            var _node=new Node();
+//            console.log(_node.rootName);
+//            console.log(_node.hasOwnProperty("rootName"));
+
+
+
+
+            //我们再深入一点：
+//            function Father() {
+//                this.name = "王健林";
+//                this.age = 60;
+//            }
+//            Father.prototype = {
+//                wanda : function() {
+//                    return "$99999999999";
+//                }
+//            }
+//
+//            function Son(){
+//                this.name = "王思聪";
+//                this.age = 30;
+//            }
+            //以前的写法，大概是这样:
+//            Son.prototype = new Father(); //缺点很明显就是，连名字和年龄都继承了，其实我们并不想要这些
+            //下面的写法，带来了一定的好处，Son的原型的原型是Fahter的原型，同样是 原型链继承的效果。
+//            var _son=new Son();
+//            console.log(_son.__proto__.name);//王健林
+//
+//            Son.prototype = Object.create(Father.prototype);
+//            var _son=new Son();
+//            console.log(_son.__proto__.name);//undefined
+//            new Son().wanda();
+            //要注意这个方法不能实现对象拷贝，因为这里是原型的赋值，并且生成了新对象，不是简单的属性复制
+
+
+
+
+            //那么如果原来的对象中本身就含有某些属性，继承过来后会不会有什么冲突呢？
+//            var a = {
+//                text1 : "abc"
+//            };
+//            var b = {
+//                text2 : "def"
+//            };
+//            b = Object.create(a); //结果b虽然继承了a，但原有内容被覆盖了! b.text1; //abc
+//            b.text2; //undefined
+//
+//            //解决办法如下:
+//            var b = Object.create(a, {
+//                text2: {
+//                    value: "def"
+//                }
+//            });
+        }
+
+
+        /**一下内容可以讲，可以不讲，根据情况讲师自己定，大纲不要求该部分内容一定要讲。
+         * Object.defineProperty()
+         *
+         * 需求：要给某一个对象添加一个属性，请注意，我只允许这个属性可以读取，但是不能修改或者叫重新赋值，再或者可读可写
+         * 总之就是说我要求属性是可以随意按照自己的喜好进行限定配置
+         *
+         * 实现方法：
+         */
+        //先看一个简单的例子
+        function main(){
+            var _obj={};
+            Object.defineProperty(_obj,"objName",{
+                //value:"initData",
+                //writable:true,//如果为false，属性的值就不能被重写,只能为只读了
+                configurable:true,//总开关，一旦为false，就不能再设置他的（value，writable，configurable）
+                enumerable:true,//是否能在for...in循环中遍历出来或在Object.keys中列举出来。
+                set:function(val){
+                    this.objX=val;
+                },
+                get:function(){
+                    return this.objX;
+                }
+            });
+            _obj.objName=10;
+            console.log(_obj.objX);
+            console.log(_obj.objName);
+
+            //总结：在 descriptor 中不能 同时 设置访问器 (get 和 set) 和 wriable 或 value，否则会错，
+            // 就是说想用(get 和 set)，就不能用（wriable 或 value中的任何一个）
+            //每次进行_obj.objName取值或者设置_obj.objName都会出发get方法或者set方法执行，可以加断点调试一下
+        }
+
+        /**
+         * 我们再深入一点：
+         *
+         * 需求：下面这段代码是一个简单的View —— > Model —— >View的数据绑的设计策略，注意这里我们讲的是设计策略，并不是设计模式。
+         * 设计策略：是说的我们要实现的程序功能的某种方法
+         * 设计模式：是说的设计程序的一种设计方法。比如工厂模式他代表的是可以按照工厂流水线方式执行做某件事。
+         */
+//        function main(){
+//            "use strict";
+//            var QF = {
+//                scope: {},
+//                appInit:function(){
+//                    this.htmlstr = document.body.innerHTML;
+//                    this.app = $("[qf-app]").get(0);
+//                    this.inputlist = $(this.app).find("[qf-model]").get();
+//                    for (let inpt of this.inputlist) {//let 申明变量，es6里面的关键字，效果与var类似。但是功能上还是有差别的。后面我们会讲到
+//                        if (inpt.nodeName == "INPUT" && inpt.type == "text") {
+//                            let modelname = inpt.getAttribute("qf-model");
+//                            let m = {
+//                                viewlist: $(QF.app).find(":contains('{{" + modelname + "}}')")
+//                            };
+//                            //model的修改监听
+//                            Object.defineProperty(m, "value", {
+//                                configurable: true,
+//                                enumerable: true,
+//                                set: function (val) {
+//                                    this.viewlist.each(function () {
+//                                        $(this).html(val);
+//                                    });
+//                                }
+//                            });
+//                            this.scope[modelname] = m;
+//
+//                            //输入框的修改监听
+//                            Object.defineProperty(HTMLInputElement.prototype, "value", {
+//                                configurable: true,
+//                                enumerable: true,
+//                                set: function (val) {
+//                                    console.log(val, inpt.value);
+//                                    QF.scope[this.getAttribute("qf-model")].value = this.value;
+//                                }
+//                            })
+//                        }
+//                    }
+//                    $("input").bind("input", function () {
+//                        this.value = this.value;
+//                    });
+//                },
+//            }
+//        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        main();
+    </script>
+</head>
+<body>
+<!--<div id="demo" style="width:100px; height:100px; background-color:red;">demo</div>-->
+<!--<div qf-app>-->
+    <!--<input qf-model="yourname" type="text"/>-->
+    <!--<input qf-model="hername" type="text"/>-->
+    <!--<p>{{yourname}}</p>-->
+    <!--<p>{{yourname}}</p>-->
+    <!--<p>{{hername}}</p>-->
+<!--</div>-->
+</body>
+</html>

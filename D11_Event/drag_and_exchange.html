@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽</title>
+    <link rel="stylesheet" href="../Styles/default.css">
+    <style type="text/css">
+        div#container{
+            width:360px;
+            height:360px;
+            margin:10px auto auto 10px;
+            float:left;
+            padding:0 10px 10px 0;
+            border:solid 3px red;
+            /*border-radius:10px;*/
+            position: relative;
+        }
+        div#container div{
+            width:50px;
+            height:50px;
+            text-align:center;
+            line-height:50px;
+            font-size:18px;
+            color:#fff;
+            cursor: pointer;
+            position:absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>
+<script type="text/javascript">
+    /**
+     * 取消拖动鼠标是选择文字的默认事件
+     */
+    function cancel(){
+        document.onselectstart=function(e){
+            return false;
+        };
+    }
+    cancel();
+    /**
+     * 创建元素：div
+     * 数量：6*6
+     * 背景颜色：随机
+     * 元素内容：阿拉伯数字顺序
+     */
+    function create(m){
+        var _div,_fragment=document.createDocumentFragment();
+        for(var i=0;i<m;i++){
+            for(var n=0;n<m;n++){
+                _div=document.createElement("div");
+                _div.style.backgroundColor="rgb("+Math.floor(Math.random()*(255+1))+","+Math.floor(Math.random()*(255+1))+","+Math.floor(Math.random()*(255+1))+")";
+                _div.innerText=(i+1)*(n+1);
+                _div.style.top=((i*50)+(i+1)*10)+"px";
+                _div.style.left=((n*50)+(n+1)*10)+"px";
+                _fragment.appendChild(_div);
+            }
+        }
+        document.getElementById("container").appendChild(_fragment);
+    }
+    create(6);
+
+    /**
+     * 交换位置
+     */
+    function exchange(_drag,_left,_top,_x,_y){
+        var _container=document.getElementById("container");
+        var _block=_container.getElementsByTagName("div");
+        var _length;
+        var _min=-1;
+        var _target;
+        for(var i=0;i<_block.length;i++){
+            if(_block[i]!==_drag) {
+                _length = Math.pow(_block[i].offsetLeft + _block[i].offsetWidth / 2 - _left, 2) + Math.pow(_block[i].offsetTop + _block[i].offsetHeight / 2 - _top, 2);
+                if (_min > _length || _min < 0) {
+                    _min = _length;
+                    _target = _block[i];
+                }
+            }
+        }
+        _drag.style.left=_target.offsetLeft+"px";
+        _drag.style.top=_target.offsetTop+"px";
+        _target.style.left=_x+"px";
+        _target.style.top=_y+"px";
+    }
+
+    /**
+     * 事件拖拽效果
+     */
+    function drag(){
+        var _container=document.getElementById("container");
+        var _block=_container.getElementsByTagName("div");
+        var _left,_top,_drag,_x,_y,_dx,_dy;
+        for(var i=0;i<_block.length;i++){
+            _block[i].onmousedown=function(e){
+                e=e||window.event;
+
+                _drag=this;
+                _x=e.offsetX;
+                _y=e.offsetY;
+                _dx=_drag.offsetLeft;
+                _dy=_drag.offsetTop;
+
+                _container.onmousemove=function(e){
+                    e=e||window.event;
+                    _drag.style.left=(e.clientX-13-_x)+"px";
+                    _drag.style.top=(e.clientY-13-_y)+"px";
+                    _left=_drag.offsetLeft+_drag.offsetWidth/2;
+                    _top=_drag.offsetTop+_drag.offsetHeight/2;
+                }
+            };
+            _block[i].onmouseup=function(e){
+                _container.onmousemove=null;
+            };
+            _container.onmouseup=function(){//为什么要加上这句话呢？因为position定位布局，z-index不确定。
+                this.onmousemove=null;
+                // action();
+                if(_drag) {
+                    exchange(_drag, _left, _top, _dx, _dy);
+                    _drag=null;
+                }
+            }
+        }
+    }
+    drag();
+    //exchange();
+</script>

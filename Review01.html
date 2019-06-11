@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; height:100%; background-color:grey;
+        }
+        #card{
+            width:100%; height:45px; position:relative;
+        }
+        #card span{
+            padding:5px 10px; line-height:25px; color:#555; font-size:15px; border:solid 1px #ccc;
+            margin:1px; float:left; cursor:pointer;
+        }
+        #main{
+            width:100%; height:100px; position:relative;
+        }
+        #main div{
+            position:absolute; top:0; left:0; text-align:left; background-color:#fff; display:none;
+        }
+        #main div:first-child{
+            display:block;
+        }
+        #star{
+            width:100%; height:50px; position:relative;
+        }
+        #star img{
+            height:50px; float:left; position:relative; z-index:1;
+        }
+        #star span{
+            display:block; width:0; height:50px; overflow:hidden; background-color:yellow;
+            position:absolute; top:0; left:0; z-index:0;
+        }
+    </style>
+    <script type="text/javascript">
+        function Card(){
+            this.card=document.getElementById("card");
+            this.list=document.getElementById("main");
+            this.events=function(){
+                var _me=this;
+                for(var i=0;i<this.card.children.length;i++){
+                    (function(n){
+                        _me.card.children[n].onclick=function(){
+                            for(var m=0;m<_me.list.children.length;m++){
+                                if(m!==n){
+                                    _me.list.children[m].style.display="none";
+                                }
+                            }
+                            _me.list.children[n].style.display="block";
+                        }
+                    })(i);
+                }
+            }
+        }
+        // function main(){
+        //     var _card=new Card();
+        //     _card.events();
+        // }
+        // window.onload=main;
+
+
+        /**
+         * this不可以被赋值
+         * 函数会影响this指向
+         * this总是指向当前对象
+         * this只有在运行时才会有具体指向
+         */
+
+
+
+        // console.log("ab中文c".match(/[\u4e00-\u9fa5]+/g));
+
+
+        /**
+         * 评分特效
+         */
+        function Star(){
+            this.star=document.getElementById("star");
+            this.width=250;
+            this.timer=0;
+            this.move=function(_unit){
+                var _me=this;
+                this.timer=window.setInterval(function(){
+                    _me.star.children[0].style.width=_me.star.children[0].offsetWidth+1+"px";
+                    if(_me.star.children[0].offsetWidth/_me.width>=0.1*_unit){
+                        window.clearInterval(_me.timer);
+                    }
+                },30);
+            };
+            this.events=function(){
+                var _me=this;
+                function move(e){
+                    console.log(e);
+                    e=e||window.event;
+                    _me.star.children[0].style.width=e.clientX+"px";
+                }
+                this.star.onmousemove=move;
+                this.star.onclick=function(e){
+                    e=e||window.event;
+                    _me.star.children[0].style.width=e.clientX+"px";
+                    _me.star.onmousemove=null;
+                };
+                this.star.onmouseout=function(e){
+                    if(!(e.clientX>=0 && e.clientX<=250 && e.clientY>=145 && e.clientY<=195)){
+                        _me.star.onmousemove=move;
+                    }
+                }
+            }
+        }
+        function main(){
+            var _star=new Star();
+            _star.events();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div>
+    <div id="card">
+        <span>Card1</span>
+        <span>Card2</span>
+        <span>Card3</span>
+        <span>Card4</span>
+    </div>
+    <div id="main">
+        <div>Content01</div>
+        <div>Content02</div>
+        <div>Content03</div>
+        <div>Content04</div>
+    </div>
+</div>
+<div id="star">
+    <span></span>
+    <img src="star.png" alt="">
+    <img src="star.png" alt="">
+    <img src="star.png" alt="">
+    <img src="star.png" alt="">
+    <img src="star.png" alt="">
+</div>
+</body>
+</html>

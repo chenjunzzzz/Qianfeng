@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../D23_Ajax/Package/Ajax2.js"></script>
+    <script type="text/javascript">
+        /**
+         * 封装的目的：
+         *      彻底解决异步多层次嵌套，也就是嵌套层次>2层;
+         *
+         *      想到的方法有队列
+         */
+        // class Asynchronize{
+        //     constructor(){
+        //         this.queue=[];
+        //     }
+        //     put(_fx){
+        //         this.queue.push(_fx);
+        //         return this;
+        //     }
+        //     invoking(_data){
+        //         if(this.queue.length>0) {
+        //             this.queue.shift()(_data);
+        //         }
+        //     }
+        // }
+        //
+        // var _async=new Asynchronize();
+        // _async.put(function(){
+        //     Ajax.request({
+        //         api:"http://localhost:8080/HTML5/D21_MySQL_PHP/API/signIn.php",
+        //         send:{
+        //             account:"zhaoliu"
+        //         },
+        //         success:function(_data){
+        //             try {
+        //                 _data = window.eval("(" + _data + ")");
+        //                 if (_data.code === 2000) {
+        //                     _async.invoking(_data);//TODO: exec next.......
+        //                 } else {
+        //                     window.location.href = "http://localhost:8080/HTML5/D21_MySQL_PHP/API/signIn.html";
+        //                 }
+        //             }catch (e) {
+        //                 window.location.href = "http://localhost:8080/HTML5/D21_MySQL_PHP/API/signIn.html";
+        //             }
+        //         }
+        //     });
+        // }).put(function(_receive){
+        //     Ajax.request({
+        //         api:"http://localhost:8080/HTML5/D21_MySQL_PHP/API/query.php",
+        //         success:function(_data){
+        //             console.log(_data);
+        //         }
+        //     });
+        // }).invoking();
+        //
+        //
+        // Ajax.request({
+        //     api:"http://localhost:8080/HTML5/D21_MySQL_PHP/API/signIn.php",
+        //     send:{
+        //         account:"zhaoliu"
+        //     },
+        //     success:function(_data){
+        //         try {
+        //             _data = window.eval("(" + _data + ")");
+        //             if (_data.code === 2000) {
+        //                 _async.invoking(_data);
+        //                 Ajax.request({
+        //                     api:"http://localhost:8080/HTML5/D21_MySQL_PHP/API/query.php",
+        //                     success:function(_data){
+        //                         console.log(_data);
+        //                     }
+        //                 });
+        //             } else {
+        //                 window.location.href = "http://localhost:8080/HTML5/D21_MySQL_PHP/API/signIn.html";
+        //             }
+        //         }catch (e) {
+        //             window.location.href = "http://localhost:8080/HTML5/D21_MySQL_PHP/API/signIn.html";
+        //         }
+        //     }
+        // });
+
+
+
+
+
+        // var _async=new Asynchronize();
+        // _async.put(function(){
+        //     window.setTimeout(function(){
+        //         _async.invoking(10+5);
+        //     },3000);
+        // }).put(function(){
+        //     window.setTimeout(function(){
+        //         console.log("2000");
+        //         _async.invoking();
+        //     },2000);
+        // }).put(function(){
+        //     window.setTimeout(function(){
+        //         console.log("1000");
+        //         _async.invoking();
+        //     },1000);
+        // }).invoking();
+
+
+
+        function main(){
+            // window.setTimeout(function(){
+            //     console.log("3000");
+            //     window.setTimeout(function(){
+            //         console.log("2000");
+            //         window.setTimeout(function(){
+            //             console.log("1000");
+            //             window.setTimeout(function(){
+            //                 console.log("3000");
+            //                 window.setTimeout(function(){
+            //                     console.log("3000");
+            //                 },3000);
+            //             },3000);
+            //         },1000);
+            //     },2000);
+            // },3000);
+
+            // new Promise(function(_resolve,_reject){
+            //     window.setTimeout(function(){
+            //         console.log("3000");
+            //         _resolve();
+            //     },3000);
+            // }).then(function (){
+            //     window.setTimeout(function(){
+            //         console.log("2000");
+            //     },2000);
+            // }).then(function(){
+            //     window.setTimeout(function(){
+            //         console.log("1000");
+            //     },1000);
+            // },function(){});
+
+
+
+
+
+            function Promise001(_fx){
+                this.status="pendding";
+                this.fx=_fx;
+                this.resolve=null;
+                this.reject=null;
+                this.then=function(_success,_failed){
+                    this.resolve=function(){
+                        this.status="fulfilled";
+                        _success();
+                    };
+                    this.reject=function(){
+                        this.status="rejected";
+                        _failed();
+                    }
+                };
+
+                this.fx(this.resolve,this.reject);
+            }
+            new Promise001(function(_resolve,_reject){
+                window.setTimeout(function(){
+                    console.log();
+                    _resolve();
+                },3000);
+            }).then(function (){
+                console.log("success00000");
+            },()=>{
+                console.log("error000");
+            });
+
+
+            // new Promise(function(_resolve,_reject){//两个形参都是函数。都是js内部传递的实参
+            //         window.setTimeout(function(){
+            //             console.log("1000");
+            //             try {
+            //                 //throw "error";
+            //             }catch (e) {
+            //                 _reject();
+            //             }
+            //             _resolve();
+            //         },1000);
+            // }).then(function (){
+            //     console.log("success00000");
+            // },()=>{
+            //     console.log("error000");
+            // });
+        }
+        main();
+
+
+        /**
+         * Generator 函数
+         */
+        function* Queue(){
+            yield function(){
+
+            };
+            yield function(){
+
+            };
+        }
+        var _queue=Queue();
+        _queue.next(function(){
+            _queue.next();
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

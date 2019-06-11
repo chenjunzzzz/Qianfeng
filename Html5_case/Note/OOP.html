@@ -1,0 +1,267 @@
+<script type="text/javascript">
+/**
+面向对象编程：只是一种编程的方式；
+--将功能/模块视为对象，添加属性、方法（行为）。
+
+面向对象编程（Object Oriented Programming，OOP，面向对象程序设计）是一种计算机编程架构。
+
+类（class）：定义了一件对象的抽象的特点。通常来说，定义了对象的属性和对象可以工作的（方法或叫行为）；
+
+对象（Object）：拥有属性、方法（行为）的实例。
+--如：一个人拥有自己的属性，也有自己的方法去完成某件事。人就是人类的实例对象。
+
+封装：将数据和操作捆绑在一起，也就是现实生活中打包的一个过程。
+--命名空间：就是将一个空间设置名字；
+--命名空间作用：可以保持变量的作用域；减少变量对环境的污染；
+
+
+
+继承：首先继承是类与类之间的关系。如果子类继承父类，那么子类的实例对象也将拥有父类的属性和方法（行为）；
+
+消息传递：也叫通信，一个对象可以调用另一个对象的方法，就可以通信。
+
+方法：也叫行为，都是有函数来实现的，所以也叫做对象的成员函数；
+
+构造函数：是一中特殊的方法，也是某一个类的公共标识；
+--构造函数的名称必须与类名完全相同；
+--构造函数作用：用来构造同属于该类的实例的对象。
+--调用构造函数：使用new关键字调用；
+*/
+
+
+/**
+this关键字：当遇到this关键字时
+ 首先要思考this关键字的内存，
+ 第二要看this在什么时候才开始执行，
+ 第三：要明白普通函数的当前对象一般都是window，也就是函数没有赋值给对象的属性，
+ 那么这个函数的当前对象都是window；
+
+自己使用this时：要注意，在函数内部使用的时候要先检查该函数赋值给那个对象的属性了。
+***大函数赋值给某个对象的属性的时候，使用子函数时候，子函数没有赋值给某个对象的时候，子函数还是归属window对象。所以this并不能指向当前对象。
+
+prototype：原型属性（也是一个对象）；
+***一般情况下只有函数才有原型属性，普通对象不具有原型属性；
+**/
+
+
+
+
+// JavaScript Document
+/*
+//prototype，原型属性的方法；
+function People(arm,leg,something){
+	this.arm=arm;
+	this.leg=leg;
+	this.parents=1000;
+	this.eat=function(){
+		console.log(something);
+	}
+}
+console.log(typeof(People.prototype));//输出类的原型属性对象
+console.log(_person.prototype); //对象没有prototype属性；
+People.prototype.fangfa="dengtian";//设置原型对象的属性
+People.prototype.dengtian=function(){//设置原型对象的方法
+	console.log("a");
+}
+*/
+
+
+
+
+
+
+
+/*
+//原型属性指针被重新指向其他对象时，之前所设置的原型属性和原型方法将会全部消失掉
+function People(arm,leg,something){
+	this.arm=arm;
+	this.leg=leg;
+	this.parents=1000;
+	this.eat=function(){
+		console.log(something);
+	}
+}
+People.prototype.dengtian=function(){
+	console.log("dengtian");	
+}
+People.prototype=new Object();
+var _person=new People();
+_person.dengtian();
+*/
+
+
+
+
+
+
+
+
+
+/*
+function People(arm,leg,something){
+	this.arm=arm;
+	this.leg=leg;
+	this.parents=1000;
+	this.eat=function(){
+		console.log(something);
+	}
+}
+var _person=new People();
+console.log(_person.constructor);//constructor是指向该对象的构造函数的一个指针
+*/
+
+
+
+
+
+/*多继承
+function Parents(){
+	this.money=1000;	
+}
+function People(){
+	this.a=10000;	
+}
+function Child(){
+	this.c=0;
+}
+console.log(new Child());
+var _inherit =new Child();
+//console.log(Child.prototype);
+Parents.prototype=new People();//构造函数内的属性或方法的优先级大于原型属性或方法。指的是具有相同名称的属性;调用构造函数时必须使用new关键字
+Child.prototype=new Parents();
+var _inherit =new Child();
+//console.log(_inherit);
+alert(_inherit.constructor);
+_inherit.constructor=Child;
+alert(_inherit.constructor);//指向基类
+	
+//构造函数指针constructo******************************************r
+*/
+
+
+
+/*
+//是否是原型对象：isPrototypeOf
+function People(){
+	this.a=10000;	
+}
+function Person(){
+	this.b=10;	
+}
+Person.prototype=new People();
+var _people=new People();
+var _person=new Person();
+alert(People.prototype.isPrototypeOf(_person));
+*/
+
+
+
+
+
+/*检测是否拥有某个属性
+//hasOwnProperty一定是指自己拥有，因继承而拥有的属性返回值为false；
+function People(){
+	this.a=10000;	
+}
+function Person(){
+	this.b=0;
+}
+Person.prototype=new People();
+var _people=new People();
+var _person=new Person();
+alert(_people.hasOwnProperty("a"));
+alert(_person.hasOwnProperty("a"));
+*/
+
+
+
+
+
+/*delete 删除属性的方法
+function People(){
+	this.a=10000;	
+}
+var _people=new People();
+//delete _people.a;
+alert(_people.a);
+
+
+function People(){
+	this.a=10000;	
+}
+People.prototype.b=10;
+var _people=new People();
+delete _people.b;
+alert(_people.b);
+
+//以下删除原型属性
+function People(){
+	this.a=10000;	
+}
+People.prototype.b=10;
+var _people=new People();
+delete People.prototype.b;
+alert(People.prototype.b);
+
+
+
+
+
+
+
+
+
+//用 in 的方法检测某个属性或方法是否存在于指定的对象当中（不分原型属性或者实例属性）
+function People(){
+	this.a=10000;	
+}
+People.prototype.b=10;
+var _people=new People();
+alert("a" in _people);
+alert("b" in _people);
+alert("c" in _people);
+*/
+
+
+function People(){
+	this.a=10000;	
+}
+People.prototype.b=10;
+var _people=new People();
+var _prototype=People.prototype;
+delete _prototype.b;
+alert(People.prototype.b);
+
+String.prototype.append=function(){
+	return this+"abck";	
+}
+var _str=new String("xyz");
+alert(_str.append());
+
+
+
+
+
+
+
+    function People(){
+        this.arm=2;
+        this.leg=2;
+        this.eat=function(){
+
+        }
+    }
+    People();
+
+    var _p1=new People();
+    var _p2=new People();
+
+
+
+
+
+
+
+
+</script>
+

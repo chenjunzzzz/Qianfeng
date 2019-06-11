@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        img{ border:none; border:0;}
+        #container{ width:803px; height:405px; overflow:hidden; position:relative; border:solid 10px #f1f1f1;}
+        #slider{ width:800px; height:405px; overflow:hidden; position:absolute; left:0; top:0; z-index:0;}
+        #slider img{ width:803px; height:405px; float:left;}
+
+        #arrow{ width:800px; height:50px; position:absolute; top:50%; margin-top:-25px;}
+        #arrow span{ display:block; width:50px; height:50px; background-color:rgba(0,0,0,0.5); color:#fff; float:left; line-height:50px; text-align:center;}
+        #a_r{ margin-left:700px; display:inline;}
+
+        #circle{ position:absolute; height:25px; border-radius:5px; background-color:#f1f1f1; top:370px; left:50%; padding-right:10px;}
+        #circle span{ display:block; width:15px; height:15px; border-radius:50%; background-color:#ccc; float:left; margin-left:10px; margin-top:5px; display:inline;}
+    </style>
+    <script type="text/javascript" src="../D23_Ajax/Package/Ajax2.js"></script>
+    <script type="text/javascript">
+        class Slider{
+            constructor(_slider){
+                this.slider=_slider;
+                this.dots=document.getElementById("circle").children;
+                this.timer=0;
+                this.step=0;
+                this.s=0;
+                this.hz=50;
+                this.bound=4818;
+                this.fixed=-803;
+            }
+            /**
+             * @param _time：一次播放动画的时长
+             * @param _s：播放一次动画需要走的距离
+             * @param _delay：两次动画之间需要延长的事件
+             */
+            player(_time,_s,_delay){
+                let _me=this,_index,_distance=_me.slider.offsetLeft+_s;
+                //index:变量控制小圆点的下标索引
+                this.step=Math.floor(_s/(_time/this.hz));//计算步长
+
+                this.timer=window.setInterval(function(){
+                    if(Math.abs(_s)<=Math.abs(_me.step)){//如果总距离小于步长，一次性将偏移位置调整至目标值
+                        _me.slider.style.left=_distance+"px";//调整至目标值结合line:59
+                        _s=0;//将总偏移量设置为零和第 line:55 结合看
+                        /**********************修改小圆点的背景颜色*****依据是id为slider的div的向左偏移量***********************/
+                        for(let i=0;i<_me.dots.length;i++){
+                            _me.dots[i].style.backgroundColor="#ccc";
+                        }
+                        _index=_me.slider.offsetLeft/_me.fixed;
+                        _index=Math.abs(_index>=6?0:_index);//?
+                        _me.dots[_index].style.backgroundColor="red";
+                        /**********************修改小圆点的背景颜色**************************/
+                        window.clearInterval(_me.timer);//暂停动画，让客户有个反应时间
+                        _me.timer=window.setInterval(function(){//这个定时器的作用：延迟量给定的时间后继续播放动画
+                            window.clearInterval(_me.timer);//清空定时器，否则会出现定时器无法被回收，同时内存泄漏。
+                            _me.player(_time,_s?_s:_me.fixed,_delay);//line:55
+                        },_delay);
+                    }else {
+                        _me.slider.style.left=_me.slider.offsetLeft + _me.step + "px";
+                        _s -= _me.step;//line:59 作用：统计本次动画已经向左移动多少
+                    }
+                    if(Math.abs(_me.slider.offsetLeft)>=_me.bound){//如果到达边界时，需要返回。
+                        _me.slider.style.left=0;
+                    }
+                },this.hz);
+            }
+            events(){
+                let _me=this;
+                for(let i=0;i<this.dots.length;i++) {
+                    this.dots[i].onclick = function () {
+                        // for(let n=0;n<_me.dots.length;n++){
+                        //     _me.dots[n].style.backgroundColor="#ccc";
+                        // }
+                        // this.style.backgroundColor="red";
+                        window.clearInterval(_me.timer);
+                        if(_me.slider.offsetLeft%_me.fixed!==0){
+                            _me.slider.style.left=Math.ceil(_me.slider.offsetLeft/_me.fixed)*_me.fixed+"px";
+                        }
+                        _me.player(200,i*_me.fixed-_me.slider.offsetLeft,2000);
+                    }
+                }
+                _me.slider.parentNode.children[2].children[0].onclick=function(){
+                    window.clearInterval(_me.timer);
+                    if(_me.slider.offsetLeft%_me.fixed!==0){
+                        _me.slider.style.left=Math.ceil(_me.slider.offsetLeft/_me.fixed)*_me.fixed+"px";
+                    }
+                    _me.player(200,_me.fixed,2000);
+                };
+                _me.slider.parentNode.children[2].children[1].onclick=function(){
+                    let _target=-_me.fixed;
+                    if(_me.slider.offsetLeft===0) {
+                        _target=-_target*(_me.dots.length-1);
+                    }
+                    window.clearInterval(_me.timer);
+                    if (_me.slider.offsetLeft % _me.fixed !== 0) {
+                        _me.slider.style.left = Math.ceil(_me.slider.offsetLeft / _me.fixed) * _me.fixed + "px";
+                    }
+                    _me.player(200, _target, 2000);
+                };
+            }
+        }
+        function create(_data){
+            var _img,_a,_dot;
+            var _container=document.getElementById("container");
+            var _slider=document.createElement("div");
+            var _circle=document.createElement("div");
+            var _arrow=document.createElement("div");
+            _arrow.id="arrow";
+            _circle.id="circle";
+            _slider.id="slider";
+            _slider.style.width=(_data.length+1)*803+"px";
+            for(var i=0;i<_data.length;i++){
+                _img=document.createElement("img");
+                _img.src=_data[i].img;
+                _a=document.createElement("a");
+                _a.href=_data[i].url;
+                _a.appendChild(_img);
+                _slider.appendChild(_a);
+                _dot=document.createElement("span");
+                _circle.appendChild(_dot);
+                if(i===0){
+                    _dot.style.backgroundColor="red";
+                }
+            }
+            _container.appendChild(_slider);
+            _container.appendChild(_circle);
+            _container.appendChild(_arrow);
+            _arrow.appendChild(document.createElement("span"));
+            _arrow.appendChild(document.createElement("span"));
+            _arrow.children[1].id="a_r";
+            _arrow.children[1].innerHTML="&gt;";
+            _arrow.children[0].innerHTML="&lt;";
+            _slider.appendChild(_slider.children[0].cloneNode(true));
+            _circle.style.left=(_container.clientWidth-_circle.offsetWidth)/2+"px";
+        }
+        function load(Ajax){
+            Ajax.request({
+                api:"json/data.json",
+                send:null,
+                success:function(_data){
+                    var _animate,_timer;
+                    _data=window.eval("("+_data+")");
+                    create(_data);
+                    _animate=new Slider(document.getElementById("slider"));
+                    _timer=window.setTimeout(function() {
+                        window.clearTimeout(_timer);
+                        _animate.player(200, -803, 5000);
+                    },2000);
+                    _animate.events();
+                }
+            });
+        }
+        function main(){
+            load(Ajax);
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

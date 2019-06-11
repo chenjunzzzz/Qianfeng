@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            width:100%; height:100%; margin:0;
+        }
+        div{
+            width:30px; height:30px; font-weight: bold; position:absolute; font-size:26px; text-align:center;
+        }
+        span{
+            display:block; width:40px; height:30px; line-height:30px; font-size:26px; color:red;
+            position:absolute; top:50%; left:50%; margin-left:-20px; margin-top:-15px;
+            background-color:#f1f1f1; text-align:center;
+        }
+    </style>
+    <script src=""></script>
+    <script type="text/javascript">
+        /**
+         * 1.创建div，内容显示：6
+         * 2.从中间位置向上跳 -> 如何获取中间位置？
+         * 3.透明度变化
+         * 4.透明度为零，删除该节点
+         */
+
+        class Six{
+            create(){
+                this.dom=document.createElement("div");
+                this.dom.innerText=6;
+                document.getElementsByTagName("body")[0].appendChild(this.dom);
+                return this;
+            }
+            position(){
+                this.width=(document.documentElement.clientWidth||document.body.clientWidth)/2;
+                this.height=(document.documentElement.clientHeight||document.body.clientHeight)/2;
+                this.dom.style.top=(this.height-15)+"px";
+                this.dom.style.left=(this.width-15)+"px";
+                return this;
+            }
+            opacity(){
+                let _opacity=1,_me=this,_top=_me.dom.offsetTop;
+                let _timer=window.setInterval(function(){
+                    _me.dom.style.top=(_top-=5)+"px";
+                    _me.dom.style.opacity=(_opacity-=0.02);
+                    if(_opacity<=0){
+                        document.getElementsByTagName("body")[0].removeChild(_me.dom);
+                        window.clearInterval(_timer);
+                    }
+                },30);
+                return this;
+            }
+        }
+        function main(){
+            document.getElementsByTagName("span")[0].onclick=function(){
+                var _six=new Six();
+                _six.create().position().opacity();
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+    <span>6</span>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        img{
+            width:100px;
+        }
+        span{
+            padding:20px;
+        }
+    </style>
+    <script type="text/javascript" src="Library.js"></script>
+    <script type="text/javascript">
+        function events(_cart){
+            var _list=document.getElementById("list").children;
+            for(let i=0;i<_list.length;i++){
+                _list[i].children[3].onclick=function(){
+                    _cart.subtract(this.parentNode.id,1);
+                    load(_cart);
+                };
+                _list[i].children[4].onchange=function(){
+                    _cart.reset(this.parentNode.id,this.value);
+                    load(_cart);
+                };
+                _list[i].children[5].onclick=function(){
+                    _cart.insert(this.parentNode.id,1);
+                    load(_cart);
+                };
+                _list[i].children[6].onclick=function(){
+                    _cart.remove(this.parentNode.id);
+                    load(_cart);
+                };
+            }
+        }
+        function create(_cart,_data){
+            let _item="";
+            for(let i=0;i<_data.length;i++){
+                _item+='<div id="'+_data[i]["ID"]+'">' +
+                    '<a href="detail.html?id='+_data[i]["ID"]+'&abc=100"><img src="'+_data[i]["image"]+'" alt=""></a>' +
+                    '<span>'+_data[i]["title"]+'</span>' +
+                    '<span>'+_data[i]["price"]+'</span>' +
+                    '<span>-</span>' +
+                    '<input type="text" value="'+_cart.storage[_data[i]["ID"]]+'">' +
+                    '<span>+</span>' +
+                    '<span>delete</span>' +
+                    '</div>';
+            }
+            document.getElementById("list").innerHTML=_item;
+            document.getElementById("counter").innerText=_cart.statistics();
+            events(_cart);
+        }
+        function load(_cart){
+            Ajax.request({
+                api:"../D21_MySQL_PHP/API/cart.php",
+                send:{
+                    ID:"1,5,989,10"
+                },
+                success:function(_data){
+                    try{
+                        _data=window.eval("("+_data+")");
+                        create(_cart,_data);
+                    }catch (e) {
+                        console.log(e);
+                    }
+                }
+            });
+        }
+        function main(){
+            var _cart=new Cart();
+            _cart.take();
+            load(_cart);
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="counter"></div>
+<div id="list"></div>
+</body>
+</html>

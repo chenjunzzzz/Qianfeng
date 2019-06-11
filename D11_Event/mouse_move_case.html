@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>天女散花--鼠标移动事件</title>
+    <link rel="stylesheet" href="../Styles/default.css">
+</head>
+<body></body>
+</html>
+<script type="text/javascript">
+    /**
+     * onmouseover：表示鼠标移动结束
+     * onmouseout：离开事件源对象
+     * onmousemove：鼠标在事件源对象上移动的进行时。
+     */
+    function drop(_drop,_container){
+        var _timer=0;
+        var _step=Math.random()*10;
+        var _opacity=1;
+        function exec(){
+            window.clearTimeout(_timer);
+            _drop.style.top=_drop.offsetTop+_step+"px";
+            _drop.style.opacity=(_opacity-=Math.random()*0.01);
+            if(_opacity>0) {
+                _timer = window.setTimeout(exec, 30);
+            }else{
+                _container.removeChild(_drop);
+            }
+        }
+        exec();
+    }
+
+    function create(_container,_x,_y){
+        var _point=document.createElement("div");
+        _point.style.width="5px";
+        _point.style.height="5px";
+        _point.style.position="absolute";
+        _point.style.left=_x+"px";
+        _point.style.top=_y+"px";
+        _point.style.backgroundColor="rgb("+Math.floor((Math.random()*255+1))+","+Math.floor((Math.random()*255+1))+","+Math.floor((Math.random()*255+1))+")";
+        _container.appendChild(_point);
+        drop(_point,_container);
+    }
+    function main(){
+        var _body=document.getElementsByTagName("body")[0];
+        _body.onmousemove=function (e) {
+            e=e||window.event;//解决事件对象的兼容问题
+            create(this,e.clientX,e.clientY);
+            /**
+             * this：不允许被赋值
+             * this的指向根据执行环境来定
+             * this指向当前对象
+             */
+        };
+
+        var _json={};
+        _json.walk=function(){
+            this;
+        };
+        _json.eat=function(){
+            this;
+        }
+        _json.walk();
+    }
+    main();
+</script>

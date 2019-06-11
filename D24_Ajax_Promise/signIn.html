@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignIn</title>
+    <style>
+        .container{
+            width:300px;
+            height:auto;
+            padding: 20px 0;
+            border:solid 1px #ccc;
+        }
+        .container div{
+            width:100%;
+            margin:5px 0;
+            text-align:center;
+        }
+        .container div.box{
+            width:260px;
+            margin:0 auto;
+        }
+        .container div.box input{
+            text-align:center;
+            font-size:13px;
+            color:#555;
+        }
+        .container div span{
+            font-size: 14px;
+        }
+        .container div a{
+            font-size:14px;
+        }
+    </style>
+    <script src="../D23_Ajax/Package/Ajax2.js"></script>
+    <script>
+        function main() {
+            document.getElementById("submit").onclick = function () {
+                Ajax.request({
+                    api: "http://localhost:8080/HTML5/D21_MySQL_PHP/API/signIn.php",
+                    send: {
+                        account: document.getElementById("account").value,//,
+                        pwd: document.getElementById("pwd").value//
+                    },
+                    success: function (_data) {
+                        try{
+                            _data=window.eval("("+_data+")");
+                            if(_data.code===2000){
+                                window.location.href="user.html";
+                            }else{
+                                alert(_data.comment);
+                            }
+                        }catch (e) {
+                            document.write("服务器异常");
+                        }
+                    }
+                });
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div class="container">
+    <div><span>用户登录窗口</span></div>
+    <div class="box"><input type="text" id="account" name="account" placeholder="用户账号"/></div>
+    <div class="box"><input type="password" id="pwd" name="pwd" placeholder="用户密码"></div>
+    <div class="button"><input type="button" name="submit" id="submit" value="登录"/></div>
+    <div><a href="signUp.html">新用户注册</a></div>
+</div>
+<div id="button">
+    <span>获取用户信息</span>
+</div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0;
+        }
+        #container{
+            width:300px; height:300px; overflow:hidden; position:relative; float:left; margin-top:100px;
+        }
+        #container img{
+            width:100%; height:100%; border:0; float:left;
+        }
+        #container span{
+            display:none; width:100px; height:100px; background-color:rgba(255,255,255,0.6); position:absolute;
+        }
+        #expand{
+            width:500px; height:500px; overflow:hidden; float:left; position:relative;
+        }
+        #expand img{
+            position:absolute; border:none; width:1500px; height:1500px;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 技术分析：
+         * 1.mousemove
+         * 2.mouseover
+         *
+         * 难点分析：
+         * 左右两张图的关系
+         */
+        function expand(_frame){
+            var _expand=document.getElementById("expand");
+            _expand.children[0].style.left=-_frame.offsetLeft*5+"px";//重新设置大图的position位置？为什么是负数
+            _expand.children[0].style.top=-_frame.offsetTop*5+"px";//重新设置大图的position位置？为什么是负数
+        }
+        function events(){
+            // var _top=document.documentElement.scrollTop||document.body.scrollTop;//获取窗口当前滚动的高度
+            var _container=document.getElementById("container");
+            var _x,_y;
+            _container.onmouseover=function(){//？为什么要有onmouseover事件？
+                this.children[1].style.display="block";//这就是原因
+            };
+            _container.onmouseout=function(){//？为什么要有哦那mouseout事件？
+                this.children[1].style.display="none";//这就是原因
+            };
+            _container.onmousemove=function(e){
+
+                e=e||window.event;
+                // this.children[1].style.left=e.clientX-50+"px";
+                // this.children[1].style.top=e.clientY-100-50+_top+"px";
+                console.log(this.children[1].offsetLeft>=0,this.children[1].offsetLeft<=this.children[1].parentNode.clientWidth-this.children[1].clientWidth,"------");
+                if(this.children[1].offsetLeft>=0 && this.children[1].offsetLeft<=this.children[1].parentNode.clientWidth-this.children[1].clientWidth && e.pageX>=50 && e.pageX<=250) {
+                    _x=e.pageX - 50;
+                    console.log(_x);
+                }
+                console.log(this.children[1].offsetTop>=0,this.children[1].offsetTop<=this.children[1].parentNode.clientHeight-this.children[1].clientHeight,"*******");
+                if(this.children[1].offsetTop>=0 && this.children[1].offsetTop<=this.children[1].parentNode.clientHeight-this.children[1].clientHeight && e.pageY-100>=50 && e.pageY-100<=250){
+                    _y=e.pageY - 100 - 50;
+                    console.log(_y);
+                }
+                this.children[1].style.left = _x + "px";
+                this.children[1].style.top = _y + "px";
+                //offsetY会有bug，
+                // 原因是鼠标的事件源对象被小的遮罩层修改了。
+                // offsetX&offsetY变成相对于小的遮罩层的坐标了
+                expand(this.children[1]);
+            };
+            // window.onscroll=function(){
+            //     _top=document.documentElement.scrollTop||document.body.scrollTop;
+            // }
+        }
+        function main(){
+            events();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+    <div id="container">
+        <img src="../D12_Event/image/girl.jpg" alt="">
+        <span id="frame"></span>
+    </div>
+    <div id="expand">
+        <img src="../D12_Event/image/girl.jpg" alt="">
+    </div>
+    <div style="height:1000px; width:1000px;"></div>
+</body>
+</html>

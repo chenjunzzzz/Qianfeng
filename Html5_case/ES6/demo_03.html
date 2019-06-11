@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6----Promise()</title>
+    <script type="text/javascript" src="../javascript/Ajax.js"></script>
+    <script type="text/javascript">
+        /**您现在看到的是由千锋H5教学部为您录制的教学视频。*/
+        function main(){
+            /**
+             * Promise()
+             * 新推出的Promise函数，是一个构造函数，它实际上是对回调函数的一种封装，
+             * 对异步编程的一种封装。当然，如果只是写法上的改进，意义就不大了。
+             *
+             * 首先我们回顾一下我们学过的知识点中哪些地方涉及到异步。
+             * 事件：事件中代码并不是随着程序从上到下顺序执行的，而是触发某个事件时才会执行的代码。所以我们说事件中的代码是异步的
+             * 定时器：setTimeout,setInterval内的代码也是异步的，不需要关心其他代码的执行；
+             * AJAX：
+             *
+             *
+             * Promise()书写方式：
+             * new Promise(function(resolve,reject){}).then(function(resolve,reject).then(function(){}).then(function(){}).catch();
+             *
+             * resolve数据类型：函数
+             * 作用：当某一回调函数执行完毕(成功)，负责将Promise的状态修改为继续执行下一个回调函数的状态，也就是调用下一个then方法中的回调函数。。
+             *
+             * reject数据类型：函数
+             * 作用：当某一回调函数执行失败发生错误，reject负责改变Promise的状态，改变为失败状态，失败后调用catch内的回调函数。
+             *
+             * then数据类型：函数（方法）
+             * 作用：将所有的回调函数放到一个队列中。
+             * 队列的算法：先进先出；
+             *
+             * catch数据类型：函数
+             * 作用：当promise中的某个回调函数发生错误时调用该方法中的回调函数；
+             */
+//            ajaxRequest("post","demo.html",true,null,function(data){
+//                console.log(data);
+//                ajaxRequest("post","demo_02.html",true,null,function(data){
+//                    console.log(data);
+//                    ajaxRequest("post","demo_02.html",true,null,function(data){
+//                        console.log(data);
+//                        ajaxRequest("post","demo_02.html",true,null,function(data){
+//                            console.log(data);
+//                            ajaxRequest("post","demo_02.html",true,null,function(data){
+//                                console.log(data);
+//                            });
+//                        });
+//                    });
+//                });
+//            });
+
+//            new Promise(function(resolve,reject){
+//                ajaxRequest("post","demo.html",true,null,function(data){
+//                    console.log(data);
+//                    resolve();
+//                },function(){
+//                    //do anything!!
+//                    reject();
+//                });
+//            }).then(function(resolve,reject){
+//                ajaxRequest("post","demo_02.html",true,null,function(data){
+//                    console.log(data);
+//                });
+//            });
+
+
+            /**
+             * Promise的自定义封装
+             */
+//            function Promising(fx){
+//                var _arr=[fx];
+//                this.error=null;
+//                var _self=this;
+//                this.then=function(fn){
+//                    _arr.push(fn);
+//                    return this;
+//                }
+//                this.resolve=function(){
+//                    console.log(_arr[0]);
+//                    _arr[0](_self.resolve,_self.reject);
+//                    _arr.shift();
+//                }
+//                this.catch=function(fn){
+//                    this.error=fn;
+//                }
+//                this.reject=function(){
+//                    this.error();
+//                }
+//                this.resolve();
+//            }
+//            var _promising=new Promising(function(resolve,reject){
+//                alert("first");
+//                ajaxRequest("post","demo.html",true,null,function(data){
+//                    console.log(data);
+//                    resolve();
+//                });
+//            });
+//            _promising.then(function(resolve,reject){
+//                alert("second");
+//                ajaxRequest("post","demo.html",true,null,function(data){
+//                    console.log(data);
+//                    resolve();
+//                });
+//            }).catch(function(){
+//                alert("error");
+//            });
+        };
+
+
+
+        window.onload=function(){
+            main();
+        }
+    </script>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>

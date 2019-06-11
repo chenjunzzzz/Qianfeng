@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; text-align:center;
+        }
+        #container{
+            width:500px; height:506px; border:solid 3px #ccc; margin:0 auto;
+        }
+        #container #history{
+            width:100%; height:400px; float:left;
+            border-bottom:solid 3px #ccc; overflow:hidden; overflow-y:scroll;
+            position:relative;
+        }
+        #history span{
+            display:block; overflow:hidden;
+            width:100%; height:30px; background-color:#00CCFF;
+            line-height:30px; font-size:14px; text-indent:1em;
+            text-align:left;
+            margin-top:2px;
+        }
+        #history div{
+            position:absolute; width:80px; height:30px; line-height:30px; border:solid 1px #555; font-size:14px; text-align:center;
+        }
+        #container #message{
+            width:100%; height:60px; float:left; overflow:hidden;
+            border-bottom:solid 3px #ccc;
+        }
+        #container #message *{
+            margin:0; padding:0; float:left;
+            max-width:500px;
+            min-width: 500px;
+            max-height: 60px;
+            min-height:60px;
+            border:none;
+            outline:none;
+            line-height:30px;
+            font-size:16px;
+            text-align:left;
+            color:#555;
+        }
+        #container #control{
+            width:100%; height:40px; float:left;
+        }
+        #container #control span{
+            display:block; width:60px; height:30px; border:solid 1px #ccc;
+        }
+
+    </style>
+    <script type="text/javascript">
+        // window.close();
+        function tag(_tag){
+            return document.getElementsByTagName("body");
+        }
+
+        function create(_tag){
+            return document.createElement(_tag);
+        }
+
+
+        function calculate(_current){
+            for(var i=0;i<document.getElementById("history").children.length;i++){
+                if(document.getElementById("history").children[i]===_current){
+                    return i;
+                }
+            }
+        }
+
+        function createMenu(e){
+            if(document.getElementById("history").getElementsByTagName("div")[0]){
+                document.getElementById("history").removeChild(document.getElementById("history").getElementsByTagName("div")[0]);
+            }
+            var _menu=create("div");
+            _menu.id="menu";
+            _menu.innerHTML="撤回";
+            _menu.style.backgroundColor="#fff";
+
+
+            _menu.style.left=e.offsetX+"px";
+            _menu.style.top=(e.offsetY+calculate(e.target)*32)+"px";
+
+            /**
+             * offsetX|offsetY：鼠标相对事件源对象的x，y坐标
+             * clientX|clientY：鼠标相对可视窗口的x，y坐标
+             * pageX|pageY：鼠标相对页面的x，y坐标
+             */
+
+            _menu.onclick=function(_event){
+                document.getElementById("history").removeChild(e.target);
+                document.getElementById("history").removeChild(this);
+            };
+            document.getElementById("history").appendChild(_menu);
+        }
+
+        function send(e){
+            //获取文本域的内容
+            //添加到history内
+
+            var _span=create("span");
+            _span.oncontextmenu=function(e){
+                e=e||window.event;
+
+                if(e.preventDefault){
+                    e.preventDefault();
+                }else{
+                    e.returnValue=false;
+                }
+
+                //最重要的目的是弹出一个自定义的菜单，撤回
+
+                createMenu(e);
+            };
+
+
+            _span.innerHTML=document.getElementById("message").children[0].value;
+            document.getElementById("history").appendChild(_span);
+            document.getElementById("history").scrollTop=document.getElementById("history").children.length*32-400;
+        }
+        function events(){
+            document.getElementById("control").children[0].onclick=send;
+        }
+
+        function main(){
+            var _container=create("div");
+            var _history=create("div");
+            var _message=create("div");
+            var _area=create("textarea");
+            var _control=create("div");
+
+            _history.id="history";
+            _container.appendChild(_history);
+
+            _message.id="message";
+            _message.appendChild(_area);//添加一个文本域
+            _container.appendChild(_message);
+
+
+            //创建按钮
+            _control.id="control";
+            _control.innerHTML="<span>发送</span>";
+            _container.appendChild(_control);
+
+            _container.id="container";
+            tag("body")[0].appendChild(_container);
+
+            events();
+
+
+            /**
+             * 兼容问题：
+             * 事件对象的兼容：e||window.event
+             * 键码值兼容：e.keyCode||e.which
+             * 阻止默认事件兼容：e.preventDefautl? e.preventDefault():e.returnValue=false;
+             * 事件源对象：e.target||e.srcElement
+             * css获取外部样式表：window.getComputedStyle(_ele,null)|| _ele.currentStyle["width"]
+             */
+            var _code;
+            document.onkeydown=function(e){
+                e=e||window.event;
+                if(_code!==17) {
+                    _code = e.keyCode||e.which;
+                }
+                if(e.keyCode===13 && _code===17){
+                    send(e);
+                    _code=0;
+                }
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+</body>
+</html>

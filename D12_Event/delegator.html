@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        div{
+            width:500px; height:500px;
+            overflow: hidden;
+        }
+        div span{
+            display:block; height:50px; width:50px; background-color:red;
+            margin:5px;
+        }
+        div p{
+            margin:0; padding:0; width:50px; height:50px; background-color:green;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 事件委托
+         * 委托和代理是相对的概念
+         */
+        function delegate(){
+            document.getElementById("agent").onclick=function(e){
+                var _target;
+                e=e||window.event;
+                _target=e.target||e.srcElement;
+                if(_target.tagName.toLowerCase()==="span"/* && this.children[0]===_target*/){//获取HTML元素的标签名称，nodeName
+                    console.log(_target.innerText);
+                }else if(_target.tagName.toLowerCase()==="p"){
+                    console.log(_target.innerHTML);
+                }else{
+                    console.log("sleep");
+                }
+                console.log(e);
+            };
+        }
+        function main(){
+            delegate();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+    <div id="agent">
+        <span>卖西瓜</span>
+        <span>卖西瓜</span>
+        <span>卖西瓜</span>
+        <span>卖西瓜</span>
+        <p>卖衣服</p>
+    </div>
+</body>
+</html>

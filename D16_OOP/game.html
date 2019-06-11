@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            position:absolute; top:0;
+            width:30px; height:30px; border:solid 1px #f1f1f1;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 需求分析
+         *      1.生成字符
+         *      2.不停地往下落
+         *      3.键盘事件
+         *      4.字符匹配
+         *
+         * Bug:
+         *      1.有可能网页中字符元素太多，导致网页反应迟钝或者卡死
+         *      2.当按下键盘时有可能出现一次打掉多个字符，是不合理的
+         *      3.有可能生成出来的字符元素重叠在一起，导致后面的字符看不清，无法完成游戏。
+         */
+
+        /**
+         * 面向对象编程实现打字游戏
+         */
+        class Game{
+            constructor(){
+                /**
+                 * 什么时候声明属性
+                 *      1.多处（是指不在同一个函数作用域）使用，考虑声明为属性，因为会很方便
+                 *      2.如果在同一个函数作用域中“多次”使用可以考虑声明变量的方式。
+                 */
+                this.body=document.getElementsByTagName("body")[0];
+                this.width=document.documentElement.clientWidth||document.body.clientWidth;
+                this.height=document.documentElement.clientHeight||document.body.clientHeight;
+            }
+            create(){
+                //TODO:生成一个字符
+                let _char=String.fromCharCode(65+Math.floor(Math.random()*26));
+                let _element=document.createElement("div");
+                _element.innerText=_char;
+                _element.style.left=Math.floor((this.width-30)*Math.random())+"px";
+                this.body.appendChild(_element);
+            }
+            drop(){
+                //TODO:不停的往下落
+                let _chars=this.body.children,_me=this;
+                this.timer=window.setInterval(function(){
+                    for(let i=0;i<_chars.length;i++){
+                        _chars[i].style.top=_chars[i].offsetTop+40+"px";
+                        if(_chars[i].offsetTop>=_me.height-30){
+                            _me.body.removeChild(_chars[i--]);
+                        }
+                    }
+                    _me.create();
+                },600);
+            }
+            match(_code){
+                //TODO:键盘按下的键码值和网页中每一个字符进行比较，一旦发现相同的字符，删除并结束循环。
+                //为何要结束循环？避免按下键盘一次导致多个相同的字符被删除。
+                let _chars=this.body.children;
+                for(let i=0;i<_chars.length;i++){
+                    if(_chars[i].innerText===String.fromCharCode(_code).toUpperCase()){
+                        this.body.removeChild(_chars[i]);
+                        break;
+                    }
+                }
+
+            }
+            events(){
+                //TODO:键盘事件
+                let _me=this;
+                document.onkeydown=function(e){
+                    e=e||window.event;
+                    _me.match(e.keyCode||e.which);
+                }
+            }
+            init(){
+                this.drop();
+                this.events();
+            }
+        }
+        function main(){
+            new Game().init();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

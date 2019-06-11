@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{ margin:0 auto; width:100%; height:100%;}
+        div#container{ width:auto; height:auto;
+            border:solid 3px #f1f1f1; position:relative;
+            margin:0 auto;
+        }
+        div.module{ width:150px; height:auto; padding:2px;
+            overflow:hidden; position:absolute;}
+        div.module img{ width:150px; border:none; float:left;}
+        div.module span{ width:100%; height:30px; line-height:30px;
+            text-align:center; display:block; float:left;}
+    </style>
+    <script type="text/javascript">
+        /**
+         * 1.判断屏幕的宽度，计算能放几列
+         * 2.找出所有列中每一列图片的高度总和最小的列？如何计算
+         * 3.自适应
+         * 4.一定要有滚动条？
+         * 5.要检测图片是否加载完成的
+         * 6.每一列的高度是保存下来的，不是计算出来的。
+         */
+        class Waterfall{
+            /**
+             * @param _unit 一个单元的宽度
+             */
+            constructor(_unit){
+                this.lock=0;
+                this.start=0;
+                this.size=20;
+                this.unit=_unit;
+            }
+            initColumns(){
+                this.width=document.documentElement.clientWidth||document.body.clientWidth;
+                this.columns=new Array(Math.floor(this.width/this.unit));//
+                for(let i=0;i<this.columns.length;i++){
+                    this.columns[i]=0;
+                }
+                return this;
+            }
+            initArray(){
+                this.images=[];
+                for(let i=1;i<=75;i++){
+                    this.images.push({
+                        url:i+".jpg",
+                        name:"H51903WATERFALL"
+                    });
+                }
+                return this;
+            }
+            max(){
+                let _max=this.columns[0];//假定第0列高度最大
+                for(let i=1;i<this.columns.length;i++){
+                    if(_max<this.columns[i]){
+                        _max=this.columns[i];
+                    }
+                }
+                return _max;
+            }
+            min(){
+                let _min=this.columns[0];//假设第一个元素的值最小
+                let _index=0;//记录数组元素的最小值所在索引值
+                for(let i=1;i<this.columns.length;i++){
+                    if(_min>this.columns[i]){
+                        _min=this.columns[i];
+                        _index=i;//记录数组元素的最小值所在索引值
+                    }
+                }
+                return _index;
+            }
+            reset(){
+                let _container=document.getElementById("container");
+                _container.style.height=this.max()+4+"px";
+                _container.style.width=this.unit*this.columns.length+this.columns.length*4+4+"px";
+            }
+            /**
+             * 需要图片加载完成之后在进行瀑布流的定位布局
+             */
+            position(){
+                let _modules=document.getElementById("container").children;
+                let _index=0;
+                for(let i=this.start;i<_modules.length;i++){
+                    //TODO:寻找一个列的高度最小的索引值，实际就是寻找数组的最小值
+                    _index=this.min();
+                    _modules[i].style.left=this.unit*_index+4*(_index+1)+"px";
+                    _modules[i].style.top=this.columns[_index]+4+"px";
+                    this.columns[_index]+=_modules[i].clientHeight+4;
+                }
+                this.reset();
+                this.lock=0;//解锁
+            }
+            /**
+             * 为什么会有check方法
+             */
+            check(){
+                let _me=this;
+                let _completed=true;//假定所有图片已经加载完毕
+                let _modules=document.getElementById("container").children;
+                for(let i=this.start;i<_modules.length;i++){
+                    if(!_modules[i].children[0].complete){
+                        _completed=false;
+                    }
+                }
+                if(!_completed){
+                    let _timer=window.setInterval(function(){
+                        window.clearInterval(_timer);
+                        _me.check();
+                    },100);
+                }else{
+                    this.position();
+                }
+            }
+            /**
+             * 创建20个div
+             *
+             * -----调用create方法前一定得调用初始化数组的方法：this.initArray
+             */
+            create(){
+                let _module=null,_img=null,_span=null,_fragment=document.createDocumentFragment();
+
+                for (let i = this.start; i < this.start + this.size && i<this.images.length; i++) {
+                    _module = document.createElement("div");
+                    _module.className = "module";
+
+                    _img = document.createElement("img");
+                    _img.src = "images/" + this.images[i].url;
+                    _module.appendChild(_img);
+
+                    _span = document.createElement("span");
+                    _span.innerText = this.images[i].name;
+                    _module.appendChild(_span);
+
+                    _fragment.appendChild(_module);
+                }
+
+                document.getElementById("container").appendChild(_fragment);
+                this.check();
+                return this;
+            }
+            init(){
+                return this.initColumns().initArray().create();
+            }
+        }
+        function main(){
+            let _height=document.documentElement.clientHeight||document.body.clientHeight;
+            let _waterfall=new Waterfall(154).init();
+
+            document.onscroll=function() {
+                let _max = _waterfall.max();
+                let _st = document.documentElement.scrollTop || document.body.scrollTop;
+                if (_height + _st >= _max) {
+                    if (!_waterfall.lock) {
+                        _waterfall.lock = 1;//加锁
+                        _waterfall.start = _waterfall.start + _waterfall.size;
+                        _waterfall.create();
+                    }
+                }
+            };
+            window.onresize=function(){
+                let _start=_waterfall.start;
+                _waterfall.start=0;
+                //TODO:重新初始化数组
+                _waterfall.initColumns().position();
+                _waterfall.start=_start;
+            };
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

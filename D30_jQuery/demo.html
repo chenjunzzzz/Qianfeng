@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../D29_jQuery/jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        // (function($) {
+        //     if ( !$.cssHooks ) {
+        //         throw("jQuery 1.4.3+ is needed for this plugin to work");
+        //         return;
+        //     }
+        //     function styleSupport( prop ) {//MozBorderRadius
+        //         var vendorProp, supportedProp,
+        //             capProp = prop.charAt(0).toUpperCase() + prop.slice(1),
+        //             prefixes = [ "Moz", "Webkit", "O", "ms" ],
+        //             div = document.createElement( "div" );
+        //         if ( prop in div.style ) {
+        //             supportedProp = prop;
+        //         } else {
+        //             for ( var i = 0; i < prefixes.length; i++ ) {
+        //                 vendorProp = prefixes[i] + capProp;
+        //                 if ( vendorProp in div.style ) {
+        //                     supportedProp = vendorProp;
+        //                     break;
+        //                 }
+        //             }
+        //         }
+        //         div = null;
+        //         $.support[ prop ] = supportedProp
+        //         return supportedProp;
+        //     }
+        //     var borderRadius = styleSupport( "borderRadius" );
+        //     // Set cssHooks only for browsers that
+        //     // support a vendor-prefixed border radius
+        //     if ( borderRadius && borderRadius !== "borderRadius" ) {
+        //         $.cssHooks.borderRadius = {
+        //             get: function( elem, computed, extra ) {
+        //                 return $.css( elem, borderRadius );
+        //             },
+        //             set: function( elem, value) {
+        //                 elem.style[ borderRadius ] = value;
+        //             }
+        //         };
+        //     }
+        // })(jQuery);
+
+
+
+        // var _hooks={
+        //     hook:null,
+        //     get:function(){
+        //         return this.hook;
+        //     },
+        //     set:function(_goods){
+        //         this.hook=_goods;
+        //     }
+        // };
+        //
+        // _hooks.set({a:10,b:10});//这里是丁峰把数据挂到hooks上
+        // _hooks.get();
+        //
+        //
+        // var a=10;
+        // console.log(a);
+
+
+
+        // slow===600 normal===400fast===200
+
+
+        function abc(){
+            alert("abc");
+        }
+        $(document).ready(function(){
+            // $("p").fadeIn(600);
+            // $("p").fadeToggle("fast",function(){
+            //     alert("Animation Done.");
+            // });
+            console.log(10);
+            $("#block").click(function(){
+                /**
+                 * 异步:相对于浏览器为参照对象，浏览器是否执行完js渲染html文档，不会影响异步程序何时执行。
+                 * 无刷新：也就是ajax去请求数据时，不会使网页重新刷新
+                 * 局部刷新：就是指可以是网页中的某一小部分实现数据更新，但是不影响全部。
+                 */
+
+                /**
+                 * CommonJS规范的代表：nodeJS
+                 *      该规范主张一个模块一个文件，每个模块通过module.exports方式暴露出去，引用时通过require方法请求到主文件中。
+                 *
+                 * AMD：异步模块化，代表作：requireJS
+                 *      定义模块用的define(),前置依赖。2.0以后也支持懒加载。
+                 *          特点：首次慢，以后快
+                 *
+                 * CMD：通用模块化，代表作：seaJS
+                 *      尽可能的懒加载。
+                 *          特点：首次快，过程稍慢一点
+                 */
+
+
+                // $.get("/HTML5/API/query.php",{},function(_data,_status){
+                //     if(_status==="success"){
+                //         console.log(_data);
+                //     }
+                // });
+                // $.post("/HTML5/API/query.php",{},function(_data,_status){
+                //     if(_status==="success"){
+                //         console.log(_data);
+                //     }
+                // });
+
+                $.ajax({
+                    url:"http://localhost:8080/HTML5/API/JSONP_Query.php",
+                    jsonpCallback:"success",
+                    dataType:"jsonp",
+                    success:function(_data,_status){
+
+                        console.log(_data);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="block">Hello!</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        #small{ width:400px; height:400px; position:relative; left:20px; top:20px;}
+        #small span{
+            display:block; width:80px; height:80px; overflow:hidden; border:solid 1px #fff;
+            background-color:yellow; opacity:0.5; position:absolute; display:none;
+        }
+        #small img{ width:400px; height:400px; border:none;}
+        #big{ width:160px; height:160px; overflow:hidden; position:relative; left:420px; top:20px; display:none;}
+        #big img{ width:800px; height:800px; border:none; position:absolute;}
+        #demo{ width:20px; height:20px; margin:10px; padding:10px;}
+    </style>
+    <script type="text/javascript">
+		function expand(){
+            var _small=document.getElementById("small");
+            var _big=document.getElementById("big");
+            var _step=parseInt((_small.currentStyle||window.getComputedStyle(_small,null))["left"].replace("px",""));//获取left数字值
+            var _step=_small.offsetLeft;
+            
+			_small.onmousemove=function(e){
+                e=e||window.event;
+				var _span = _small.children[1];//黄色的焦点区
+				var _left=e.clientX -_step - _span.clientWidth/2;
+				//黄色的span相对于id为small的div的left值；
+				var _top=e.clientY -_step - _span.clientHeight/2;
+				//黄色的span相对于id为small的div的top值；
+				var m_t=this.clientHeight-_span.clientHeight;
+				//黄色的span可以移动的最大top值，是相对于id为small的div的top值
+				var m_l=this.clientWidth-_span.clientWidth;
+				//黄色的span可以移动的最大left值，是相对于id为small的div的left值
+				_span.style.left = (_left<=0?0:(_left>=m_l?m_l:_left)) + "px";
+				_span.style.top = (_top<=0?0:(_top>=m_t?m_t:_top)) + "px";
+				//减40表示将鼠标挪到span的正中心;实际移动span
+				_span.style.display = "block";
+				_big.style.display = "block";
+				_left=e.clientX-_step-parseInt(_span.clientWidth/2);
+				_top=e.clientY-_step-parseInt(_span.clientHeight/2);
+				_big.children[0].style.left=-_left*2+"px";
+				_big.children[0].style.top=-_top*2+"px";
+            }
+        }
+        window.onload=function(){
+            expand();
+        };
+		
+		
+		//e.clientX|Y:表示鼠标相对浏览器可视窗口的当前坐标
+		//e.offsetX|Y:表示鼠标相对于事件源对象的坐标
+		//e.pageX|Y:表示鼠标相对于网页的坐标，低版本浏览器有不兼容;
+		//e.pageX=e.clientX+(document.documentElement.scrollLeft||document.body.scrollLeft);
+		
+		/**
+         * element.offsetLeft|offsetTop:相对于拥有position:relative属性的水平方向|垂直方向的偏移量（坐标）
+         * 可以对应css中的left或者top
+         */
+		
+		//element.clientWidth|clientHeight:表示该对象的当前宽度|高度，注意不包含边框的宽度|高度
+		//element.offsetWidth|offsetHeight:表示该对象的当前宽度|高度，注意包含边框的宽度|高度。
+		
+		//element.scrollLeft|scrollTop:表示该对象相对于滚动条而言网页滚动的距离。
+    
+	
+		//element.offsetParent:相对于拥有position属性的最近的上级元素
+	</script>
+</head>
+<body>
+<div id="small">
+    <img alt="" src="../images/img1.jpg"/>
+    <span></span>
+</div>
+<div id="big">
+    <img alt="" src="../images/img1.jpg"/>
+</div>
+
+<div id="demo"></div>
+</body>
+</html>

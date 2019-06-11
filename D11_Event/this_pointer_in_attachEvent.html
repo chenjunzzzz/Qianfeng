@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="main">main</div>
+</body>
+</html>
+<script>
+    function main(){
+        var _main=document.getElementById("main");
+        _main.attachEvent("onclick",function(){
+            console.log(this);
+            console.log(window);
+            console.log(this===window);
+        });
+    }
+    main();
+</script>

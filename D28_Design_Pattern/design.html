@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * 设计模式：
+         *      要点：每次返回一个新对象
+         */
+        // function factory(_name){
+        //     var _leg=(function(_title){
+        //         switch (_title) {
+        //             case "cat":
+        //                 return 4;
+        //             case "dog":
+        //                 return 4;
+        //             case "human":
+        //                 return 2;
+        //         }
+        //         return 4;
+        //     })(_name);
+        //     return {
+        //         name:_name,
+        //         leg:_leg
+        //     };
+        // }
+        // let _obj1=factory("cat");
+        // let _obj2=factory("dog");
+        // console.log(_obj1,_obj2);
+
+
+
+        /**
+         * 抽象工厂
+         */
+        // function screen(){
+        //     return {};
+        // }
+        // function disk(){
+        //     return {};
+        // }
+        // function PCFactory(){
+        //     return {
+        //         screen:screen(),
+        //         hardware:disk(),
+        //         cpu,
+        //         memory,
+        //         battery
+        //         ......
+        //     };
+        // }
+        // var _pc01=PCFactory();
+        // function Animate(){
+        //     this.resetCss=sunli.resetCss;
+        //     this.createDom=mengguoliang.createDom;
+        //     this.sport=luoxiaoqing.sport;
+        // }
+
+
+        /**
+         * 单例模式
+         */
+        // var Single=function (){
+        //     if(!Single.example){
+        //         return Single.example={};
+        //     }
+        //     return Single.example;
+        // };
+        //
+        // var _single1=Single();//刘一老师在叫：齐学雨
+        // var _single2=Single();//孙温老师在叫：齐学雨
+        // console.log(_single1===_single2);
+
+        // class Ajax{
+        //     static i=0;
+        //     static create(){
+        //         console.log(this.i++);
+        //     }
+        //     static request(){}
+        // }
+        // var _ajax=new Ajax();
+        // Ajax.create();
+        // Ajax.create();
+        // _ajax.create();
+
+        // let _global={};
+
+
+        // function Single(){}
+        // Single.prototype.module={
+        //     title:"ZHANGSAN",
+        //     phone:"18911751141"
+        // };
+        // var _single1=new Single();
+        // var _single2=new Single();
+        // _single1.module.title="LISI";
+        //
+        // _single1.__proto__.title===Single.prototype;
+        // _single2.__proto__.title===Single.prototype;
+        //
+        // console.log(_single2.module.title);
+
+
+        /**
+         * 观察者模式
+         */
+        /**
+         * 马原开的演唱会：所以马原就是发布方
+         *      收钱给票：订阅
+         *      退钱退票：取消订阅
+         *      发布信息：广播
+         *
+         *
+         * 观察者：
+         *      买票时：需要提供手机号，接受信息的方法
+         */
+        let _publisher={
+            storage:[],
+            orders:function(_user){
+                this.storage.push(_user);
+            },
+            cancel:function(_phone){
+                for(let i=0;i<this.storage.length;i++) {
+                    if(this.storage[i].phone===_phone) {
+                        this.storage.splice(i, 1);
+                        break;
+                    }
+                }
+            },
+            broadcast:function(_msg){
+                for(let i=0;i<this.storage.length;i++){
+                    this.storage[i].receive(_msg);
+                }
+            }
+        };
+        class Watcher{
+            constructor(_name,_phone){
+                this.phone=_phone;
+                this.name=_name;
+            }
+            receive(_msg){
+                console.log(this.name+":received:"+_msg);
+            }
+        }
+
+        _publisher.orders(new Watcher("zhangsan","12345678910"));
+        _publisher.orders(new Watcher("lisi","13856124879"));
+        _publisher.orders(new Watcher("wangwu","18912345678"));
+        _publisher.orders(new Watcher("zhaojiu","15535478965"));
+        console.log(_publisher.storage);
+        _publisher.broadcast("演唱会取消，钱也不退了");
+    </script>
+</head>
+<body>
+
+</body>
+</html>

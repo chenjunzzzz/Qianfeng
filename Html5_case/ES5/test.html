@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+    </style>
+    <script type="text/javascript">
+        var father = {
+            money: 999999
+        }
+        var son = Object.create(father);
+        console.log(son.money); //999999
+        //验证属性的归属实例属性还是原型属性
+        if("money" in son){
+            //判断 money 属性是否是 son 对象的属性，注意：无论是原型属性还是实例属性只要包含money就返回true
+            if(son.hasOwnProperty("money")){//判断是否是自己含有该属性，自己含有的属性也叫实例属性
+                alert("money 这个属性是son对象的自己的属性");
+            }else{
+                alert("money 这个属性是son对象的属性，但是不是son自己的实例属性，那么就可以断定是son的原型属性");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="demo" style="width:100px; height:100px; background-color:red;">demo</div>
+</body>
+</html>

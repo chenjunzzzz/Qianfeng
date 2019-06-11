@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * 购物车中用json格式的对象进行存储
+         *      {"product001":7,"product002":3}
+         *      1.+按钮
+         *      2.-按钮
+         *      3.删除按钮
+         *      4.统计
+         *      5.文本框重新输入的功能
+         *
+         *
+         *
+         * 问题：浏览器关闭或者刷新一次，数据没了。不符合常规现象。
+         *      寻找解决方案：
+         *          cookie：有声明周期的或者说有过期日期的。大小4-10k左右。cookie会在HTTP请求时一起被发送到服务器上。
+         *          localStorage：本地硬盘上存储，而且是永久（持久）性存储。大约4-10M左右。
+         *          sessionStorage：会话级存储，会话关闭数据丢失
+         */
+        /**
+         * window.eval();可以将表达式格式的字符串，反解析为真正的js表达式
+         * JSON.stringify({})；方法可以将JSON格式的字面量对象转换成字符串。
+         * JSON.parse("");方法可以将JSON格式的字符串转换成JSON格式的对象
+         */
+        // console.log(window.eval("({})"));
+        class Cart{
+            constructor(){
+                this.storage={};
+            }
+            take(){//从硬盘中读取localStorage数据到内存中*************************
+                if(window.localStorage){
+                    //新用户的硬盘上没有购物车，怎么办？
+                    //老用户硬盘上已经有了购物车数据，然后怎么办？
+                    let _storage=window.localStorage;
+                    if(_storage.getItem("Cart1908")){//getItem()的返回值是字符串
+                        this.storage=window.eval("("+_storage.getItem("Cart1908")+")");//为什么要转换成字面量对象？为了方便操作
+                    }else{
+                        this.storage={};
+                    }
+                    return true;//表示浏览器支持localStorage
+                }else{
+                    return false;//表示浏览器不支持localStorage
+                }
+            }
+            save(){//save方法不能在外部被调用，如果需要调用请自定义的方法判断浏览器是否支持localStorage
+                window.localStorage.setItem("Cart1908",JSON.stringify(this.storage));//****************
+            }
+            insert(_identify,_counter){
+                if(_counter>0) {
+                    if(this.take()) {
+                        this.storage[_identify] ? this.storage[_identify] += _counter : this.storage[_identify] = _counter;
+                        this.save();
+                    }
+                }
+            }
+            subtract(_identify,_counter){
+                if(this.take()) {
+                    if (this.storage[_identify]) {
+                        if (this.storage[_identify] > _counter) {
+                            this.storage[_identify] -= _counter;
+                        } else {
+                            delete this.storage[_identify];
+                        }
+                        this.save();
+                    }
+                }
+            }
+            remove(_identify){
+                if(this.take()) {
+                    if(this.storage[_identify]){
+                        delete this.storage[_identify];
+                        this.save();
+                    } else{
+                        alert("无此数据");
+                    }
+                }
+            }
+            statistics(){
+                let _sum = 0;
+                if(this.take()) {
+                    for (let _key in this.storage) {
+                        if (this.storage.hasOwnProperty(_key)) {
+                            _sum += this.storage[_key];
+                        }
+                    }
+                }
+                return _sum;
+            }
+            reset(_identify,_counter){
+                if(this.take()) {
+                    if (/^[1-9]\d*$/g.test(_counter + "")) {
+                        this.storage[_identify] = _counter;
+                        this.save();
+                    }
+                }
+            }
+        }
+
+        let _cart = new Cart();
+        _cart.take();
+
+        // window.localStorage.setItem("HP",1);//学习localStorage
+        // window.localStorage.setItem("lenovo",1);//学习localStorage并且确定localStorage的存储方式
+
+
+        // window.localStorage.setItem("Cart1908","{hp:1,lenovo:1}");//测试解决方案
+
+
+        /**
+         * 功能测试
+         *      1.测试数据是否能够存到localStorage中
+         */
+        _cart.insert("acer",1);
+        console.log(_cart.storage);
+
+
+
+
+
+
+
+
+        // class Mine extends Cart{
+        //     constructor() {
+        //         super();
+        //     }
+        //     statistics(){
+        //         let _sum=0;
+        //         for(let _key in this.storage){
+        //             if(this.storage.hasOwnProperty(_key)) {
+        //                 _sum += this.storage[_key];
+        //             }
+        //         }
+        //         return _sum;
+        //     }
+        //     reset(_identify,_counter){
+        //         if(/^[1-9]\d*$/g.test(_counter+"")) {
+        //             this.storage[_identify] = _counter;
+        //         }
+        //     }
+        // }
+        // console.log(new Mine());
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ background-color:#000; height:100%; margin:0 auto; position:relative;}
+        .main{ width:5px; height:15px; overflow:hidden; background-color:#fff; position:absolute;}
+        span{ display:block; width:5px; height:5px; overflow:hidden; position:absolute;}
+    </style>
+    <script type="text/javascript">
+        //类一
+        function FireWorks(_stage){
+            var _height=document.documentElement.clientHeight||document.body.clientHeight;
+            _stage.style.height=_height+"px";//设置_stage===body元素的对象的高度
+            function move(_obj,e){
+                function start() {//
+                    window.clearTimeout(_obj.timer);
+                    var _top = parseInt(_obj.style.top.replace("px", ""));
+                    _obj.style.top = parseInt(_obj.style.top.replace("px", "")) - 10 + "px";
+                    if (_top - 10 > e.clientY) {
+                        _obj.timer = window.setTimeout(start, 60);
+                    }else{
+                        _stage.removeChild(_obj);
+                        var _blast=new Blast(_stage);
+                        var _points=new Points(_stage,e);
+                        _blast.start(_points.createPoint());//创建一个对象并调用start方法,同时传递一个Points类型的对象的createPoint()的返回值
+                    }
+                }
+                start();
+            }
+
+            this.createMain=function(){
+                var _main=document.createElement("div");
+                _main.className="main";
+                _main.style.top=_height+"px";
+                _main.timer=0;
+                _stage.appendChild(_main);
+                return _main;
+            }
+            this.fire=function(){
+                var _fire=this;
+                _stage.onclick=function(e){//给_stage即body绑定鼠标点击事件
+                    var e=e||window.event;
+                    var _main=_fire.createMain();//调用_fire对象的create
+                    _main.style.left=(e.clientX-5/2)+"px";//设定放烟花的位置
+                    move(_main,e);//调用私有方法move
+                }
+            }
+        }
+
+        //类2:创建烟花爆炸的碎片
+        function Points(_stage,e) {
+            var _width = document.documentElement.clientWidth || document.body.clientWidth;
+            var _height = document.documentElement.clientHeight || document.body.clientHeight;
+            this.list=[];
+            this.createPoint = function () {
+                var _span = null;
+                for (var i = 0; i < 50; i++) {
+                    _span = document.createElement("span");
+                    _span.style.backgroundColor = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
+                    _span.left = Math.floor((_width - 5) * Math.random());
+                    _span.top = Math.floor(_height * Math.random());
+                    _span.style.left = e.clientX - 5 / 2 + "px";
+                    _span.style.top = e.clientY + "px";
+                    this.list[i]=_span;
+                    _stage.appendChild(_span);
+                }
+                return this.list;//返回所有碎片的集合
+            }
+        }
+
+
+        //类3:烟花碎片运动
+        function Blast(_stage){
+            var _total=0;
+            var _height = document.documentElement.clientHeight || document.body.clientHeight;
+            this.start=function(_list){
+                var _left=0,_top=0,_step=0;
+                this.timer=0;
+                var self=this;
+                function fire(){
+                    window.clearTimeout(self.timer);
+                    _total++;
+                    if(_total<20) {
+                        for(var i=0;i<_list.length;i++){
+                            _left=parseInt(_list[i].style.left.replace("px",""));
+                            _top=parseInt(_list[i].style.top.replace("px",""));
+                            _step=-Math.floor((_left-parseInt(_list[i]["left"]))/20);
+                            _list[i].style.left=parseInt(_list[i]["style"]["left"])+_step+"px";
+                            _step=(_top-parseInt(_list[i]["top"]))/20;
+                            _list[i].style.top=parseInt(_list[i]["style"]["top"])-_step+"px";
+                        }
+                    }else{
+                        for(var i=0;i<_list.length;i++){
+                            _list[i].style.top=parseInt(_list[i]["style"]["top"])+_height/50+"px";
+                        }
+                    }
+                    if(_total<=80) {
+                        self.timer = window.setTimeout(fire, 100);
+                    }else{
+                        for(var i=_list.length-1;i>=0;i--){
+                            _stage.removeChild(_list[i]);
+                        }
+                    }
+                }
+                fire();
+            }
+        }
+        window.onload=function(){
+            var _body=document.getElementsByTagName("body")[0];
+            var _fire=new FireWorks(_body).fire();//创建FireWorks对象,并传递body对象,然后调用该对象的fire()方法;
+            //_fire.fire();//调用_fire对象的方法
+        }
+    </script>
+</head>
+<body></body>
+</html>

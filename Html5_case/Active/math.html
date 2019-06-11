@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        div{ width:100px; height:100px; overflow:hidden; background-color:red; border-radius:50%; position:absolute; left:0px;}
+    </style>
+    <script type="text/javascript">
+        function main(){
+            var _timer=0;
+            var _component=document.getElementById("component");
+            var _w=document.documentElement.clientWidth||document.body.clientWidth;
+            var n=0;
+            var _canvas=document.getElementById("canvas");
+            _canvas.width=_w;
+            _canvas.height=500;
+            var _context=_canvas.getContext("2d");
+            _context.fillStyle="red";
+            _context.lineWidth=3;
+            //_context.beginPath();
+            _context.moveTo(0,25);
+            function start(){
+                window.clearTimeout(_timer);
+                n+=0.1;
+                _component.style.left=n*100+"px";
+                _component.style.top=50*Math.sin(n*Math.PI)+200+"px";
+                _context.lineTo(n*100,50*Math.sin(n*Math.PI)+200);
+
+                //_context.closePath();
+                _context.fill();
+                _context.stroke();
+                if(n*100<=_w-110) {
+                    _timer = window.setTimeout(start, 30);
+                }
+            }
+            start();
+        }
+        window.onload=function(){
+            main();
+        }
+    </script>
+</head>
+<body>
+    <div id="component"></div>
+    <canvas id="canvas"></canvas>
+</body>
+</html>

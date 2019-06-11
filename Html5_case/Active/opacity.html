@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        img{border:none;}
+        .opacity{ margin:0 auto; width:782px; height:auto; border:solid 5px #000; overflow:hidden;}
+        #main{ float:left; width:782px; height:326px; overflow:hidden;}
+        #main img{ width:100%; height:100%; float:left;}
+
+        #pic{ width:100%; height:70px; overflow:hidden; float:left;}
+        #pic img{ float:left; margin-left:5px; margin-top:5px; display:inline; height:60px;}
+        #pic img.first{ margin-left:0px;}
+    </style>
+    <script type="text/javascript">
+        function showOpacity(n){
+            var _timer=0;//保存定时器ID的变量
+            var _opacity=0;
+            var _main=document.getElementById("main").children[0];//img
+            function show(){
+                window.clearTimeout(_timer);
+                _opacity+=0.1;
+                _main.style.opacity=_opacity;
+                if(_opacity<1){
+                    _timer=window.setTimeout(show,30);
+                }else{
+                    //console.log(_main.src.match(/\d+(?=\.jpg)/g)[0]);
+                    var _index=parseInt(_main.src.match(/\d+(?=\.jpg)/g)[0]);
+                    if(_index>=n) {
+                        _index=0;//?
+                    }
+                    _timer=window.setTimeout(function(){
+                        _opacity=0;
+                        _main.src = "images/_0" + (_index + 1) + ".jpg";
+                        show();
+                    },2000);
+                }
+            }
+            show();
+            function boundEvent(){
+                var _list=document.getElementById("pic").children;
+                for(var i=0;i<_list.length;i++){
+                    _list[i].onmouseover=function(){
+                        window.clearTimeout(_timer);
+                        _main.src=this.src;
+                        _main.style.opacity=0;
+                        _opacity=0;
+                        show();
+                    }
+                }
+            }
+            boundEvent();
+        }
+        /**
+         * 创建元素
+         * @param n
+         */
+        function createPic(n){
+            var _imgs="";
+            for(var i=1;i<=n;i++){
+                _imgs+="<img alt=\"\" src=\"images/_0"+i+".jpg\"/>";
+            }
+            document.getElementById("pic").innerHTML=_imgs;
+            showOpacity(n);
+        }
+        window.onload=function(){
+            createPic(5);
+        }
+    </script>
+</head>
+<body>
+<div class="opacity">
+    <div id="main">
+        <img alt="" src="images/_01.jpg"/>
+    </div>
+    <div id="pic"></div>
+</div>
+</body>
+</html>

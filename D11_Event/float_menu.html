@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>浮动菜单</title>
+    <link rel="stylesheet" href="../Styles/default.css">
+    <style type="text/css">
+        div#container{
+            width:100%; height:36px; background-color:rgba(0,0,0,0.8); float:left; margin:0 auto;
+        }
+        div#container ul{
+            width:auto; height:30px; float:left; overflow:hidden; position:relative; padding:3px; background-color:rgba(0,0,0,0.8);
+        }
+        div#container ul li{
+            width:auto; height:30px; line-height:30px; text-align:left; color:#fff;
+            font-size:14px; padding:0 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <ul>
+        <li>First menus</li>
+        <li>Menus one</li>
+        <li>Menus two</li>
+        <li>Menus three</li>
+        <li>Menus four</li>
+        <li>Menus five</li>
+    </ul>
+    <ul>
+        <li>Second menus</li>
+        <li>Menus one</li>
+        <li>Menus two</li>
+        <li>Menus three</li>
+        <li>Menus four</li>
+        <li>Menus five</li>
+    </ul>
+    <ul>
+        <li>Third menus</li>
+        <li>Menus one</li>
+        <li>Menus two</li>
+        <li>Menus three</li>
+        <li>Menus four</li>
+        <li>Menus five</li>
+    </ul>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    function fade(_target){
+        var _timer=0;
+        var _opacity=0;
+
+        _target.style.opacity=_opacity;
+
+        function show(){
+            window.clearTimeout(_timer);
+            _opacity+=0.1+_opacity*0.2;
+            _target.style.opacity=_opacity;
+            if(_opacity<1) {
+                _timer = window.setTimeout(show, 30);
+            }
+        }
+        show();
+    }
+
+    function main(){
+        var _list=document.getElementById("container").getElementsByTagName("ul");
+        var _target,_lock=0;
+        for(var i=0;i<_list.length;i++){
+            _list[i].onmouseover=function(){
+                if(_lock===0) {
+                    _lock=1;
+                    _target=this;
+                    this.style.overflow = "visible";
+                    for (var n = 0; n < this.children.length; n++) {
+                        this.children[n].style.postion = "absolute";
+                        this.children[n].style.top = n * 30 + "px";
+                        this.children[n].style.left = "0px";
+                    }
+                    this.style.height = this.children.length * 30 + "px";
+                    fade(this);
+                }
+            };
+        }
+        document.getElementsByTagName("body")[0].onmousemove=function(e){
+            e=e||window.event;
+            if(_target) {
+                console.log(e.clientX,e.clientY,_target.offset);
+                if (e.clientX >= _target.offsetWidth+_target.offsetLeft || e.clientX <= _target.offsetLeft || e.clientY >= _target.offsetHeight+_target.offsetTop || e.clientY <= _target.offsetTop) {
+                    _target.style.overflow = "hidden";
+                    _target.style.height = "30px";
+                    _target=null;
+                    _lock=0;
+                }
+            }
+        }
+    }
+    main();
+</script>

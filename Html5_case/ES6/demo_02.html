@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6解构赋值</title>
+    <script type="text/javascript">
+        /**您现在看到的是由千锋H5教学部为您录制的教学视频。
+         *
+         * 解构：顾名思义就是解开原有的解构，然后再赋值。
+         * 注：解构时，左右两边的结构必须完全吻合。如果结构出现偏差，是会报错的。
+         * 示例
+         */
+        function main(){
+//            var a=0,b="",c=null;
+//            var a=0;
+//            var b="";
+//            var c=null;
+
+            /**
+             * 数组格式的解构赋值
+             */
+//            var [a,b,c]=[0,"",null];//合法的标识符当中包含：字母，数组，下划线，$
+//            console.log(a,b,c);
+//
+//            var [a,[b,c],d]=[10,[1,2],"abc"];
+//            console.log(b);
+
+//            var [a,[b,c],d]=[10,1,2,"abc"];
+//            console.log(b);//这个地方报错了。
+
+
+            /**
+             * JSON格式对象的结构赋值
+             */
+//            var {key1,key2,key3}={key1:10,key2:20,key3:30};
+//            console.log(key1);
+//            var {key1:10,key2:20,key3:30}={key1:10,key2:20,key3:30};
+//            2=10;
+//            var {key1,key2,key3}={10,20,30};
+//            var {key1,key2,key3,key4}={key1:10,key2:20,key3:30,key4:{}};
+
+            /**
+             * 个人建议：申明变量时最好还是老实点用原来常规的方法去申明赋值，这种方式在性能方面还是会略底；
+             * 而且对代码的可读性也非常不利。
+             */
+
+            /**
+             * 使用案例：排序
+             */
+//            var _arr=[8,5,0,3,1];
+//            var _temp=-1;//这个临时变量的作用，当元素比较大小后需要交换位置时，临时保存一下某个元素用。避免元素值丢失
+//            for(var i=0;i<_arr.length;i++){
+//                for(var n=i+1;n<_arr.length;n++){
+//                    if(_arr[i]>_arr[n]){
+//                        _temp=_arr[i];
+//                        _arr[i]=_arr[n];
+//                        _arr[n]=_temp;
+//                    }
+//                }
+//            }
+//            console.log(_arr);//从小到大的顺序
+
+//            var _arr=[8,5,0,3,1];
+//            for(var i=0;i<_arr.length;i++){
+//                for(var n=i+1;n<_arr.length;n++){
+//                    if(_arr[i]>_arr[n]){
+//                        [_arr[i],_arr[n]]=[_arr[n],_arr[i]];//凸显解构赋值的便捷性
+//                    }
+//                }
+//            }
+//            console.log(_arr);//从小到大的顺序
+
+//            var _arr=[8,5,0,3,1];
+//            for(var i=0;i<_arr.length;i++){
+//                for(var n=i+1;n<_arr.length;n++){
+//                    if(_arr[i]>_arr[n]){
+//                        _arr[i]=_arr[i]+_arr[n];//_arr[i]是两个数的和
+//                        _arr[n]=_arr[i]-_arr[n];//剩下_arr[i]
+//                        _arr[i]=_arr[i]-_arr[n];//剩下_arr[n]
+//                    }
+//                }
+//            }
+//            console.log(_arr);//从小到大的顺序
+
+
+//            function fn({a,b,c}){
+//                console.log(a,b,c);
+//            }
+//            fn({a:10,b:100,c:99});//解构方式传参会很方便
+//            fn({a:10,c:99,b:100});//最重要的是可以不记得形参的顺序。
+
+
+            /**
+             * 函数的形参可以有初始值；
+             */
+//            function fn({a=100,b=1000,c=999}){//就是形参可以有初始值了。
+//                console.log(a,b,c);
+//            }
+//            fn({});
+
+        }
+
+
+        function main(){
+            /**
+             * ES6中的字符串模板
+             * 使用方法：字符串必须用 `` 反引号引起来；
+             *
+             * 需求：在两个字符串中间插入一个变量。然后组成一个完整的字符串
+             * 占位符使用方法：${变量名}
+             * 占位符：预先占用位置，等待数据插入进来。
+             */
+//            var [_str1,_str2]=["ab","fg"];
+//            var _arr=["abc","bcd","cde","def"];
+//            for(var i=0;i<_arr.length;i++){
+//                if(_arr[i]=="cde"){
+//                    console.log("abc\""+_arr[i]+"\"gf");
+//                    break;
+//                }
+//            }
+
+//            var [_str1,_str2]=["ab","fg"];
+//            var _arr=["abc","bcd","cde","def"];
+//            for(var i=0;i<_arr.length;i++){
+//                if(_arr[i]=="cde"){
+//                    console.log(`ab\"${_arr[i]}\"fg`);//字符串模板
+//                    break;
+//                }
+//            }
+        }
+
+
+        /**
+         * 数组的一些方法
+         */
+        function main(){
+            /**
+             * ES6新增的数组的from方法
+             *
+             * 作用：将伪数组转换成真数组
+             */
+//            var _doms=document.getElementsByTagName("div");
+//            console.log(_doms);//原型指针指向的并不是Array
+//            var _arr=[1,2,3,4];
+//            console.log(_arr);//这才是真正的数组
+//
+//            var dom_arr=Array.from(_doms);//原型指针指向了Array
+//            dom_arr[0].innerHTML="这仍然是dom元素";
+
+            /**
+             * ES6新增的数组的copyWithin方法
+             *
+             * 作用：复制指定内容覆盖指定内容
+             * DEMO
+             */
+//            var _arr=[1,2,3,4,5,6,7,8,9,0];
+//            _arr.copyWithin(2,6,9);//用索引值为6-8区间（不包含8）的元素，替换索引值为2的位置（包含2）开始的元素。
+//            console.log(_arr);
+
+
+
+            /**
+             * ES6新增的数组的find方法
+             *
+             * 作用：find跟filter差不多，不过在找到符合条件的元素后，返回元素并停止遍历
+             * DEMO
+             */
+//            var _arr=[5,9,8,2];
+//            var _result=_arr.find(function(item,index,array){
+//                return item>8;
+//            });
+//            console.log(_result);
+
+
+            /**
+             * ES6新增的数组的findIndex方法
+             *
+             * 作用：findIndex跟find差不多，不过在找到符合条件的元素后，返回该元素的下表索引值
+             * DEMO
+             */
+//            var _arr=[5,9,8,2];
+//            var _result=_arr.findIndex(function(item,index,array){
+//                return item>8;
+//            });
+//            console.log(_result);
+        }
+
+
+        /**
+         * ES6中对象的新增方法
+         */
+        function main(){
+            /**
+             * Object.assign
+             *
+             * 作用：合并对象
+             * DEMO
+             * 注意：
+             * 1、这个地方只是浅拷贝
+             * 2、对于继承的属性忽略
+             * 3、对于不可枚举类型的属性忽略
+             * 4、对于引用类型值拷贝引用
+             */
+//            var _assign=Object.assign({a:1},{b:2},{c:3},{d:{e:10}});//三个对象合成一个对象；
+//            console.log(_assign);
+        }
+
+
+        /**
+         * ES6中的第7种数据类型
+         */
+        function main(){
+            /**
+             * Symbol()
+             * 作用：Symbol函数会生成一个唯一的值，而且不需要你直到这个值到底是什么。
+             * 只需要直到它是整个程序种唯一的不会重复的值就可以了；
+             * 可以理解为Symbol类型跟字符串接近
+             *
+             * 使用方式：
+             */
+//            var a=Symbol();//初始化一个变量
+//            var b=Symbol();
+//            console.log(typeof a);//symbol
+//            console.log(a==b);//证明值是唯一的
+//
+//            var _arr=[8,5,0,3,1];
+//            var _temp=Symbol();//这个临时变量的作用，当元素比较大小后需要交换位置时，临时保存一下某个元素用。避免元素值丢失
+//            for(var i=0;i<_arr.length;i++){
+//                for(var n=i+1;n<_arr.length;n++){
+//                    if(_arr[i]>_arr[n]){
+//                        _temp=_arr[i];
+//                        _arr[i]=_arr[n];
+//                        _arr[n]=_temp;
+//                    }
+//                }
+//            }
+
+
+        }
+
+
+
+
+
+        window.onload=function(){
+            main();
+        }
+    </script>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        img{
+            width:100px;
+        }
+        span{
+            padding:20px;
+        }
+    </style>
+    <script type="text/javascript" src="cart/Cart.js"></script>
+    <script type="text/javascript">
+        function events(_cart){
+            var _list=document.getElementById("list").children;
+            for(let i=0;i<_list.length;i++){
+                _list[i].children[3].onclick=function(){
+                    _cart.subtract(this.parentNode.id,1);
+                    load(_cart);
+                };
+                _list[i].children[4].onchange=function(){
+                    _cart.reset(this.parentNode.id,this.value);
+                    load(_cart);
+                };
+                _list[i].children[5].onclick=function(){
+                    _cart.insert(this.parentNode.id,1);
+                    load(_cart);
+                };
+                _list[i].children[6].onclick=function(){
+                    _cart.remove(this.parentNode.id);
+                    load(_cart);
+                };
+            }
+        }
+        function load(_cart){
+            //TODO:..............
+            let _data=[{
+                ID:"product001",
+                title:"Products001",
+                price:"1000",
+                image:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558430551223&di=d5e27bff8ea3d60562cacca2597564be&imgtype=0&src=http%3A%2F%2Fimg8.zol.com.cn%2Fbbs%2Fupload%2F19747%2F19746655.jpg"
+            },{
+                ID:"product002",
+                title:"Products002",
+                price:"1000",
+                image:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558430602283&di=0bfea9e9bfbd626ef6603b5fca59dac8&imgtype=0&src=http%3A%2F%2Fg2.hexunimg.cn%2F2014-09-24%2F168807657.jpg"
+            }];
+            let _item="";
+            for(let i=0;i<_data.length;i++){
+                _item+='<div id="'+_data[i]["ID"]+'">' +
+                    '<a href="detail.html?id='+_data[i]["ID"]+'&abc=100"><img src="'+_data[i]["image"]+'" alt=""></a>' +
+                    '<span>'+_data[i]["title"]+'</span>' +
+                    '<span>'+_data[i]["price"]+'</span>' +
+                    '<span>-</span>' +
+                    '<input type="text" value="'+_cart.storage[_data[i]["ID"]]+'">' +
+                    '<span>+</span>' +
+                    '<span>delete</span>' +
+                    '</div>';
+            }
+            document.getElementById("list").innerHTML=_item;
+            document.getElementById("counter").innerText=_cart.statistics();
+            events(_cart);
+        }
+        function main(){
+            var _cart=new Mine();
+            _cart.take();
+            load(_cart);
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="counter"></div>
+<div id="list"></div>
+</body>
+</html>

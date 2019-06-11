@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            margin:0; padding:0;
+        }
+        #outer{
+            width:600px; height:600px; background-color:red;
+        }
+        #center{
+            width:400px; height:400px; background-color:yellow;
+        }
+        #inner{
+            width:200px; height:200px; background-color:green;
+        }
+        div{
+            position:absolute; width:5px; height:5px;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 知识点回顾
+         * 添加事件的几种方式：3
+         * ------1.html当中添加事件属性
+         * ------2.js获取dom对象加上onType
+         * ------3.addEventListener||attachEvent
+         * IE兼容：
+         * ---1.e||window.event
+         * ---2.e.prevenetDefault||e.returnValue=false;
+         * ---3.e.target||e.srcElement
+         * ---4.e.keyCode||e.which
+         * ---5.window.getComputedStyle(dom,null)["width"]||dom.currentStyle["width"]
+         * ---6.e.button
+         * ---7.addEventListener||attachEvent
+         * 事件对象的常用属性
+         * ---1.e.target
+         * ---2.e.offsetX\e.clientX\e.pageX
+         * 事件源对象的获取
+         * ---e.target
+         * this指针
+         * --1.this不能被赋值
+         * --2.该方法归属哪个对象
+         */
+        // this//严格和非严格都指向window
+        // function main(){
+        //     this;//非严格模式下指向window，严格模式下没有对象
+        // }
+        // window.onload=main;
+        // document.getElementById("div").onclick=main;
+
+
+
+        /**
+         * 移除事件：
+         * 非IE：removeEventListener(
+         * IE：detachEvent()
+         */
+
+        // function inner(){
+        //     alert("inner");
+        // }
+        // function inner2(){
+        //     alert("inner2");
+        // }
+        // function removeEvent(_obj,_type,_listener,_capture){
+        //     //解决兼容第一种方式
+        //     try{
+        //         _obj.removeEventListener(_type,_listener,_capture);
+        //     }catch (e) {
+        //         _obj.detachEvent("on"+_type,_listener);
+        //     }
+        //
+        //
+        //     //解决兼容的第二种方式
+        //     if(_obj.removeEventListener){
+        //         _obj.removeEventListener(_type,_listener,_capture);
+        //     }else{
+        //         _obj.detachEvent("on"+_type,_listener);
+        //     }
+        // }
+        // function main(){
+        //     // document.getElementById("inner").onclick=function(){
+        //     //     alert("inner");
+        //     // };
+        //
+        //     // document.getElementById("inner").addEventListener("click",inner,true);
+        //     // document.getElementById("inner").addEventListener("mouseover",inner,true);
+        //
+        //     // var _type={
+        //     //     click:inner,
+        //     //     mouseover:over,
+        //     //     keydown:down
+        //     // };
+        //
+        //     // document.getElementById("inner").addEventListener("click",inner2,true);
+        //     // document.getElementById("inner").removeEventListener("click",inner,true);
+        //     // for(var k in _type){
+        //     //     removeEvent(document.getElementById("inner"),k,_type[k],true);
+        //     // }
+        //     // document.getElementById("inner").attachEvent("onclick",inner);
+        //     //document.getElementById("inner").detachEvent("onclick",inner);
+        // }
+        // window.onload=main;
+
+
+
+        // function action(){
+        //     var _timer=window.setInterval(function(){
+        //         var _list=document.getElementsByTagName("body")[0].children;
+        //         for(var i=0;i<_list.length;i++){
+        //             _list[i].style.top=(_list[i].offsetTop+2)+"px";
+        //         }
+        //         window.clearInterval(_timer);
+        //         action();
+        //     },50);
+        // }
+        //
+        // window.onload=function(){
+        //     document.onmousemove=function(e){
+        //         //console.log(e.clientX,e.clientY);
+        //         var _div=document.createElement("div");
+        //         _div.style.left=e.clientX+"px";
+        //         _div.style.top=e.clientY+"px";
+        //         document.getElementsByTagName("body")[0].appendChild(_div);
+        //         _div.style.backgroundColor="rgba("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+",1)";
+        //         action();
+        //     };
+        //     document.onmousewheel=function(){
+        //         alert("ok");
+        //     }
+        // };
+
+
+
+
+        /**
+         * 学习任务
+         * 鼠标滚轮事件:onmousewheel
+         * 拖拽
+         * 事件委托
+         * 放大镜
+         */
+
+        // function main(){
+        //     onkeydown
+        //     move---follow
+        //     up
+        // }
+        // window.onload=main;
+
+    </script>
+</head>
+<body>
+<div id="container">
+    <!--<div class="title">标题栏</div>-->
+    <!--<div class="history">历史记录</div>-->
+    <!--<div class="write">信息输入框</div>-->
+    <!--<div class="control">按钮区</div>-->
+</div>
+</body>
+</html>

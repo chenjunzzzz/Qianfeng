@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            position:absolute; top:0;
+            width:30px; height:30px; border:solid 1px #f1f1f1;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+        }
+    </style>
+    <script type="text/javascript" src="PrintChar.js"></script>
+    <script type="text/javascript">
+        /**
+         * 概念
+         * 语法
+         */
+
+        // class Car{
+        //     engine=12;//直接声明属性
+        //     constructor(){
+        //         //TODO:coding 声明属性
+        //         this.wheel=4;
+        //     }
+        //     driver(){
+        //         console.log("driver");
+        //     }
+        //     oil(){
+        //         console.log("oil");
+        //     }
+        // }
+        // let _car=new Car();
+        // console.log(_car);
+
+
+        // function fn(){
+        //     return fn;
+        // }
+        // fn()()()()()()()()()()()()()===fn()()===fn();
+
+
+        window.onload=function() {
+            new PrintChar().init();
+        };
+
+
+        /**
+         * 使用Json创建对象
+         */
+        // var _counter=4;
+        // var _car = {//字面量对象
+        //     wheel:_counter,//键值对形式存在，键与值之间用 冒号分开 。键值对与键值对之间用逗号隔开
+        //     settings:5,
+        //     engine:1,
+        //     driver:function(){
+        //         console.log("driver");
+        //     },
+        //     oil:function(){
+        //         console.log("oil");
+        //     }
+        // };
+        // //单例模式
+        // _car.driver();
+        // _car.settings=7;
+
+        // console.log(_car);
+
+        /**
+         * JSON字符串和对象直接的转换
+         * JSON.parse();JSON格式字符串转换成对象
+         * JSON.stringify();JSON格式对象转成字符串
+         */
+        var _json={
+            a:10,
+            b:10
+        };
+        console.log(JSON.stringify(_json));
+        var _str="{\"a\":10,\"b\":10}";
+        console.log(JSON.parse(_str));
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

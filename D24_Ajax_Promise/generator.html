@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * 利用Generator函数封装一个队列，解决异步嵌套导致代码可读性差的问题
+         */
+        function* Queue(_list){
+            while(_list.length>0){
+                yield _list.shift();
+            }
+        }
+        function main() {
+            var _queue = Queue([function () {
+                window.setTimeout(function () {
+                    console.log("3000");
+                    _queue.next().value(2000);
+                }, 3000);
+            }, function (_seconds) {
+                window.setTimeout(function () {
+                    console.log(_seconds);
+                    _queue.next().value(1000);
+                }, _seconds);
+            }, function (_seconds) {
+                window.setTimeout(function () {
+                    console.log(_seconds);
+                }, _seconds);
+            }]);
+            console.log(_queue.next());
+            _queue.next().value(3000);
+        }
+        main();
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

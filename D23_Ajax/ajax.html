@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="Ajax.js"></script>
+    <script type="text/javascript">
+        // window.onload=function() {
+        //     document.onclick = function () {
+        //         document.getElementsByTagName("div")[0].innerText = Math.random();
+        //     }
+        // };
+
+        /**
+         * 时间和定时器同样可以实现局部刷新，但是不能去服务器上拿到数据
+         * ajax可以获取到服务器上的数据库的数据，或者文件上的数据.....4
+         *      如何获取？
+         *      Ajax不能直接访问数据库，需要通过后端的服务接口间接获取数据库或者文件等数据
+         */
+
+        /**
+         * 如何使用ajax
+         *      如何创建一个ajax对象 :new XMLHttpRequest();//低版本的浏览器不支持该对象
+         */
+        // function create(){
+        //     var _ajax=null;
+        //     try {
+        //         _ajax = new XMLHttpRequest();
+        //     }catch (e) {
+        //         _ajax=new ActiveXObject("Microsoft.XMLHTTP");
+        //     }
+        //     return _ajax;
+        // }
+        // function connect(){
+        //     var _ajax=create();
+        //     if(_ajax){
+        //         _ajax.onreadystatechange=function(){
+        //             /** readystate
+        //              * 0：表示open之前，也就是刚创建好ajax对象
+        //              * 1：表示open，打开服务器链接
+        //              * 2：表示send，向服务器发送数据
+        //              * 3：服务器响应过程中
+        //              * 4：请求成功
+        //              */
+        //             // console.log(_ajax.readyState);
+        //             if(_ajax.status===200 && _ajax.readyState===4){
+        //                 console.log(_ajax.responseText);
+        //             }
+        //         };
+        //         _ajax.open("get","http://localhost:8080/HTML5/D21_MySQL_PHP/API/query.php",true);
+        //         _ajax.send(null);//向服务器发送数据
+        //     }
+        // }
+        // connect();
+        //
+        // function connect2(){
+        //     var _ajax=create();
+        //     if(_ajax){
+        //         _ajax.onreadystatechange=function(){
+        //             /** readystate
+        //              * 0：表示open之前，也就是刚创建好ajax对象
+        //              * 1：表示open，打开服务器链接
+        //              * 2：表示send，向服务器发送数据
+        //              * 3：服务器响应过程中
+        //              * 4：请求成功
+        //              */
+        //             // console.log(_ajax.readyState);
+        //             if(_ajax.status===200 && _ajax.readyState===4){
+        //                 console.log(_ajax.responseText);
+        //             }
+        //         };
+        //         _ajax.open("get","http://localhost:8080/HTML5/D21_MySQL_PHP/D21.php",true);
+        //         _ajax.send(null);//向服务器发送数据
+        //     }
+        // }
+        // connect2();
+
+
+        /**
+         * 封装一个高通用性的Ajax代码
+         * 1.面向对象
+         * 2.Ajax
+         * 3.回调函数：
+         */
+        var _method="POST",
+            _parameters="name=lisi&pwd=987654321&score=100&profession=HTML5&phone=18999999999",
+            _api="http://localhost:8080/HTML5/D21_MySQL_PHP/API/insert.php",
+            _async=true;
+
+        Ajax.request(_method,_api,_async,_parameters,function(_data){
+            console.log(_data);
+        });
+        Ajax.request("GET","http://localhost:8080/HTML5/D21_MySQL_PHP/API/query.php",true,_parameters,function(_data){
+            console.log(_data);
+        });
+
+
+
+
+        // function Ajax(){
+        //
+        // }
+        // Ajax.prototype.create=function(){
+        //
+        // };
+        // Ajax.run=function(){
+        //
+        // };
+        // var _ajax=new Ajax();
+        // _ajax.run===Ajax.prototype;
+        // Ajax.run();
+
+    </script>
+</head>
+<body>
+<div></div>
+</body>
+</html>

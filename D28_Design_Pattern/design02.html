@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * 组合模式
+         *      简单对象和复合对象必须实现相同的接口
+         *      组合模式允许你将对象组合成树形结构
+         */
+        // class Component{
+        //     constructor(_name){
+        //         this.title=_name;
+        //     }
+        // }
+        // class Leaf extends Component{
+        //     constructor(_name){
+        //         super(_name);
+        //     }
+        // }
+        // class Composite extends Component{
+        //     constructor(_name){
+        //         super(_name);
+        //         this.tree=[];
+        //     }
+        //     put(_child){
+        //         this.tree.push(_child);
+        //     }
+        // }
+        //
+        // let _root=new Composite("root"),_branch;
+        // _branch=new Composite("branch 1th");
+        // _branch.put(new Leaf("left leaf"));
+        // _branch.put(new Leaf("right leaf"));
+        // _root.put(_branch);
+        // _branch=new Composite("branch 2th");
+        // _branch.put(new Leaf("left leaf"));
+        // _branch.put(new Leaf("right leaf"));
+        // _root.put(_branch);
+        // console.log(_root);
+
+
+        /**
+         * 策略模式 V1
+         */
+        // class Subtract{
+        //     calc(a,b){
+        //         console.log(a-b);
+        //     }
+        // }
+        //
+        // class Divide{
+        //     calc(a,b){
+        //         console.log(a/b);
+        //     }
+        // }
+        //
+        // class Strategy{
+        //     change(_strategy){
+        //         this.choice=_strategy;
+        //         return this;
+        //     }
+        //     calc(a,b){
+        //         this.choice.calc(a,b);
+        //     }
+        // }
+        //
+        // var _strategy=new Strategy();
+        //
+        // _strategy.change(new Divide());
+        // _strategy.calc(9,3);
+        //
+        // _strategy.change(new Subtract()).calc(9,3);
+
+
+        /**
+         * 策略模式：V2
+         */
+        // class Subtract{
+        //     calc(a,b){
+        //         console.log(a-b);
+        //     }
+        // }
+        // class Divide{
+        //     calc(a,b){
+        //         console.log(a/b);
+        //     }
+        // }
+        // class Strategy{
+        //     calc(a,b,_operator){
+        //         switch (_operator) {
+        //             case "-":
+        //                 new Subtract().calc(a,b);
+        //                 break;
+        //             case "/":
+        //                 new Divide().calc(a,b);
+        //                 break;
+        //         }
+        //     }
+        // }
+        // new Strategy().calc(9,3,"-");
+
+
+        /**
+         * 代理模式
+         */
+        // class Delegator{
+        //     thirsty(){
+        //         return "thirsty";
+        //     }
+        //     sell(){
+        //         return "sell";
+        //     }
+        // }
+        // class Agent{
+        //     thirsty(_arg){
+        //         console.log(_arg);
+        //     }
+        //     sell(){
+        //
+        //     }
+        //     done(_arg){
+        //         this[_arg](_arg);
+        //     }
+        // }
+        //
+        // var _delegate=new Delegator();
+        // var _agent=new Agent();
+        //
+        // _agent.done(_delegate.sell());
+
+
+        /**
+         * 适配器模式
+         */
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../Style/style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../javascript/style.js"></script>
+    <script type="text/javascript">
+        window.onload=function(){
+            var _demo=document.getElementById("demo");
+            Exchange.prototype=new Floor(_demo);
+            Style.prototype=new Exchange(_demo);
+            var _style=new Style(_demo);
+            //Floor.call(_style,demo);
+            //Style.call(_style,demo);
+            var _timer=0;
+            function exec(){
+                window.clearTimeout(_timer);
+                _style.blind(15,"../images/img1.jpg");
+                _style.floor(20, "../images/img1.jpg");
+                _style.exchange(20, "../images/img1.jpg");
+                _timer=window.setTimeout(exec,3000);
+            }
+            //exec();
+            switch(Math.floor(Math.random()*3)) {
+                case 0:_style.blind(15,"../images/img1.jpg");break;
+                case 1:_style.floor(20, "../images/img1.jpg");break;
+                case 2:_style.exchange(20, "../images/img1.jpg");break;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="blind" id="demo"></div>
+</body>
+</html>

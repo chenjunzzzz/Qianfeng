@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * src 属性可以跨域
+         * 服务器返回值必须时可执行js代码
+         */
+        function success(_data){
+            console.log(_data);
+        }
+        window.onload=function() {
+            var _head = document.getElementsByTagName("head")[0];
+            var _script = document.createElement("script");
+            _script.src = "http://localhost:8080/HTML5/D21_MySQL_PHP/API/JSONP_Query.php";
+            _script.onload = function () {
+                _head.removeChild(this);
+            };
+            _head.appendChild(_script);
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件兼容</title>
+    <link rel="stylesheet" href="../Styles/default.css">
+</head>
+<body>
+<div id="main">try do something by chorme or IE</div>
+</body>
+</html>
+<script type="text/javascript">
+    /**
+     * 事件兼容IE低版本
+     * 事件对象兼容IE低版本
+     * keyCode||which兼容
+     * e.button兼容
+     */
+    function listener(e){
+        console.log(e);
+        alert("success!");
+    }
+    function main(){
+        var _main=document.getElementById("main");
+        if(_main.addEventListener){
+            _main.addEventListener("click",listener,true);
+        }else{
+            _main.attachEvent("onclick",listener);
+        }
+    }
+    main();
+</script>

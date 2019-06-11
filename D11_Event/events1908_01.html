@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        div{
+            width:100px; height:100px; background-color:red;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 事件的概念
+         * 事件和函数之间的关系：事件驱动函数执行
+         */
+
+        function main(){
+            document.getElementsByTagName("div")[0].onmousemove=function(e){
+                // console.log("move");
+                e=e||window.event;
+                console.log(e.offsetX,e.offsetY);
+                console.log(e.clientX,e.clientY);
+            };
+            document.getElementsByTagName("div")[0].onmouseover=function(){
+                console.log("over");
+            };
+            document.getElementsByTagName("a")[0].onclick=function(e){
+                e=e||window.event;
+                e.preventDefault();
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div></div>
+<a href="http://www.baidu.com">
+    baidu
+</a>
+</body>
+</html>

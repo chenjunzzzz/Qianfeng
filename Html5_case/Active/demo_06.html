@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>运动之链式运动</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        div{
+            width:500px; height:500px; background-color:red;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 链式运动
+         *
+         * 需求：让初始宽度为500，高度也为500的div先缩小宽度至100，接着缩小高度至100，再然后放大宽度至500，再然后放大高度至500，无限循环
+         */
+        function main(){
+            var _timer=0;
+            var _demo=document.getElementsByTagName("div")[0];
+            var _num=1;
+            function operateHeight(){
+                window.clearTimeout(_timer);
+                _demo.style.height=_demo.offsetHeight-2*_num+"px";
+                if(_demo.offsetHeight<=100 || _demo.offsetHeight>=500){
+                    _num=-_num;
+                    chain();
+                }else{
+                    _timer=window.setTimeout(operateHeight,30);
+                }
+            }
+            function chain(){
+                window.clearTimeout(_timer);
+                _demo.style.width=_demo.offsetWidth-2*_num+"px";
+                if(_demo.offsetWidth<=100 || _demo.offsetWidth>=500){
+                    operateHeight()
+                }else{
+                    _timer=window.setTimeout(chain,30);
+                }
+            }
+            chain();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div></div>
+</body>
+</html>

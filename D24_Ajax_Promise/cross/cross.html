@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../D23_Ajax/Package/Ajax2.js"></script>
+    <script type="text/javascript">
+        Ajax.request({
+            api:'http://localhost:8080/HTML5/D21_MySQL_PHP/API/query.php',
+            send:{
+                account:"zhangsan",//String 必须
+            },
+            success:function(_data){
+                console.log(_data);
+            }
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

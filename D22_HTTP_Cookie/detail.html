@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        img{
+            width:100px;
+        }
+        span{
+            padding:20px;
+        }
+    </style>
+    <script type="text/javascript" src="cart/Cart.js"></script>
+    <script type="text/javascript">
+        let _data=[{
+            ID:"product001",
+            title:"Products001",
+            price:"1000",
+            image:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558430551223&di=d5e27bff8ea3d60562cacca2597564be&imgtype=0&src=http%3A%2F%2Fimg8.zol.com.cn%2Fbbs%2Fupload%2F19747%2F19746655.jpg"
+        },{
+            ID:"product002",
+            title:"Products002",
+            price:"1000",
+            image:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558430602283&di=0bfea9e9bfbd626ef6603b5fca59dac8&imgtype=0&src=http%3A%2F%2Fg2.hexunimg.cn%2F2014-09-24%2F168807657.jpg"
+        }];
+
+
+        function counter(_cart){
+            document.getElementById("counter").innerText=_cart.statistics();
+        }
+        function events(_cart){
+            let _product=document.getElementById("product");
+            _product.children[3].onclick=function(){
+                _product.children[4].value=Number(_product.children[4].value)-1;
+            };
+            _product.children[5].onclick=function(){
+                _product.children[4].value=Number(_product.children[4].value)-1;
+            };
+            _product.children[6].onclick=function(){
+                _cart.insert(this.id,Number(_product.children[4].value));
+            };
+        }
+        function main(){
+            let _cart=new Mine();
+            let _url=window.location.href;
+            let _identify=0;
+            let _product=document.getElementById("product");
+            counter(_cart);
+            if(/id=\w+/g.test(_url)){
+                _identify=_url.match(/id=\w+/g)[0].replace("id=","");
+            }
+            for(let i=0;i<_data.length;i++){
+                if(_data[i]["ID"]===_identify){
+                    _product.children[0].src=_data[i]["image"];
+                    _product.children[1].innerText=_data[i]["title"];
+                    _product.children[2].innerText=_data[i]["price"];
+                    _product.children[4].value=_cart.storage[_identify];
+                    _product.children[6].id=_identify;
+                    break;
+                }
+            }
+            events(_cart);
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="counter"></div>
+<div id="product">
+<img src="" alt="">
+<span>title</span>
+<span>price</span>
+<span>-</span>
+<input type="text">
+<span>+</span>
+<span>加入购物车</span>
+</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+body{ margin:0 auto;}
+img{border:none;}
+.opacity{ margin:0 auto; width:782px; height:auto; border:solid 5px #000; overflow:hidden;}
+#main{ float:left; width:782px; height:326px; overflow:hidden;}
+#main img{ width:100%; height:100%; float:left;}
+
+#pic{ width:100%; height:70px; overflow:hidden; float:left;}
+#pic img{ float:left; margin-left:5px; margin-top:5px; display:inline; height:60px;}
+#pic img.first{ margin-left:0;}

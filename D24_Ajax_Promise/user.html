@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../D23_Ajax/Package/Ajax2.js"></script>
+    <script type="text/javascript" src="Package/Queue.js"></script>
+    <script type="text/javascript">
+        /**
+         * 异步嵌套
+         */
+        // function main() {
+        //     Ajax.request({
+        //         api: "../D21_MySQL_PHP/API/signIn.php",
+        //         success: function (_data) {
+        //             try {
+        //                 _data = window.eval("(" + _data + ")");
+        //                 if (_data.code === 2000) {
+        //                     document.write("用户《" + _data.account + "》你好");
+        //                     //TODO:查询所有学生信息，出现异步嵌套
+        //                     Ajax.request({
+        //                         api: "../D21_MySQL_PHP/API/query.php",
+        //                         success: function (_data) {
+        //                             try {
+        //                                 _data = window.eval("(" + _data + ")");
+        //                                 if (_data.code === 2000) {
+        //                                     console.log(_data);
+        //                                 } else {
+        //                                     alert("请先登录");
+        //                                     window.location.href = "signIn.html";
+        //                                 }
+        //                             } catch (e) {
+        //                                 document.write("服务器异常");
+        //                             }
+        //                         }
+        //                     });
+        //                 } else {
+        //                     alert("请先登录");
+        //                     window.location.href = "signIn.html";
+        //                 }
+        //             } catch (e) {
+        //                 document.write("服务器异常");
+        //             }
+        //         }
+        //     });
+        // }
+
+        /**
+         * 队列解决异步嵌套的代码可读性差的代码风格
+         */
+        function main(){
+            var _queue=new Queue();
+            _queue.put(function(){
+                Ajax.request({
+                    api: "../D21_MySQL_PHP/API/signIn.php",
+                    success: function (_data) {
+                        try {
+                            _data = window.eval("(" + _data + ")");
+                            if (_data.code === 2000) {
+                                document.getElementById("user").innerHTML=("用户《" + _data.account + "》你好");
+                                //TODO:查询所有学生信息，出现异步嵌套
+                                _queue.exec(_data);
+                                _queue.exec();
+                                //TODO:请注意这里连续调用两次，因为下面的两个异步请求没有依赖关系
+                            } else {
+                                alert("请先登录");
+                                window.location.href = "signIn.html";
+                            }
+                        } catch (e) {
+                            document.write("服务器异常");
+                        }
+                    }
+                });
+            }).put(function(_receive){
+                Ajax.request({
+                    api: "../D21_MySQL_PHP/API/query.php",
+                    success: function (_data) {
+                        try {
+                            _data = window.eval("(" + _data + ")");
+                            if (_data.code === 2000) {
+                                console.log(_data);
+                            } else {
+                                alert("请先登录");
+                                window.location.href = "signIn.html";
+                            }
+                        } catch (e) {
+                            document.write("服务器异常");
+                        }
+                    }
+                });
+            }).put(function(){
+                document.getElementById("quit").onclick=function() {
+                    Ajax.request({
+                        api: "../D21_MySQL_PHP/API/quit.php",
+                        success: function (_data) {
+                            try {
+                                _data = window.eval("(" + _data + ")");
+                                if (_data.code === 1000) {
+                                    window.location.href = "signIn.html"
+                                } else {
+                                    alert("退出失败");
+                                }
+                            } catch (e) {
+                                document.write("服务器异常");
+                            }
+                        }
+                    });
+                };
+            }).exec();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="user"></div>
+<input type="button" id="quit" value="退出">
+</body>
+</html>

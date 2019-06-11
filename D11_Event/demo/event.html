@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            margin:0; padding:0;
+        }
+        #outer{
+            width:600px; height:600px; background-color:red;
+        }
+        #center{
+            width:400px; height:400px; background-color:yellow;
+        }
+        #inner{
+            width:200px; height:200px; background-color:green;
+        }
+        #inner{
+            position:absolute; top:0; left:0; z-index:99999;
+        }
+    </style>
+    <script type="text/javascript">
+        function main(){
+            // var _outer=document.getElementById("outer");
+            // var _center=document.getElementById("center");
+            // var _inner=document.getElementById("inner");
+            //
+            // _center.onclick=function(){
+            //     console.log(this);
+            // };
+            // _inner.onclick=function(){
+            //     console.log(this);
+            // };
+            // _outer.onclick=function(){
+            //     console.log(this);
+            // };
+
+            // var _divs=document.getElementsByTagName("div");
+            // for(var i=0;i<_divs.length;i++){
+            //     _divs[i].onclick=function(){
+            //         console.log(this);
+            //     }
+            // }
+
+
+
+        }
+
+
+        /**
+         * 事件监听
+         */
+        function main(){
+            var _divs=document.getElementsByTagName("div");
+            for(var i=0;i<_divs.length;i++) {
+                // _divs[i].addEventListener("click", function (e) {
+                //     e=e||window.event;
+                //     // console.log(e);
+                //     console.log(this);
+                // }, false);
+                // _divs[i].addEventListener("click", function (e) {
+                //     e=e||window.event;
+                //     // console.log(e);
+                //     console.log(i);
+                // }, false);
+                _divs[i].attachEvent("onclick",function(){
+                    console.log(this);
+                });
+            }
+        }
+
+
+        /**
+         * 事件监听器的兼容
+         */
+        function eventListener(_target,_type,_fx,_capture){
+            if(_target.addEventListener){
+                _target.addEventListener(_type,_fx,_capture);
+            }else{
+                _target.attachEvent("on"+_type,_fx);
+            }
+        }
+        function zhangsan(){
+            console.log(this);
+        }
+
+        function removeListener(_target,_type,_fx,_capture){
+            if(_target.removeEventListener){
+                _target.removeEventListener(_type,_fx,_capture);
+            }else{
+                _target.detachEvent("on"+_type,_fx);
+            }
+        }
+        function main(){
+            var _divs=document.getElementsByTagName("div");
+            for(var i=0;i<_divs.length;i++){
+                eventListener(_divs[i],"click",zhangsan,true);
+                // _divs[i].onclick=function(){
+                //     this.onclick=null;
+                //     alert("click");
+                // };
+            }
+            document.getElementById("remove").onclick=function(){
+                for(var i=0;i<_divs.length;i++){
+                    removeListener(_divs[i],"click",zhangsan,true);
+                }
+            };
+        }
+
+
+        /**
+         * 讲的是如何改变this指向问题。
+         * this:不允许被赋值，但是可以借助函数的归属对象的特性改变this指向
+         */
+        // function custom(){
+        //     console.log(this);
+        // }
+        // function main(){
+        //     var _divs=document.getElementsByTagName("div");
+        //     for(var i=0;i<_divs.length;i++){
+        //         _divs[0].emit=function(_type,_fx){
+        //             this.abc=_fx;
+        //             this.abc();
+        //         };
+        //         _divs[0].onclick=function() {
+        //             _divs[0].emit("onabc", custom);
+        //         }
+        //     }
+        // }
+
+
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="outer">
+    <div id="center">
+        <div id="inner"></div>
+    </div>
+</div>
+<input type="button" id="remove" value="remove"/>
+</body>
+</html>

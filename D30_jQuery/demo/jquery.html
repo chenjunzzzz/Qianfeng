@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width:100px; height:100px; background-color:red;
+        }
+        p{
+            width:50px; height:50px; background-color:green;
+        }
+    </style>
+    <script type="text/javascript" src="../jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        /**
+         * 主要学习任务
+         * jQuery的动画
+         * jQuery中的核心
+         * jQuery循环
+         */
+
+        /**
+         * show()
+         * hide()
+         */
+        // function hide(){
+        //     $("div").hide("slow",show);
+        // }
+        // function show(){
+        //     $("div").show("slow",hide);
+        // }
+        $(function(){
+        //     show();
+        // <div style="display:none; background-color:red; width:100px; height:100px;">这是案例1</div>
+
+
+
+
+
+
+
+            // $("#go").click(function(){
+            //     $("#block").animate({
+            //         width: "90%",
+            //         height: "100%",
+            //         fontSize: "10em",
+            //         borderWidth: 10
+            //     }, 1000 ,"swing",function(){
+            //         console.log("over");
+            //     }).delay(5000).fadeOut("slow");
+            // });
+        // <button id="go"> Run</button>
+        //         <div id="block">Hello!</div>
+
+
+            /**
+             * each()
+             */
+            // $("div").each(function(i,a){
+            //     this.innerHTML = i;
+            //     console.log(a===this);
+            // });
+            // console.log($("div").size());
+            // $("div").click(function(){
+            //     alert(this.innerHTML);
+            // });
+
+
+            // on(events,[selector],[data],fn)
+            $("div").on("click",$("p"),function(e){
+                console.log(e.target);
+            })
+        });
+    </script>
+</head>
+<body>
+
+<div>
+    <p>2</p>
+    <span>
+        aaaa
+    </span>
+</div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0;
+            /*letter-spacing:10px;*/
+            /*line-height:20px;*/
+        }
+        div{
+            width:100%; height:30px;
+        }
+        div span{
+            padding:5px; font-size:14px; color:#555; float:left;
+        }
+        table{
+            width:100%;
+        }
+    </style>
+    <script type="text/javascript">
+        function dimensional(){
+            // for(var i=0;i<6;i++){
+            //     document.write(Math.floor(Math.random()*100)+",");
+            // }
+            var _dimensional=[
+                [63,14,68,29,74,96],
+                [2,40,12,37,37,87],
+                [43,18,33,54,34,56],
+                [26,35,66,38,31,62],
+                [9,66,95,74,42,93],
+                [38,37,46,10,42,22]
+            ];
+            var _sum=0;
+            for(var m=0;m<_dimensional.length;m++){
+                for(var n=0;n<_dimensional[m].length;n++){
+                    _sum+=_dimensional[m][n];
+                }
+            }
+            return _sum;
+        }
+        console.log(dimensional());
+
+
+        function shape(){
+            for(var m=-7;m<=7;m++){
+                for(var n=-7;n<=7;n++){
+                    if(Math.abs(m)+Math.abs(n)<=10){
+                        document.write("0");
+                    }else{
+                        document.write("*");
+                    }
+                }
+                document.write("<br/>");
+            }
+        }
+        shape();
+
+
+        var _data={
+            title:["ID","name","price","sold","praise"],
+            list:[{
+                ID:20,name:"小米",price:"1000",sold:8000,praise:899
+            },{
+                ID:18,name:"华为",price:"2000",sold:8999,praise:5000
+            },{
+                ID:30,name:"苹果",price:"5000",sold:5000,praise:5000
+            },{
+                ID:31,name:"vivo",price:"1500",sold:2000,praise:1500
+            },{
+                ID:28,name:"oppo",price:"1300",sold:1000,praise:1000
+            }]
+        };
+        function createDataRow(_data){
+            var _table=document.getElementsByTagName("table")[0];
+            var _tr,_td;
+            for(var m=0;m<_data.list.length;m++){
+                _tr=document.createElement("tr");
+
+                for(var n=0;n<_data.title.length;n++){
+                    _td=document.createElement("td");
+                    _td.innerText=_data.list[m][_data.title[1]];
+                    _tr.appendChild(_td);
+                }
+                _table.appendChild(_tr);
+            }
+        }
+        function createTitleRow(_data){
+            //TODO:在空白处填写代码，根据JSON数据创建表格
+            var _table=document.getElementById("products");
+            var _tr=document.createElement("tr"),_th;
+            for(var i=0;i<_data.title.length;i++){
+                _th=document.createElement("th");
+                _th.innerText=_data.title[i];
+                _tr.appendChild(_th);
+            }
+            _table.appendChild(_tr);
+            document.getElementsByTagName("body")[0].appendChild(_table);
+        }
+
+
+        /**
+         [{
+                ID:18,name:"华为",price:"2000",sold:8999,praise:5000
+            },{
+                ID:20,name:"小米",price:"1000",sold:8000,praise:899
+            },{
+                ID:30,name:"苹果",price:"5000",sold:5000,praise:5000
+            },{
+                ID:31,name:"vivo",price:"1500",sold:2000,praise:1500
+            },{
+                ID:28,name:"oppo",price:"1300",sold:1000,praise:1000
+            }]
+         */
+        function sort(_data,_field,_asc){
+            var _temp;
+            for(var m=0;m<_data.list.length;m++){
+                for(var n=m+1;n<_data.list.length;n++){
+                    if(_data.list[m][_field]*_asc>_data.list[n][_field]*_asc){
+                        _temp=_data.list[m];
+                        _data.list[m]=_data.list[n];
+                        _data.list[n]=_temp;
+                    }
+                }
+            }
+        }
+
+        function events(_data){
+            var _products=document.getElementById("products");
+            var _container=document.getElementsByTagName("div")[0];
+            _container.children[0].onclick=function(){
+                _products.innerHTML="";
+                sort(_data,"ID",1);
+                createTitleRow(_data);
+                createDataRow(_data);
+            };
+            _container.children[1].onclick=function(){
+                _products.innerHTML="";
+                sort(_data,"price",-1);
+                createTitleRow(_data);
+                createDataRow(_data);
+            };
+            _container.children[2].onclick=function(){
+                _products.innerHTML="";
+                sort(_data,"sold",1);
+                createTitleRow(_data);
+                createDataRow(_data);
+            };
+            _container.children[3].onclick=function(){
+                _products.innerHTML="";
+                sort(_data,"praise",1);
+                createTitleRow(_data);
+                createDataRow(_data);
+            };
+        }
+        function main(){
+            createTitleRow(_data);
+            createDataRow(_data);
+            events(_data);
+        }
+        window.onload=main;
+
+    </script>
+</head>
+<body>
+<div>
+    <span>根据ID升序排序</span>
+    <span>根据price降序排序</span>
+    <span>根据sold升序排序</span>
+    <span>根据praise升序排序</span>
+</div>
+<table id="products">
+
+</table>
+</body>
+</html>

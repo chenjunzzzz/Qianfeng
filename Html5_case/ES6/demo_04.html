@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6----面向对象</title>
+    <script type="text/javascript" src="../javascript/Ajax.js"></script>
+    <script type="text/javascript">
+        /**您现在看到的是由千锋H5教学部为您录制的教学视频。*/
+        function main(){
+            /**
+             * 新的面向对象的方式和我们过去学的面向对象的方式区别很大
+             * Class:ES6之前一直作为保留字，ES6中升级为关键字了。
+             *
+             * 类：对对象的抽象。
+             * 对象：实际存在具体到类中的某个实例。具有属性和方法。
+             *
+             * constructor:构造函数，构造器、构造者。作用：实例化对象，并且可以初始化对象的属性；
+             */
+//            function People(){
+//                this.arm=2;
+//                this.leg=2;
+//            }
+//            new People();
+            //弊端：不易理解。或者直接一点所概念不清晰
+
+//            class People{
+////                this.fx=function(){
+////
+////                }
+//                //是不可以这么写的
+//                abc=10;//报错 Unexpected token =
+//                eat(){
+//                    alert("eating");
+//                }
+//            }
+//            var _people=new People();
+
+
+            //正确的写法：
+//            class People{
+//                constructor(name){//构造函数传参
+//                    this.sex="male";
+//                    this.name=name;
+//                    this.tall="180CM";
+//                }
+//                eat(){
+//                    alert("eating");
+//                }
+//            }
+//            var _people=new People("lisi");
+//            console.log(_people.name);
+//            _people.eat();
+
+
+//            class Person extends People{
+//                constructor(name){
+//                    super(name);//调用超类构造函数，等同于：People.call(this)
+//                }
+//            }
+//            var _p=new Person("xiaoming");
+//            console.log(_p.name);
+//            console.log(_p.hasOwnProperty("sex"));
+
+        }
+
+
+
+
+
+        window.onload=function(){
+            main();
+        }
+    </script>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>

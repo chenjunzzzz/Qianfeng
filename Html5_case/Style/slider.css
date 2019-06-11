@@ -1,0 +1,12 @@
+body{ margin:0 auto;}
+img{ border:none; border:0px;}
+#container{ width:800px; height:405px; overflow:hidden; position:relative; border:solid 10px #f1f1f1;}
+#slider{ width:800px; height:405px; overflow:hidden; position:absolute; left:0px; top:0px; z-index:0;}
+#slider img{ width:800px; height:405px; float:left;}
+
+#arrow{ width:800px; height:50px; position:absolute; top:50%; margin-top:-25px;}
+#arrow span{ display:block; width:50px; height:50px; background-color:#000; color:#fff; float:left; line-height:50px; text-align:center;}
+#a_r{ margin-left:700px; display:inline;}
+
+#circle{ position:absolute; height:25px; border-radius:5px; background-color:#f1f1f1; top:370px; left:50%;}
+#circle span{ display:block; width:15px; height:15px; border-radius:50%; background-color:#ccc; float:left; margin-left:10px; margin-top:5px; display:inline;}

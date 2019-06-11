@@ -1,0 +1,215 @@
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<script type="text/javascript">
+		/*
+			形参：定义函数时声明的参数
+			
+			回调函数：通过形参调用的函数称为回调函数
+			
+			实参：调用函数时传递的参数
+		*/
+		
+		/*
+		function fx(){
+			console.log(12345);
+		}
+		function fn(x){
+			console.log(x);
+			console.log(x===fx);//数据类型、值、内存地址
+			x();//形参调用函数
+		}
+		fx();
+		
+		console.log(fx);
+		fn(fx);
+		*/
+		
+		
+		/*
+			ECMAScript262也叫ES3ECMAScript262也叫ES3，这个版本中变量的作用域只有两种
+			变量的作用域：
+				全局作用域：整个script标签内有效。
+					优点：
+						到处都能调用，方便！简单
+					缺点：
+						造成变量污染
+						不能及时被销毁，回收内存。
+				局部作用域：只在script标签的某个部分中有效。
+					
+			
+		*/
+		
+		/*
+		var a=10;//我
+		var a=5;//你
+		
+		function fn(){
+			var a="1G";//局部作用域，也成为函数作用域
+			console.log(a);//2.  1G
+		}
+		console.log(a);//1.   5
+		fn();
+		console.log(a);//3.   5
+		*/
+		
+		/*
+		var a=10;
+		console.log(window.a);
+		*/
+		
+		
+		
+		
+		//不声明直接使用变量会出错
+		//但是没有声明的变量通过window.的方式访问就不会出错，值是：undefined
+		/*
+		console.log(window.a);//undefined
+		//window.a访问方式有两种
+			//一种是在window对象下直接寻找a
+			//另外一种是去其他地方找。
+		//var a=5;
+		console.log(a);//error
+		*/
+		
+		
+		
+		
+		/*
+			变量提升:浏览器解释JS代码时会将声明变量的语句提升到script或者函数顶端的过程
+			称为变量提升。
+			
+			作用域的优先级：优先访问同一个作用域中的局部变量。
+				
+		*/
+		/*
+		function fn(){
+			//var a="1G";//局部作用域，也成为函数作用域
+			console.log(a);//2.  1G
+		}
+		function fx(){
+			var a=10;
+		}
+		var a;//===undefined;
+		console.log(window.a);//1. undefined
+		
+		console.log(a);//3.  undefined  ？为什么不报错
+		a=5;//表达式不提升
+		fn();
+		*/
+		
+		/*
+		console.log(fn);
+		function fn(){
+			console.log("abc");
+		}
+		var fn;
+		fn=function(){//证明：表达式没有提升
+			console.log("xyz");
+		}
+		fn();
+		*/
+		
+		
+		/*
+		function fn(){//函数也有提升
+			console.log("abc");
+		}
+		console.log(fn);
+		
+		var fn;
+		fn=function(){//证明：表达式没有提升
+			console.log("xyz");
+		}
+		fn();
+		*/
+		
+		
+		/*
+		function fn(){
+			console.log("abc");
+		}
+		var fn;
+		console.log(fn);
+		fn=function(){//证明：表达式没有提升
+			console.log("xyz");
+		}
+		fn();
+		*/
+		
+		
+		/*
+		function fn(){//局部作用域下变量依然提升，赋值表达式不会提升。
+			console.log(a);
+			var a=10;
+		}
+		fn();
+		*/
+		
+		
+		
+		
+		/*
+			总结：变量提升
+				全局作用域下的变量提升
+					所有关于声明变量或者定义函数的语句都会被提升到script标签的顶端
+					&lt;script&gt;//手写的不规范的源码
+						console.log(fn());
+						function fn(){
+							return a;
+						}
+						var a=10;
+					&lt;/script&gt;
+					
+					
+					&lt;script&gt;//浏览器解释完以后的规范的代码
+						function fn(){
+							return a;
+						}
+						var a;
+						
+						console.log(fn());
+						a=10;
+					&lt;/script&gt;
+				
+
+
+				局部作用域下的变量提升：
+					所有关于声明变量或者定义函数的语句都会被提升到function的最上面。
+					function fn(){//不规范的代码。
+						console.log(a);
+						var a=10;
+						function a(){
+							return a;
+						}
+					}
+					fn();
+					
+					
+					function fn(){//浏览器解释完规范的代码
+						var a;
+						function a(){
+							return a;
+						}
+						console.log(a);
+						a=10;
+					}
+					fn();
+					
+		*/
+		
+		/*
+		function fn(){//浏览器解释完规范的代码
+			var a;
+			function a(){
+				return a;
+			}
+			console.log(a);
+			a=10;
+		}
+		fn();
+		*/
+	</script>
+</head>
+<body></body>
+</html>

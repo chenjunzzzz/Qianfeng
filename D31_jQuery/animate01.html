@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; height:100%;
+        }
+        ul,li{
+            list-style:none; padding:0; margin:0;
+        }
+        #container{
+            margin:50px auto 0 auto; width:1200px; overflow:hidden; height:405px;
+        }
+        #container ul{
+            width:1210px; height:100%; margin:0 auto; overflow:hidden;
+        }
+        #container ul li{
+            width:200px; height:100%; float:left; overflow:hidden;
+        }
+    </style>
+    <script type="text/javascript" src="../D29_jQuery/jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+
+        $(function(){
+            var _list=$("#container ul li");
+            _list.mouseenter(function(){
+                _list.stop().not(this).animate({width:80},800);
+                $(this).animate({width:800},800);
+            });
+            _list.mouseleave(function(){
+                _list.stop().animate({width:200},800);
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div id="container">
+        <ul>
+            <li><img src="../Html5_case/images/img1.jpg" alt=""></li>
+            <li><img src="../Html5_case/images/img2.jpg" alt=""></li>
+            <li><img src="../Html5_case/images/img3.jpg" alt=""></li>
+            <li><img src="../Html5_case/images/img4.jpg" alt=""></li>
+            <li><img src="../Html5_case/images/img5.jpg" alt=""></li>
+            <li><img src="../Html5_case/images/img6.jpg" alt=""></li>
+        </ul>
+    </div>
+</body>
+</html>

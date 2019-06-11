@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto; text-align:center;}
+        #container{ border:solid 5px #ece82a; float:left; position:relative;}
+        #container span{ display:block; width:40px; height:40px; overflow:hidden; line-height:42px; border:solid 1px #333; text-align:center; font-size:18px; font-weight:bold; color:#555; position:absolute;}
+    </style>
+    <script type="text/javascript" src="../javascript/game.js"></script>
+    <script type="text/javascript">
+        window.onload=function(){
+            var _kf=new KeybordGame(document.getElementById("container")).initCss().randomChar();
+            console.log(_kf===_kf.randomChar());
+//            _kf.initCss();//初始化页面的css
+//            _kf.randomChar();//随机字母下来
+            window.onkeypress=function(e){
+                var e=e||window.event;
+                var _code=e.keyCode||e.which;
+                var _char=String.fromCharCode(_code).toUpperCase();
+                _kf.validateCode(_char);//校验按下的键码值与页面中的字母是否相等,如果的相等的时候移除该节点;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>

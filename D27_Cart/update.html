@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * 升级版的购物车
+         *      [{
+         *          id:"product001",
+         *          counter:5,
+         *          comment:"%2E"
+         *      },{
+         *          id:"product001",
+         *          counter:5,
+         *          comment:"%2E"
+         *      }]
+         *
+         *
+         // [
+         // {id: "product001", counter: 5, comment: "%E5%B0%BA%E7%A0%81%EF%BC%9AXXL%2C%E9%A2%9C%E8%89%B…D%90%E6%96%99%EF%BC%9A%E9%93%9D%E5%90%88%E9%87%91"}
+         // {id: "product002", counter: 5, comment: "%E5%B0%BA%E7%A0%81%EF%BC%9AXXL%2C%E9%A2%9C%E8%89%B…D%90%E6%96%99%EF%BC%9A%E9%93%9D%E5%90%88%E9%87%91"}
+         // ]
+         */
+        class Cart{
+            take(){
+                let _regex=/NewCart\s*=\s*\[({("?\w+"?\s*:\s*"?[\w%]+"?\s*,?\s*)*}\s*,?\s*)*]/g;
+                let _storage=document.cookie;
+                if(_regex.test(_storage)){
+                    _regex.lastIndex=-1;
+                    this.storage=window.eval("("+_storage.match(_regex)[0].replace(/NewCart\s*=\s*/g,"")+")");
+                    console.log(this.storage);
+                }else{
+                    this.storage=[];
+                }
+            }
+            save(){
+                document.cookie="NewCart="+JSON.stringify(this.storage)+";path=/;expires="+new Date(new Date().getTime()+7*24*60*60*1000);
+            }
+            insert(_identify,_counter,_comment){
+                //TODO: to cookie
+                if(_counter>0) {
+                    this.take();
+                    let _index=-1;
+                    for(let i=0;i<this.storage.length;i++){
+                        if(this.storage[i]["id"]===_identify && this.storage[i].comment===window.encodeURIComponent(_comment)){//如果原来的购物车中已经存在该产品，直接累加
+                            this.storage[i].counter+=_counter;
+                            _index=i;
+                            break;
+                        }// else{//这里加else会有bug
+                        //     this.storage[_identify]=90;
+                        // }
+                    }
+                    if(_index<0){
+                        this.storage.push({
+                            id:_identify,
+                            counter:_counter,
+                            comment:window.encodeURIComponent(_comment)
+                        });
+                    }
+                    this.save();
+                    console.log(this.storage);
+                }
+            }
+            reduce(_identify,_counter,_comment){
+                this.take();//为什么要频繁的调用take方法？
+                let _exist=false;
+                for(let i=0;i<this.storage.length;i++){
+                    if(this.storage[i].id===_identify && this.storage[i].comment===window.encodeURIComponent(_comment)){
+                        if(this.storage[i].counter>_counter){
+                            this.storage[i].counter-=_counter;
+                        }else{
+                            this.storage.splice(i,1);
+                        }
+                        _exist=true;
+                        this.save();
+                        break;
+                    }
+                }
+                if(!_exist) {
+                    alert("该产品不存在购物车中");
+                }
+            }
+            remove(_identify,_comment){
+                let _exist=false;
+                this.take();
+                for(let i=0;i<this.storage.length;i++){
+                    if(this.storage[i].id===_identify && this.storage[i].comment===window.encodeURIComponent(_comment)){
+                        this.storage.splice(i,1);
+                        this.save();
+                        _exist=true;
+                        break;
+                    }
+                }
+                if(!_exist){
+                    alert("购物车中已无此商品信息");
+                }
+            }
+            reset(_identify,_counter,_comment){
+                if(/^[1-9]\d*$/g.test(_counter+'')) {
+                    this.take();
+                    let _exist=false;
+                    for(let i=0;i<this.storage.length;i++){
+                        if(this.storage[i].id===_identify && this.storage[i].comment===window.encodeURIComponent(_comment)){
+                            this.storage[i].counter=_counter;
+                            _exist=true;
+                            break;
+                        }
+                    }
+                    if(!_exist){
+                        this.storage.push({
+                            id:_identify,
+                            counter:_counter,
+                            comment:window.encodeURIComponent(_comment)
+                        });
+                    }
+                    this.save();
+                }
+            }
+            statistics(){
+                let _sum=0;
+                this.take();
+                for(let i=0;i < this.storage.length;i++){
+                    _sum += this.storage[i].counter;
+                }
+                return _sum;
+            }
+        }
+        function main(){
+            let _cart=new Cart();
+            // _cart.reset("product003",5,"尺码：XXXL，颜色：蓝色，材料：304不锈钢");
+            // document.cookie="NewCart=[{\"id\":\"product001\",counter:5,comment:\"%E5%B0%BA%E7%A0%81%EF%BC%9AXXL%2C%E9%A2%9C%E8%89%B2%EF%BC%9A%E7%BA%A2%E8%89%B2%2C%E6%9D%90%E6%96%99%EF%BC%9A%E9%93%9D%E5%90%88%E9%87%91\"},{id:\"product002\",counter:5,comment:\"%E5%B0%BA%E7%A0%81%EF%BC%9AXXL%2C%E9%A2%9C%E8%89%B2%EF%BC%9A%E7%BA%A2%E8%89%B2%2C%E6%9D%90%E6%96%99%EF%BC%9A%E9%93%9D%E5%90%88%E9%87%91\"}];path=/;expires="+new Date(new Date().getTime()+7*24*60*60*1000);
+            console.log(_cart.statistics());
+        }
+        main();
+    </script>
+</head>
+<body>
+
+</body>
+</html>

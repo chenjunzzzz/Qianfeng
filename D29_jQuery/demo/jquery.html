@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../jQuery/jquery-3.3.1.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            //console.log($("p").get(0));
+            /**
+             * 几乎所有的css当中的选择器都可以用在jquery中
+             */
+            //console.log($("#id1,#id2,#id3"));
+            console.log($(".myClass"));
+
+
+            // function get(_arg){
+            //     var _arr=_arg.split(",");
+            //     for(var i=0;i<arguments.length;i++){
+            //         _arr.push(document.getElementById(arguments[i].replace("#","")));
+            //     }
+            //     console.log(_arr);
+            // }
+            // get("#id1,#id2,#id3");
+
+
+            // $.get("/API/query.php", {}, function (data) {alert("Data Loaded: " + data);});
+            // $.post("/API/query.php", {},function (data) {alert("Data Loaded: " + data);});
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/API/query.php",
+            //     data: "name=John&location=Boston", //content-type:application/x-www-form-urlencoded;charset=utf8
+            //     success: function(msg){
+            //         alert( "Data Saved: " + msg );
+            //     }
+            // });
+
+            (function($) {
+                if ( !$.cssHooks ) {
+                    throw("jQuery 1.4.3+ is needed for this plugin to work");
+                    return;
+                }
+                function styleSupport(prop) {
+                    var vendorProp, supportedProp,
+                        capProp = prop.charAt(0).toUpperCase() + prop.slice(1),
+                        prefixes = [ "Moz", "Webkit", "O", "ms" ],
+                        div = document.createElement( "div" );
+                    if ( prop in div.style ) {
+                        supportedProp = prop;
+                    } else {
+                        for ( var i = 0; i < prefixes.length; i++ ) {
+                            vendorProp = prefixes[i] + capProp;
+                            if ( vendorProp in div.style ) {
+                                supportedProp = vendorProp;
+                                break;
+                            }
+                        }
+                    }
+                    div = null;
+                    $.support[ prop ] = supportedProp;
+                    return supportedProp;
+                }
+                var borderRadius = styleSupport( "borderRadius" );
+                // Set cssHooks only for browsers that
+                // support a vendor-prefixed border radius
+                if ( borderRadius && borderRadius !== "borderRadius" ) {
+                    $.cssHooks.borderRadius = {
+                        get: function( elem, computed, extra ) {
+                            return $.css( elem, borderRadius );
+                        },
+                        set: function( elem, value) {
+                            elem.style[ borderRadius ] = value;
+                        }
+                    };
+                }
+            })(jQuery);
+        });
+
+
+    </script>
+</head>
+<body>
+<p id="id1"></p>
+<p id="id2"></p>
+<p id="id3"></p>
+<p class="myClass">p class="myClass"</p>
+<span class="myClass">span class="myClass"</span>
+</body>
+</html>

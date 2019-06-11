@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="cart/Cart.js"></script>
+    <script type="text/javascript">
+        function main(){
+            var _cart=new Mine();
+            var _counter=document.getElementById("counter");
+            _counter.innerText=_cart.statistics();
+            _counter.onclick=function(){
+                window.location.href="http://localhost:8080/HTML5/D22_HTTP_Cookie/cart.html";
+                // window.location.href="http://localhost:8080/HTML5/D22_HTTP_Cookie/cart.html"
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="counter"></div>
+</body>
+</html>

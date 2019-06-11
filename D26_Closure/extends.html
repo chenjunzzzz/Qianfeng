@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../D23_Ajax/Package/Ajax2.js"></script>
+    <script type="text/javascript" src="../D22_HTTP_Cookie/Package/Cart.js"></script>
+    <script type="text/javascript">
+        /**
+         * 继承
+         *      ES6中extends关键字继承
+         *      ES5中原型链继承，
+         *          prototype:函数的一个特殊属性
+         *          __proto__：引用类型对象的一个属性
+         *      ES5中call||apply方法可以实现继承
+         */
+        // class Animal{
+        //
+        // }
+        // class Cat extends Animal{
+        //
+        // }
+        // class Tigger extends Cat{
+        //
+        // }
+        //
+        //
+        // function A(){
+        //
+        // }
+        // A.prototype.abcde=function(){};
+        // var _a=new A();
+        // _a.__proto__.abcde()===A.prototype.abcde();
+
+
+        /**
+         * 依赖注入：通过apply去实现
+         *
+         *      依赖注入？
+         *
+         */
+        // function App(){
+        //     this.ajax=new Ajax();
+        //     this.cart=new Mine();
+        //     this.cat=1;
+        //     this.slider={};
+        //     this.http="http";
+        //     this.init=function(_arr,_fx){
+        //         var _parameters=[];
+        //         for(var i=0;i<_arr.length;i++){
+        //             _parameters.push(this[_arr[i]]);
+        //         }
+        //         _fx.apply(null,_parameters);
+        //     }
+        // }
+        // var _app=new App();
+        //
+        // _app.init(["cat","ajax"],function(_cat,_ajax){
+        //     console.log(_cat);
+        //     console.log(_ajax);
+        // });
+        // _app.init(["cart"],function(_cart){
+        //     console.log(_cart);
+        // });
+
+        function C(){
+            this.c=100;
+        }
+        function A(){
+            this.leg=2;
+        }
+        function B(){
+            A.call(this);
+        }
+
+        var _c=new C();
+        B.prototype=_c;
+        B.prototype.run=function(){
+            console.log("run");
+        };
+
+        var _b=new B();
+        console.log(_b.__proto__===B.prototype===_c);
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

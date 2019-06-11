@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        function main(){
+            document.getElementsByTagName("body")[0].onclick=function(e){
+                e=e||window.event;
+                e.preventDefault?e.preventDefault():e.returnValue=false;
+                if(e.target.nodeName.toUpperCase()==="A"){
+                    window.location.href="http://www."+e.target.href.match(/#\w+/g)[0].replace(/#/g,"")+".com";
+                }
+            };
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<a href="#baidu">baidu</a>
+<a href="#sina">sina</a>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        #container{ width:1000px; height:200px; overflow:hidden; margin:0 auto;}
+        #container span{ display:block; width:172px; height:172px; padding:3px; border:solid 1px #ccc; float:left; margin:10px; display:inline;}
+        #container span img{ width:172px; height:172px; border:none; float:left;}
+
+        #button{ width:1000px; height:40px; margin:0 auto; overflow:hidden;}
+        #button span.root{ display:block; width:180px; height:40px; overflow:hidden; margin:0 auto;}
+        #button span span{ display:block; width:28px; height:28px; overflow:hidden; border:solid 1px #ccc; float:left; margin-left:5px; display:inline; line-height:30px; font-size:13px; color:#555; text-align:center; cursor:pointer;}
+    </style>
+    <script type="text/javascript" src="../jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        /**
+         * 分析思路：
+         * 1.初始化首页数据
+         * 2.创建分页按钮
+         * 3.换页，改变页面数据，相应的css要改变？
+         * 4.如果遇到第一个分页按钮，或者最后一个分页按钮，要改变按钮的value值
+         */
+        function readerData(_start,_size){
+            $.get("images/data.json",{start:_start,size:_size},function(_data){
+                for(var i=_start;i<75 && i<_start+_size;i++){
+                    $("#container").append('<span><img alt="" src="images/'+_data[i]+'.jpg"/></span>');
+                }
+            });
+        }
+        function createButton(){
+            $("#button").append('<span class="root"></span>');
+            for(var i=0;i<5;i++){
+                $("#button>span").append('<span>'+(i+1)+'</span>');
+            }
+        }
+        function changeValue(_flag){
+            if(_flag>0){
+                $("#button>span>span").each(function(i){
+                    this.innerText=parseInt(this.innerText)+2;
+                });
+            }
+            if(_flag<0){
+                $("#button>span>span").each(function(i){
+                    this.innerText=parseInt(this.innerText)-2;
+                });
+            }
+            $("#button>span>span").css({
+                border:"solid 1px #ccc"
+            }).eq(2).css({
+                border:"solid 1px red"
+            });
+        }
+        function events(){
+            var _start=0,_size=5;
+            $("#button>span>span").click(function(){
+                //TODO?
+                $("#container").html("");
+                _start=(this.innerText-1)*5;
+                readerData(_start,_size);
+                $("#button>span>span").not(this).css({
+                    border:"solid 1px #ccc"
+                });
+                $(this).css({
+                    border:"solid 1px red"
+                });
+                // console.log($("#button>span>span").index(this));
+                if($("#button>span>span").eq(0)[0]===this && this.innerText!=="1"){
+                    changeValue(-1);
+                }
+                if(this===$("#button>span>span").eq($("#button>span>span").length-1)[0]){
+                    changeValue(1);
+                }
+            });
+        }
+        $(function(){
+            readerData(0,5);
+            createButton();
+            events();
+        })
+    </script>
+</head>
+<body>
+    <div id="container"></div>
+    <div id="button"></div>
+</body>
+</html>

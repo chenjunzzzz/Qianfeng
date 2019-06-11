@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        img{boder:none; float:left; width:510px;}
+        #slider{ width:660px; height:334px; margin:0 auto; overflow:hidden; margin-top:100px;}
+        #slider span{ display:block; width:30px; height:334px; overflow:hidden; float:left;}
+    </style>
+    <script type="text/javascript">
+
+        function resetWidth(){
+            var _width=0;
+            var _timer=0;
+            var _f=0;
+            var _slider=document.getElementById("slider");//获取到页面上的div
+            var _target=null;
+            function reset() {
+                window.clearTimeout(_timer);
+                var _sum=0;
+                for (var i = 0; i < _slider.children.length; i++) {
+                    if (_slider.children[i] !== _target) {
+                        _width = parseInt((_slider.children[i].currentStyle || window.getComputedStyle(_slider.children[i], null))["width"]);
+                        //没次循环都是获取到最新的width
+                        if (_width > 30) {
+                            _slider.children[i].style.width = _width - 10 + "px";
+                        }
+                        _sum += parseInt((_slider.children[i].currentStyle || window.getComputedStyle(_slider.children[i], null))["width"]);
+                    }
+                }
+                _target.style.width=660-_sum+"px";
+                if(660-_sum<510){
+                    window.setTimeout(reset, 30);
+                }
+            }
+            function boundEvent(){
+                for(var i=0;i<_slider.children.length;i++){
+                    _slider.children[i].onmouseover=function(){
+                        window.clearTimeout(_timer);
+                        _target=this;
+                        _f=0;
+                        reset();
+                    }
+                }
+            }
+            boundEvent();
+        }
+
+        function createImages(n){//创建图片
+            var _list="";
+            for(var i=1;i<=n;i++){
+                if(i<n){
+                    _list+="<span><img alt=\"\" src=\"images/_0"+i+".jpg\"/></span>";
+                }else{
+                    _list+="<span style=\" width:500px;\"><img alt=\"\" src=\"images/_0"+i+".jpg\"/></span>";
+                }
+            }
+            document.getElementById("slider").innerHTML=_list;
+            resetWidth();
+        }
+        window.onload=function(){
+            createImages(6);
+        }
+    </script>
+</head>
+<body>
+    <div id="slider">
+
+    </div>
+</body>
+</html>

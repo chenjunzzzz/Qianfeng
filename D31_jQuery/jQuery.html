@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div { margin:3px; width:40px; height:40px;
+            position:absolute; left:0px; top:30px;
+            background:green; display:none; }
+        div.newcolor { background:blue; }
+        span { color:red; }
+    </style>
+    <script type="text/javascript" src="Cart.js"></script>
+    <script type="text/javascript" src="../D29_jQuery/jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        /**
+         * 1.缩小查询范围
+         * 2.解决jQuery和其他框架中使用$符号的冲突：jQuery.noConflict();
+         */
+        console.log($===jQuery);
+        // jQuery.noConflict();
+        // jQuery(function(){});
+        $(function(){
+            // console.log($("span",$("#second")));
+            // console.log($("span"));
+
+            /**
+             * jQuery的each方法有两个形参，
+             *      第一个参数时元素所在jQuery集合中的索引值
+             *      第二个参数：元素本身
+             */
+            // console.log($("span").length);
+            // $("span").each(function(_index,_element){
+            //     _element.innerText=_index;
+            //     console.log($(this).index());
+            // });
+
+
+            /**
+             * jQuery 队列
+             */
+            // $("#show").click(function () {
+            //     var n = $("div").queue("fx");//获取队列
+            //     $("span").text("Queue length is: " + n.length);
+            //     $("div").clearQueue();
+            // });
+            // function runIt() {
+            //     $("div").show("slow");
+            //     $("div").animate({left:'+=200'},2000);
+            //     $("div").slideToggle(1000);
+            //     $("div").slideToggle("fast");
+            //     $("div").animate({left:'-=200'},1500);
+            //     $("div").hide("slow");
+            //     $("div").show(1200);
+            //     $("div").slideUp("normal", runIt);
+            // }
+            // runIt();
+
+
+            /**
+             * jQuery.fn.extend：扩展jQuery元素集
+             * jQuery.extend：扩展jQuery本身
+             */
+            // console.log(new Cart());//记住：es6中实例方法的声明和原型方法的声明的方式
+            // $.extend(new Cart());
+            // console.log($.abc());
+
+
+
+            // $.fn.extend(new Cart());
+            // console.log($("div").abc());
+
+
+
+            // var _json={
+            //     a:10,
+            //     b:{
+            //         x:11,
+            //         y:12,
+            //         z:{
+            //             m:"abc",
+            //             n:"123",
+            //             obj:{
+            //                 name:"cat",
+            //                 eye:"2",
+            //                 category:"animal"
+            //             }
+            //         },
+            //         arr:["12",89,"tom"]
+            //     }
+            // };
+
+        });
+    </script>
+</head>
+<body>
+    <!--<div id="first">-->
+        <!--<span></span>-->
+    <!--</div>-->
+    <!--<div id="second">-->
+        <!--<span></span>-->
+        <!--<span></span>-->
+    <!--</div>-->
+
+
+
+    <!--队列<button id="show">Show Length of Queue</button>-->
+    <!--<span></span>-->
+    <!--<div></div>-->
+
+
+    <div></div>
+</body>
+</html>

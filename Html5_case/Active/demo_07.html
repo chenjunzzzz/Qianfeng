@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无缝滚动</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        #view{
+            width:600px; height:100px; overflow:hidden;
+            margin:0 auto;
+            position:relative;
+        }
+        #container{
+            width:1600px; height:400px; overflow:hidden;
+            position:absolute;
+        }
+        #container img{ border:none; float:left; width:200px;}
+    </style>
+    <script type="text/javascript">
+        function main(){
+            /**
+             * 1、创建img html元素
+             * 需要5个图片，可见始终保持3个
+             */
+            function createImg(){
+                var _img=null;
+                var _container=document.getElementById("container");
+                for(var i=0;i<8;i++){
+                    _img=document.createElement("img");
+                    _img.src="../images/img"+(i+1)+".jpg";
+                    _container.appendChild(_img);
+                    if(i>=5){
+                        _img.src="../images/img"+(i+1-5)+".jpg";
+                    }
+                }
+            }
+            createImg();
+            var _timer=0;
+            var _container=document.getElementById("container");
+            function scrollToLeft(){
+                window.clearTimeout(_timer);
+                _container.style.left=_container.offsetLeft-2+"px";
+                if(Math.abs(_container.offsetLeft)>=1000){
+                    _container.style.left="0px";
+                }
+                _timer=window.setTimeout(scrollToLeft,30);
+            }
+            scrollToLeft();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+    <div id="view">
+        <div id="container"></div>
+    </div>
+</body>
+</html>

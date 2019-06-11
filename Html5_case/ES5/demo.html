@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css"></style>
+    <script type="text/javascript" src="../javascript/jquery.js"></script>
+    <script type="text/javascript">
+        /*function demo(){
+            n=100;
+            "use strict";
+            i=0;
+        }
+        demo();
+        alert(n);*/
+
+
+
+        function demo(){//ppt 第七页
+            var _timer=0;
+            function player(){
+                window.clearTimeout(_timer);
+                console.log(this);
+                _timer=window.setTimeout(player,3000);
+            }
+            document.getElementById("demo").onmouseover=player;
+        }
+        //demo();//这里的this指向的是window,不会是你想要的某一个对象；
+        function demo(){//ppt 第八页
+            var _timer=0;
+            function player(){
+                window.clearTimeout(_timer);
+                console.log(this); //这里的this指向的是window,不会是你想要的某一个对象；
+                _timer=window.setTimeout(player.bind(this),3000);//注意看一下这里的代码被重新加工了一番。
+            }
+            document.getElementById("demo").onmouseover=player;
+        }
+
+
+
+
+        function demo(){//ppt 第九页
+            var _timer=0;
+            Function.prototype.binding=function(_obj){
+                _obj["fn"]=this;
+                return function(){
+                    _obj["fn"]();
+                }
+            }
+            function player(){
+                window.clearTimeout(_timer);
+                console.log(this); //这里的this指向的是window,不会是你想要的某一个对象；
+                _timer=window.setTimeout(player.binding(this),3000);//注意看一下这里的代码被重新加工了一番。
+            }
+            document.getElementById("demo").onmouseover=player;
+        }
+
+        window.onload=demo;
+
+
+
+/********PPT第十三页****************************************************/
+//      数组的额外方法
+
+//      1、indexOf
+        [2, 5, 7, 3, 5].indexOf(5)  //返回1  跟字符串一样，真心不用解释
+
+
+//      2、forEach//解开多行注释
+        /*["a", "b", "c", "d", "e"].forEach(function(item, index, array){//item表示当前遍历的元素，index表示数组对象的下标，array表示数组本身
+            //小技巧，如果这里的参数记不住数量，或者每个参数都表示什么内容时可以使用congsole.log(arguments);
+            //arguments的长度就是形参的数量，arguments的每个元素对应的值就是形参所对应的值。
+            //因为这个毕竟是回调函数，实参并不是我们主动传递的内容,所以暂时记不住也是属于正常。
+
+            console.log(item);
+        });*/
+//      其实也可以更简单：
+        //["a", "b", "c", "d", "e"].forEach(alert);
+//***** 注意： ["a", "b", "c", "d", "e"].forEach(console.log);    //会出现Uncaught TypeError: Illegal invocation(…) 因为执行上下文非法导致的，我们需要指定一下上下文：
+        //["a", "b", "c", "d", "e"].forEach(console.log, console);  //正确执行
+
+
+
+//      3、map 映射，遍历---->操作----->返回
+        var newarr = [1,2,3,4,5].map(function(item, index, array){
+            return item+2;
+        });//newarr; 结果： [3, 4, 5, 6, 7]
+        /**在这里给大家扩展一下用我们自己学过的知识实现：map方法的封装
+         * 扩展知识：我们课堂上的所有扩展知识点部分不要求大家全部掌握，只是希望我们千锋的同学能对编程有更多的认识与自己的见解，
+         * 提升各位同学自己解决问题的能力。
+         * 扩展的这两个方法都是非常不错的方法。内部的小逻辑是非常精妙的，非常锻炼我们每一个人的思维方式，希望大家好好看
+         *
+         * 首先看map方法与foreach方法类似，foreach方法只是遍历没有返回
+         * 接下来我们创建一个函数名为maping的方法*/
+        function mapping(fn){
+            for(var index=0;index<this.length;index++){
+                this[index]=fn(this[index],index,this);
+            }
+        }
+        Array.prototype.mapping=mapping;
+        var _arr=[1,2,3,4,5];
+        _arr.mapping(function(item,index,array){
+            return item+1;
+        });
+        console.log(_arr);
+
+
+
+//      4、reduce 归并 了解过大数据处理的，一定知道google最早提出的Map/Reduce模型 解决问题的思想是差不多的，有机会我再给大家科普Map、Reduce的原理
+        [1,2,3,4].reduce(function(pre, next, index, array){
+            //参数中的x和y，代表了之前的处理结果和下一个元素
+            return pre+next; //return的结果会赋值给下一个函数的x参数 }); 结果 ： 10
+        });
+        /**在这里给大家扩展一下用我们自己学过的知识实现：reduce方法的封装
+         * 建议与reduce方法做个对比
+         * 首先声明一个函数名为reducing的方法*/
+        function reducing(fn){
+            var _sum=this[0];
+            for(var index=1;index<this.length;index++){
+                _sum=fn(_sum,this[index],index,this);
+            }
+            return _sum;
+        }
+        Array.prototype.reducing=reducing;
+        var _arr=[1,2,3,4,5];
+        console.log(_arr.reducing(function(pre, next, index, array){
+            return pre+next;//可以是加也可以是其他的运算符号
+        }));
+        /**其他的扩展方法建议同学自己下去实现，好处可以提升各位同学对封装函数能力，封装也是一种很重要的编程方法*/
+
+
+
+//      5、filter 过滤
+        var res = [88,69,92,77,90,96,98,99].filter(function(item, index, array){
+            return item>80; //找出所有大于80的元素
+        });// 结果：[88,92,90,96,98,99]
+
+
+//      6、some 某些 (我觉得叫anyone更适合)
+        if(["yt","hr","wc","jk"].some(function(item) {//判断数组中是否存在，只要有一个存在就返回true
+                    return item == "yt";
+                })) {
+            alert("好的！");
+        }
+//      跟过滤器好像差不多，但它只会返回一个布尔类型，如果匹配成功，则返回true 而且一旦匹配成功，后面就不再遍历了，如果没有匹配成功，最后返回false 可以用来做一些检测
+
+
+//      7、every跟some一样，但要求每一项都符合，才返回true 有一项不合格就返回false
+        if(["yt","hr","wc","jk"].every(function(item) {//判断数组中是否存在，只要有一个存在就返回true
+                    return item == "yt";
+                })) {
+            alert("好的！");
+        }
+        /***备注：以上所有的数据扩展方法中，所有的回调函数的参数都可以用console.log(arguments)方法输出*/
+
+
+//      PPT第15页
+        var father = {
+            money: 999999
+        }
+        var son = Object.create(father);
+        console.log(son.money); //999999
+        //验证属性的归属实例属性还是原型属性
+        if("money" in son){
+            //判断 money 属性是否是 son 对象的属性，注意：无论是原型属性还是实例属性只要包含money就返回true
+            if(son.hasOwnProperty("money")){//判断是否是自己含有该属性，自己含有的属性也叫实例属性
+                alert("money 这个属性是son对象的自己的属性");
+            }else{
+                alert("money 这个属性是son对象的属性，但是不是son自己的实例属性，那么就可以断定是son的原型属性");
+            }
+        }
+//      PPT第16、17页
+        //举例：
+        function Father(){
+            this.name = "王健林";
+            this.age = 60;
+        }
+        Father.prototype = {
+            wanda : function(){
+                return "$99999999999";
+            }
+        }
+        //以前的写法，大概是这样： //Son.prototype = new Father();
+        //缺点很明显就是，连名字和年龄都继承了，其实我们并不想要这些
+        //下面的写法，带来了一定的好处，Son的原型的原型是Fahter的原型，同样是 原型链继承的效果。
+        Son.prototype = Object.create(Father.prototype);
+        function Son() {
+            this.name = "王思聪";
+            this.age = 30;
+        }
+        new Son().wanda();
+        //要注意这个方法不能实现对象拷贝，因为这里是原型的赋值，并且生成了新对 象，不是简单的属性复制
+//      例如：
+        var a = {
+            text1 : "abc"
+        }
+        var b = {
+            text2 : "def"
+        }
+        b = Object.create(a); //结果b虽然继承了a，但原有内容被覆盖了！
+        b.text1; //abc b.text2; //undefined
+//      解决办法如下：
+        /*var b = Object.create(a, {
+            text2 : {
+                value : "def"
+            }
+        });*/
+
+
+//      PPT第十八页
+        //下面这段代码是一个简单的View —— > Model —— >View的数据绑
+        "use strict";
+        var QF = {
+            scope: {},
+            appInit:function(){
+                this.htmlstr = document.body.innerHTML
+                this.app = $("[qf-app]").get(0);
+                this.inputlist = $(this.app).find("[qf-model]").get();
+                for (let inpt of this.inputlist) {
+                    if (inpt.nodeName == "INPUT" && inpt.type == "text") {
+                        let modelname = inpt.getAttribute("qf-model");
+                        let m = {
+                            viewlist: $(QF.app).find(":contains('{{" + modelname + "}}')")
+                        };
+                        //model的修改监听
+                        Object.defineProperty(m, "value", {
+                            configurable: true,
+                            enumerable: true,
+                            set: function (val) {
+                                this.viewlist.each(function () {
+                                    $(this).html(val);
+                                });
+                            }
+                        });
+                        this.scope[modelname] = m;
+
+                        //输入框的修改监听
+                        Object.defineProperty(HTMLInputElement.prototype, "value", {
+                            configurable: true,
+                            enumerable: true,
+                            set: function (val) {
+                                console.log(val, inpt.value);
+                                QF.scope[this.getAttribute("qf-model")].value = this.value;
+                            }
+                        })
+                    }
+                }
+                $("input").bind("input", function () {
+                    this.value = this.value;
+                });
+            },
+        }
+        window.onload = function(){
+            QF.appInit();
+        }
+//      defineProperty函数最大的好处就是可以自定义属性的读写权限，以及遍历权限(可枚举性)
+        /*Object.defineProperty(stu, 'score', {
+            writeable: true,  //表示该属性是否可写
+            enumerable: true,  //表示该属性是否可以枚举（遍历）
+            configurable: true,  //表示该属性是否可删除，以及是否可配置, 比 如writeable能不能被修改
+            set: function (val) {
+                //当属性被赋值时，做一些拦截动作，例如将数据同步到view
+            },
+            get: function () {
+                //当属性被获取时，做一些拦截动作，例如权限检查之类的
+            }
+        });*/
+
+    </script>
+</head>
+<body>
+    <div id="demo" style="width:100px; height:100px; background-color:red;">demo</div>
+    <div qf-app>
+        <input qf-model="yourname" type="text"/>
+        <input qf-model="hername" type="text"/>
+        <p>{{yourname}}</p>
+        <p>{{yourname}}</p>
+        <p>{{hername}}</p>
+    </div>
+</body>
+</html>

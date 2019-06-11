@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        img{ position:absolute;}
+    </style>
+    <script type="text/javascript">
+        function move(_coords){
+            var _timer=0;
+            var i=0;
+            var _ghost=document.getElementById("img");
+            _ghost.src="images/2.gif";
+            function exec(){
+                window.clearTimeout(_timer);
+                _ghost.style.left=_coords[i][0]+"px";
+                _ghost.style.top=_coords[i][1]+"px";
+                i++;
+                if(i>=_coords.length){
+                    _ghost.src="images/1.gif";
+                    return;
+                }
+                _timer=window.setTimeout(exec,30);
+            }
+            exec();
+        }
+        function boundEvent() {
+            var _coords=new Array();
+            document.onmousedown = function () {
+                document.onmousemove = function (e) {
+                    var e=e||window.event;
+                    _coords.push([e.clientX,e.clientY]);
+                }
+            }
+            document.onmouseup = function () {
+                document.onmousemove = null;
+                move(_coords);
+            }
+        }
+        window.onload=function(){
+            boundEvent();
+        }
+    </script>
+</head>
+<body>
+<img src="images/1.gif" id="img" alt=""/>
+</body>
+</html>

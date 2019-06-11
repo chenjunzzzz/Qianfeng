@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>抛物线的重力回弹</title>
+    <style type="text/css">
+        body{
+            margin:0 auto;
+            position:relative;
+        }
+        #demo{
+            width:50px; height:50px; background-color:red; position:absolute; top:475px; left:0px;
+            border-radius:50%;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 抛物线的重力回弹
+         *
+         * 需求：下一次弹起的高度是前一次的1/2，抛物线的开口也是前一次的1/2
+         */
+        function main(){
+            var _timer=0;
+            var _demo=document.getElementById("demo");
+            var x=250,y=500;
+            var left=0;
+            var n=0;
+            (function move(){
+                window.clearTimeout(_timer);
+                _demo.style.left=(_demo.offsetLeft+1)+"px";
+                _demo.style.top=500/Math.pow(2,n)/Math.pow(x,2)*Math.pow(_demo.offsetLeft-(left+x),2)+500-500/Math.pow(2,n)+"px";
+                if(_demo.offsetLeft>=left+x*2){
+                    n++;
+                    left+=x*2;
+                    x/=2;
+                    y=500-500/Math.pow(2,n);
+                }
+//                500==n*Math.pow(x-250,2)+500-500/Math.pow(2,n);
+//                n==500-500+500/Math.pow(2,n)/Math.pow(x,2);
+//                n=500/Math.pow(2,n)/Math.pow(250,2);
+//                500-500/Math.pow(2,n)
+                if(n<=5) {
+                    _timer = window.setTimeout(move, 30);
+                }
+
+            })();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="demo"></div>
+</body>
+</html>

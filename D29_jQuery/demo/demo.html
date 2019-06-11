@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/opacity.css">
+    <script type="text/javascript" src="js/extends.js"></script>
+    <!--<script type="text/javascript" src="js/cart.js"></script>-->
+    <script type="text/javascript" src="../jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $.fn.opacity=opacity;//继承
+        function Cart(){
+            this.add=function(){
+                alert("function add");
+            }
+        }
+
+        $.extend(new Cart());//扩展
+        // var _cart=new Cart();
+        // console.log(_cart);
+        $(function(){
+            $("body").opacity()(5);
+            $.add();
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

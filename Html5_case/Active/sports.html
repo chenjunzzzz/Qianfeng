@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body{ margin:0 auto; position:relative;}
+        .container{ width:800px; height:500px; over-flow:hidden; position:relative; border:solid 1px #ccc;}
+        .container div{ width:100px; height:100px; overflow:hidden; border-radius:50%; position:absolute;}
+        .container div:nth-child(1){
+            background-color:red;
+            top:0px; left:0px;
+        }
+        .container div:nth-child(2){
+            background-color:yellow;
+            top:0px; right:0px;
+        }
+    </style>
+    <script type="text/javascript">
+        function main(){
+            var _lists=document.getElementsByTagName("div")[0].getElementsByTagName("div");
+            var _timer=0;
+            var _height=500;
+            var _width=800;
+            var _left0=0,_left1=_width-100;
+            var _top0=0,_top1=0;
+            var _h0=0,_v0=0;
+            var _h1=0,_v1=0;
+            (function move(){
+                window.clearTimeout(_timer);
+                if((_lists[0].offsetLeft-_lists[1].offsetLeft)*(_lists[0].offsetLeft-_lists[1].offsetLeft)+(_lists[0].offsetTop-_lists[1].offsetTop)*(_lists[0].offsetTop-_lists[1].offsetTop)<10000){
+                    _h0=_h0?0:1;
+                    //_v0=_v0?0:1;
+                    _h1=_h1?0:1;
+                    //_v1=_v1?0:1;
+                }
+                if(_h0==0) {
+                    _left0 += 10;
+                    if (_left0 >= _width - 100) {
+                        _left0=_width-100;
+                        _h0=1;
+                    }
+                }else{
+                    _left0 -= 10;
+                    if (_left0 <= 0) {
+                        _left0=0;
+                        _h0=0;
+                    }
+                }
+                if(_v0==0){
+                    _top0+=5;
+                    if(_top0>=_height-100){
+                        _top0=_height-100;
+                        _v0=1;
+                    }
+                }else{
+                    _top0-=5;
+                    if(_top0<=0){
+                        _top0=0;
+                        _v0=0;
+                    }
+                }
+                if(_h1==0) {
+                    _left1 -= 10;
+                    if (_left1 <=0) {
+                        _left1=0;
+                        _h1=1;
+                    }
+                }else{
+                    _left1 += 10;
+                    if (_left1 >= _width-100) {
+                        _left1=_width-100;
+                        _h1=0;
+                    }
+                }
+                if(_v1==0){
+                    _top1+=5;
+                    if(_top1>=_height-100){
+                        _top1=_height-100;
+                        _v1=1;
+                    }
+                }else{
+                    _top1-=5;
+                    if(_top1<=0){
+                        _top1=0;
+                        _v1=0;
+                    }
+                }
+                _lists[0].style.left = _left0 + "px";
+                _lists[0].style.top = _top0 + "px";
+                _lists[1].style.left = _left1 + "px";
+                _lists[1].style.top = _top1 + "px";
+                _timer = window.setTimeout(move, 30);
+            })();
+        }
+        function main2(){
+            var _timer=0;
+            var _lists=document.getElementsByTagName("div")[3].getElementsByTagName("div");
+            var x=0;
+            var _flag=0;
+            (function move(){
+                window.clearTimeout(_timer);
+                if(_flag==0){
+                    x+=5;
+                }else{
+                    x-=5;
+                }
+                if(x>=800){
+                    _flag=1;
+                }
+                if(x<=0){
+                    _flag=0;
+                }
+                _lists[0].style.top=1/400*(x-400)*(x-400)+"px";
+                _lists[0].style.left=x+"px";
+                _timer=window.setTimeout(move,30);
+            })();
+        }
+        window.onload=function() {
+            main();
+            main2()
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div></div>
+    <div></div>
+</div>
+<div class="container">
+    <div></div>
+</div>
+</body>
+</html>

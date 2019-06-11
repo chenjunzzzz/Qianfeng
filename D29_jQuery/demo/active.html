@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        // function slider(){
+        //     var _timer=0;
+        //     var _left=0;
+        //     var _top=0;
+        //     var _forward=0;
+        //     var _width=$("body").width();
+        //     var _height=$("body").height();
+        //     console.log(_width,_height);
+        //     function start(){
+        //         window.clearTimeout(_timer);
+        //
+        //         if(_width-10<=$("div").width()+$("div").offset().left){
+        //             //$("div").offset({top: _top+=10});
+        //         }else {
+        //             $("div").offset({left: _left+=10});
+        //         }
+        //
+        //         _timer=window.setTimeout(start,30);
+        //     }
+        //     start();
+        // }
+        // $(function(){
+        //     $("html,body").css({
+        //         width:"100%",
+        //         height:"100%",
+        //         margin:0,
+        //         padding:0
+        //     });
+        //     $("div").css({
+        //         width:"100px",
+        //         height:"100px",
+        //         backgroundColor:"gray",
+        //         margin:"5px"
+        //     });
+        //     // slider();
+        //     // $("p").wrap("<div class='wrap'></div>");
+        //     // $("<b>Paragraph. </b>").replaceAll("p");
+        //     // $("p:eq(1)").eq(1)
+        //     // $("div").click(function(){
+        //     //     $("div").not(this).css({
+        //     //         backgroundColor:"red"
+        //     //     });
+        //     //     $(this).css({
+        //     //         backgroundColor:"gray"
+        //     //     });
+        //     // });
+        //
+        //
+        //     // var _list=document.getElementsByTagName("div");
+        //     // Array.prototype.click=function (fx){
+        //     //     fx();
+        //     // };
+        //     // for(var i=)
+        //
+        //
+        //
+        //
+        // });
+        // String.prototype.toString=function(){
+        //     alert("call me");
+        // };
+        // var _obj={};
+        // var _a=20;
+        // var _b="20";
+        // var _c=_a+_b;
+
+        // var _str="88998899";
+        // String.prototype.replace=function(o,n){
+        //     var _s=this;
+        //     for(var i=0;i<_s.length;i++){
+        //         if(_s.charAt(i)===o){
+        //             if(i>0) {
+        //                 _s=_s.substring(0,i)+n+_s.substring(i+1,_s.length);
+        //             }else{
+        //                 _s=n+_s.substring(1,_s.length);
+        //             }
+        //         }
+        //     }
+        //     return _s;
+        // };
+        // console.log(_str.replace("8","0"));
+
+
+
+        // function on(_type,_data,_fx){
+        //     for(var i=0;i<this.length;i++){
+        //         this[i].data=_data;
+        //         this[i]["on"+_type]=_fx;
+        //     }
+        // }
+        // on("click")
+
+        // document.getElementById("div").onclick=function(){
+        //     this.onclick=null;
+        //     alert("ok");
+        // };
+        //
+        // $("p").click(function (event, a, b) {}).trigger("click", ["foo", "bar"]);
+        //
+        //
+        // function OBJ(){
+        //     var _attr;
+        //     this.click=function(fx){
+        //         _attr=fx;
+        //     };
+        //     this.trigger=function(_type,_data){
+        //         this["on"+_type]=_attr;
+        //     }
+        // }
+        // var _obj=new OBJ();
+        // _obj.trigger("click", ["foo", "bar"]);
+
+
+
+        $(function(){
+            $("div").css({
+                width:"100px",
+                height:"100px",
+                backgroundColor:"gray",
+                margin:"5px"
+            });
+            $("div").hover(
+                function () {
+                    $(this).addClass("hover");
+                },
+                function () {
+                    $(this).removeClass("hover");
+                }
+            );
+
+        });
+
+    </script>
+</head>
+<body>
+
+<div></div><div></div><div></div>
+<div></div><div></div><div></div>
+<div></div><div></div><div></div>
+<div></div><div></div><div></div>
+</body>
+</html>

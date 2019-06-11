@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style type="text/css">
+        .row{
+            border:solid 1px #ccc;
+        }
+        .bgcolor{
+            background-color:#ddd; min-height:45px; margin-bottom:15px;
+        }
+        .col-md-1,.col-md-8,.col-md-3,.col-md-6{
+            line-height:45px;
+        }
+    </style>
+    <script type="text/javascript" src="../D29_jQuery/jQuery/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../D23_Ajax/Package/Ajax2.js"></script>
+    <script type="text/javascript" src="../D24_Ajax_Promise/Package/Queue.js"></script>
+    <script type="text/javascript">
+        function create(_list){
+            var _rows='';
+            for(var i=0;i<_list.length;i++){
+                _rows+='<div class="row bgcolor">' +
+                    '                <div class="col-md-3">'+_list[i]["name"]+'</div>\n' +
+                    '                <div class="col-md-3">'+_list[i]["profession"]+'</div>\n' +
+                    '                <div class="col-md-3">'+_list[i]["score"]+'</div>\n' +
+                    '                <div class="col-md-3">'+_list[i]["phone"]+'</div>\n' +
+                    '            </div>';
+            }
+            document.querySelector("body > div").innerHTML=_rows;
+        }
+        function load(_queue){
+            Ajax.request({
+                api:"http://localhost:8080/HTML5/D21_MySQL_PHP/API/query.php",
+                success:function(_data){
+                    try{
+                        _data=window.eval("("+_data+")");
+                        if(_data.code===2000) {
+                            _queue.exec(_data.list);
+                        }else{
+                            document.write("暂无数据");
+                        }
+                    }catch (e) {
+                        console.log(e);
+                    }
+                }
+            });
+        }
+        function main(){
+            let _queue=new Queue();
+            _queue.put(function(){
+                load(_queue);
+            }).put(create).exec();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div class="container">
+
+</div>
+</body>
+</html>

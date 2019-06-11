@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        img{ border:none; border:0;}
+        #container{ width:800px; height:405px; overflow:hidden; position:relative; border:solid 10px #f1f1f1;}
+        #container #slider{ width:800px; height:405px; overflow:hidden; position:absolute; left:0; top:0; z-index:0;}
+        #container #slider a{ display:block; width:800px; height:405px; overflow:hidden; float:left;}
+        #container #slider a img{ width:800px; height:405px; float:left;}
+
+        #container #arrow{ width:800px; height:50px; position:absolute; top:50%; margin-top:-25px; z-index:2;}
+        #container #arrow span{ display:block; width:50px; height:50px; background-color: rgba(245, 120, 63, 0.8); color:#fff; float:left; line-height:50px; text-align:center;}
+        #container #arrow span#a_r{ margin-left:700px; display:inline;}
+
+        #container #dots{ position:absolute; height:25px; border-radius:5px; background-color:#f1f1f1; top:370px; left:50%; padding-right:10px; z-index:2;}
+        #container #dots span{ display:block; width:15px; height:15px; border-radius:50%; background-color:#ccc; float:left; margin-left:10px; margin-top:5px; display:inline;}
+    </style>
+    <script type="text/javascript" src="../../D23_Ajax/Package/Ajax2.js"></script>
+    <script type="text/javascript">
+        class Slider{
+            constructor(){
+                this.container=document.getElementById("container");
+
+                this.slider=document.createElement("div");
+                this.slider.id="slider";
+                this.container.appendChild(this.slider);
+
+                this.dots=document.createElement("div");
+                this.dots.id="dots";
+                this.container.appendChild(this.dots);
+
+                this.arrow=document.createElement("div");
+                this.arrow.id="arrow";
+                this.container.appendChild(this.arrow);
+
+                this.arrow.appendChild(document.createElement("span"));
+                this.arrow.children[0].innerHTML="&lt;";
+                this.arrow.appendChild(document.createElement("span"));
+                this.arrow.lastChild.id="a_r";
+                this.arrow.lastChild.innerHTML="&gt;";
+
+
+                /**
+                 * 以下为属性
+                 */
+                this.distance=-800;
+                this.timer=0;
+                this.time=1000;
+                this.hz=20;
+                this.times=this.time/this.hz;
+                this.delay=2000;
+            }
+            create(_data){
+                for(let i=0;i<_data.length;i++){
+                    this.slider.appendChild(document.createElement("a"));
+                    this.slider.lastChild.href=_data[i]["url"];
+                    this.slider.lastChild.appendChild(document.createElement("img"));
+                    this.slider.lastChild.children[0].src=_data[i]["img"];
+
+                    this.dots.appendChild(document.createElement("span"));
+                }
+                this.slider.appendChild(this.slider.children[0].cloneNode(true));
+                this.slider.style.width=this.container.clientWidth*this.slider.children.length+"px";
+                this.dots.style.left=(this.container.clientWidth-this.dots.offsetWidth)/2+"px";
+                this.dots.children[0].style.backgroundColor="red";
+            }
+            change(_index){
+                for(let i=0;i<this.dots.children.length;i++){
+                    this.dots.children[i].style.backgroundColor="#ccc";
+                }
+                this.dots.children[_index>4?0:_index].style.backgroundColor="red";
+            }
+            current(){
+
+            }
+            events(){
+                let _me=this;
+                for(let i=0;i<this.dots.children.length;i++){
+                    this.dots.children[i].onclick=function(){
+                        window.clearInterval(_me.timer);
+                        _me.player(-i*_me.container.clientWidth-_me.slider.offsetLeft);
+                    };
+                }
+                this.arrow.children[0].onclick=function(){
+                    let _target;
+                    window.clearInterval(_me.timer);
+                    if(_me.slider.offsetLeft%_me.container.clientWidth){
+                        _target=Math.floor(_me.slider.offsetLeft/_me.container.clientWidth)*_me.container.clientWidth-_me.slider.offsetLeft;
+                    }else{
+                        _target=-_me.container.clientWidth;
+                    }
+                    _me.player(_target);
+                };
+                this.arrow.children[1].onclick=function(){
+                    let _target;
+                    window.clearInterval(_me.timer);
+                    if(_me.slider.offsetLeft%_me.container.clientWidth){
+                        _target=Math.ceil(_me.slider.offsetLeft/_me.container.clientWidth)*_me.container.clientWidth-_me.slider.offsetLeft;
+                    }else{
+                        _target=_me.container.clientWidth;
+                    }
+                    if(_me.slider.offsetLeft>=0){
+                        _me.slider.style.left=-_me.container.clientWidth*(_me.slider.children.length-1)+"px";
+                    }
+                    _me.player(_target);
+                };
+            }
+            player(_distance){
+                let _step,_counter=0,_me=this,_start=this.slider.offsetLeft;
+                _step=_distance/(this.time/this.hz);
+                this.timer=window.setInterval(function(){
+                    _counter++;
+                    _me.slider.style.left=_me.slider.offsetLeft+_step+"px";
+                    if(_counter>=_me.times){
+                        _me.slider.style.left=_start+_distance+"px";
+                        _me.change(Math.abs(_me.slider.offsetLeft)/_me.container.clientWidth);
+                        if(Math.abs(_me.slider.offsetLeft)/_me.container.clientWidth>=_me.slider.children.length-1){
+                            this.slider.style.left="0";
+                        }
+                        window.clearInterval(_me.timer);
+                        _me.timer=window.setInterval(function(){
+                            window.clearInterval(_me.timer);
+                            _me.player(-_me.container.clientWidth);
+                        },_me.delay);
+                    }
+                },this.hz);
+            }
+            load(){
+                let _me=this;
+                Ajax.request({
+                    api:"data/data.json",
+                    success:function(_data){
+                        try{
+                            _data=window.eval("("+_data+")");
+                            _me.create(_data);
+                            _me.events();
+                            _me.player(-_me.container.clientWidth);
+                        }catch (e) {
+                            console.log(e);
+                        }
+                    }
+                });
+            }
+        }
+        function main(){
+            var _slider=new Slider();
+            _slider.load();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>

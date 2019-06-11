@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript之运动</title>
+    <style type="text/css">
+        body{
+            margin:0 auto;
+            position:relative;
+        }
+        #demo01{
+            width:100px; height:100px; background-color:red; position:absolute; top:0px; left:0px;
+        }
+    </style>
+    <script type="text/javascript">
+        /**您现在看到的是由千锋H5教学部为您录制的教学视频。*/
+        /**
+         * 运动
+         * 1、位移发生改变：距离发生改变
+         * 2、形状发生改变
+         * 3、颜色发生改变
+         * 4、透明度发生改变
+         *
+         * 位移改变包含的内容：匀速运动，匀加速运动，变加速运动，曲线运动
+         *
+         * 知识点：
+         * for，while，do while 递归：来实现的想法是没问题，但是实际情况有误。
+         *
+         * 常识：
+         * 我们人类肉眼视觉感觉不出来的差异：30-60ms
+         *
+         * 定时器：
+         * setTimeout、setInterval，这两个方法都是window对象下的方法。
+         * 作用：延时。就是在指定的时间内执行我们的代码。
+         *
+         * 区别：
+         * setTimeout超时执行一次代码然后结束。
+         * setInterval按照设定的时间间隔不断循环执行代码。
+         * setInterval是线程级，线程是进程的子单元。而进程是有阻塞，也就是CPU资源不够用时，就会产生时间不精确的问题。
+         * setTimeout是超时的时候由程序强制执行，不会产生时间误差。
+         *
+         * 结论：
+         * 在运动的过程中我们既可以调时间，也可以调速度,或者可以说是位移的步长
+         */
+
+        function main(){
+            /**
+             * 结论：
+             * setInterval是可以无限循环的。而setTimeout是超时后执行代码，而且只执行一次。
+             */
+
+            //需求：还是让id为demo01的div移动到屏幕的正中间然后停下来
+//            var _timer=0;
+//            var _dom=document.getElementById("demo01");
+//            var _width=(document.documentElement.clientWidth||document.body.clientWidth)/2;
+//            function fx(){
+//                _dom.style.left=(_dom.offsetLeft+=2)+"px";
+//                if(_dom.offsetLeft>=_width-_dom.clientWidth){
+//                    _dom.style.left=_width-_dom.clientWidth+"px";
+//                    window.clearInterval(_timer);
+//                }
+//            }
+//            _timer=window.setInterval(fx,20);
+
+
+            /**
+             * 边界处理
+             * 什么时候到达边界，各种情况不一样。
+             */
+            /**
+             * 需求：
+             * 让id为demo01的div从左上角向右运动，
+             * 运动到最右边（不能超出浏览器的右边边缘），改方向向下运动。
+             * 运动到最下边（不能超出浏览器的下边边缘），改方向向左运动。
+             * 运动到最左边（不能超出浏览器的左边边缘），改方向向上运动。
+             * 运动到最上边（不能超出浏览器的上边边缘），改方向向右运动。
+             * 然后不断重复以上动作；
+             *
+             * 实现：
+             * 选择setTimeout方法制作
+             */
+            var _timer=0;
+            var _dom=document.getElementById("demo01");
+            var _width=document.documentElement.clientWidth||document.body.clientWidth;
+            var _height=document.documentElement.clientHeight||document.body.clientHeight;
+//            function moveRight(){
+//                window.clearTimeout(_timer);
+//                _dom.style.left=(_dom.offsetLeft+=2)+"px";
+//                if(_dom.offsetLeft>=_width-_dom.clientWidth){
+//                    _dom.style.left=(_width-_dom.clientWidth)+"px";
+//                    moveDown();
+//                }else{
+//                    _timer=window.setTimeout(moveRight,20);
+//                }
+//            }
+//            function moveDown(){
+//                window.clearTimeout(_timer);
+//                _dom.style.top=(_dom.offsetTop+=2)+"px";
+//                if(_dom.offsetTop>=_height-_dom.clientHeight){
+//                    _dom.style.top=(_height-_dom.clientHeight)+"px";
+//                    moveLeft();
+//                }else{
+//                    _timer=window.setTimeout(moveDown,20);
+//                }
+//            }
+//            function moveLeft(){
+//                window.clearTimeout(_timer);
+//                _dom.style.left=(_dom.offsetLeft-=2)+"px";
+//                if(_dom.offsetLeft<=0){
+//                    _dom.style.left="0px";
+//                    moveUp();
+//                }else{
+//                    _timer=window.setTimeout(moveLeft,20);
+//                }
+//            }
+//            function moveUp(){
+//                window.clearTimeout(_timer);
+//                _dom.style.top=(_dom.offsetTop-=2)+"px";
+//                if(_dom.offsetTop<=0){
+//                    _dom.style.top="0px";
+//                    moveRight();
+//                }else{
+//                    _timer=window.setTimeout(moveUp,20);
+//                }
+//            }
+//            moveRight();
+
+//            var _forward=0;
+//            (function move(){
+//                window.clearTimeout(_timer);
+//                switch(_forward){
+//                    case 0:
+//                        _dom.style.left=(_dom.offsetLeft+=2)+"px";
+//                        if(_dom.offsetLeft>=_width-_dom.clientWidth){
+//                            _dom.style.left=(_width-_dom.clientWidth)+"px";
+//                            _forward=1;
+//                        }
+//                        break;
+//                    case 1:
+//                        _dom.style.top=(_dom.offsetTop+=2)+"px";
+//                        if(_dom.offsetTop>=_height-_dom.clientHeight){
+//                            _dom.style.top=(_height-_dom.clientHeight)+"px";
+//                            _forward=2;
+//                        }
+//                        break;
+//                    case 2:
+//                        _dom.style.left=(_dom.offsetLeft-=2)+"px";
+//                        if(_dom.offsetLeft<=0){
+//                            _dom.style.left="0px";
+//                            _forward=3;
+//                        }
+//                        break;
+//                    case 3:
+//                        _dom.style.top=(_dom.offsetTop-=2)+"px";
+//                        if(_dom.offsetTop<=0){
+//                            _dom.style.top="0px";
+//                            _forward=0;
+//                        }
+//                        break;
+//                }
+//                _timer=window.setTimeout(move,20);
+//            })();
+
+            /**
+             * 匀加速
+             */
+            var i=0;
+            (function moveRight(){
+                window.clearTimeout(_timer);
+                _dom.style.left=(_dom.offsetLeft+=i)+"px";
+                if(_dom.offsetLeft>=_width-_dom.clientWidth){
+                    _dom.style.left=(_width-_dom.clientWidth)+"px";
+                }else{
+                    i++;
+                    _timer=window.setTimeout(moveRight,20);
+                }
+            })();
+
+
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="demo01"></div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body{ margin:0 auto;}
+        div{ width:100px; height:100px; margin:10px; background-color:#000;}
+    </style>
+    <script type="text/javascript">
+        function Expand(_obj,_min,_max){
+            //私有变量,共变量
+            var _list=[];//私有变量
+            //this.list=null;
+            this.createDiv=function(n){
+                for(var i=0;i<n;i++) {
+                    _obj.appendChild(document.createElement("div"));
+                    _list[i]=0;
+                }
+                this.boundEvent();
+            }
+            this.boundEvent=function(){
+                function player(_obj,_f,n){
+                    var _width=_obj.offsetWidth;
+                    var _current=_obj;
+                    function plus(){
+                        window.clearTimeout(_list[n]);
+                        _f>0?(_width+=10):(_width-=10);
+                        if(_width<=_max && _width>=_min) {
+                            _current.style.width = _width + "px";
+                            _list[n] = window.setTimeout(plus, 100);
+                        }
+                    }
+                    plus();
+                }
+                function mouseOver(n){
+                    _obj.children[n].onmouseover=function(){
+                        player(this,1,n);
+                    }
+                }
+                function mouseOut(n){
+                    _obj.children[n].onmouseout=function(){
+                        player(this,0,n);
+                    }
+                }
+                for(var i=0;i<_obj.children.length;i++){
+                    mouseOver(i);
+                    mouseOut(i);
+                }
+            }
+        }
+
+        window.onload=function(){
+            var _expand=new Expand(document.getElementsByTagName("body")[0],100,500);
+            _expand.createDiv(5);
+            _expand.mouseout();
+        }
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

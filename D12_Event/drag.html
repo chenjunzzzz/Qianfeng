@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; height:100%; width:100%;
+        }
+        div{
+            position:absolute; top:0; left:0; width:100px; height:100px; background-color:red;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * 作业：实现聊天窗口拖拽
+         * 要求：实现只能拖拽标题栏
+        /**
+         * 1.mousedown,mousemove,mouseup
+         * 2.事件源对象？
+         * 3.事件移除，mousemove
+         * 4.坐标
+         * 5.
+         */
+        function main(){
+            var _target=document.getElementById("target");
+            _target.onmousedown=function(e){
+                var _x,_y;
+                e=e||window.event;
+                _x=e.offsetX;
+                _y=e.offsetY;
+                document.onmousemove=function(_event){
+                    _event=_event||window.event;
+                    _target.style.left=_event.clientX-_x+"px";
+                    _target.style.top=_event.clientY-_y+"px";
+                };
+            };
+            document.onmouseup=function(){
+                document.onmousemove=null;
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="target"></div>
+</body>
+</html>

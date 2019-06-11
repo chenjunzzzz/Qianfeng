@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        // NaN //not a number
+        // alert(isNaN(2));
+        // var _a=new Number(10);
+        // console.log(_a);
+        // console.log(alert("ok"));
+        // if(window.confirm("确认是否删除")){
+        //     //TODO:delete
+        // }//
+        // var _fn=function(){
+        //
+        // }
+        window.onload=function(){
+            i=0;
+            n=1;
+            setInterval(function(){
+                n-=0.1;
+                i+=n;
+                document.getElementById("div").style.left=document.getElementById("div").offsetLeft+i;
+            });
+
+        }
+        </script>
+</head>
+<body>
+
+</body>
+</html>

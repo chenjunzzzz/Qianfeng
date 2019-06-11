@@ -1,0 +1,13 @@
+body{ margin:0 auto;}
+#demo{ width:806px; height:411px; overflow:hidden;
+    border:solid 3px #000; margin:0 auto;
+    position:relative;
+}
+.blind div{
+    width:800px; height:27px; overflow:hidden; position:absolute; left:3px;
+}
+
+.floor div{
+    width:40px; height:405px; overflow:hidden; position:absolute;
+}
+.exchange div{ width:40px; height:405px; overflow:hidden; position:absolute;}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; height:100%; text-align:center;
+        }
+        #animate{
+            width:100%; height:580px;
+        }
+        #animate div{
+            width:1208px; height:100%; margin:0 auto; position:relative;
+        }
+        #animate div img{
+            position:absolute;
+        }
+    </style>
+    <script type="text/javascript" src="../../D23_Ajax/Package/Ajax2.js"></script>
+    <script type="text/javascript">
+        class Animate{
+            constructor(){
+                this.timer=0;
+                this.animate=document.getElementById("animate");
+
+                this.model01=document.createElement("div");
+                this.model01.appendChild(document.createElement("img"));
+                this.model01.appendChild(document.createElement("img"));
+                this.model01.children[0].style.zIndex=1;
+                this.model01.children[1].style.zIndex=0;
+
+                this.model02=document.createElement("div");
+                this.model02.appendChild(document.createElement("img"));
+                this.model02.appendChild(document.createElement("img"));
+
+                this.model03=document.createElement("div");
+                this.model03.appendChild(document.createElement("img"));
+                this.model03.appendChild(document.createElement("img"));
+            }
+            load(){
+                let _me=this;
+                Ajax.request({
+                    api:"/HTML5/D21_MySQL_PHP/API/animate.php",
+                    success:function(_data){
+                        try {
+                            _data = window.eval(_data);
+                            _me.secondDom(_data[1]);
+                            // console.log(_data);
+                        }catch (e) {
+                            console.log("服务器异常");
+                        }
+                    }
+                });
+            }
+            firstDom(_first){
+                this.animate.appendChild(this.model01);
+                this.model01.children[0].src=_first.comment;
+                this.model01.children[1].src=_first.img;
+                this.model01.children[0].style.left="0";
+                this.model01.children[0].style.top="200px";
+                this.model01.children[1].style.right="0";
+                this.model01.children[1].style.top="100px";
+            }
+            first(_first){
+                let _me=this,_opacity=0.5;
+                this.animate.style.backgroundColor=_first.color;
+                this.animate.style.opacity=_opacity+"";
+                this.firstDom(_first);
+                this.timer=window.setInterval(function(){
+                    _me.animate.style.opacity=(_opacity+=0.05)+"";
+                    _me.model01.children[0].style.left=_me.model01.children[0].offsetLeft+10+"px";
+                    _me.model01.children[1].style.right=_me.model01.children[0].offsetLeft+10+"px";
+                    if(_opacity>=1){
+                        _me.animate.style.opacity=1;
+                        window.clearInterval(_me.timer);
+                    }
+                },30);
+            }
+            secondDom(_second){
+                this.animate.appendChild(this.model02);
+                this.model02.children[0].src=_second.img;
+                this.model02.children[1].src=_second.comment;
+                this.model02.children[0].style.left="50px";
+                this.model02.children[0].style.top="100px";
+                this.model02.children[1].style.right='0';
+                this.model02.children[1].style.bottom="0";
+            }
+            second(_second){
+                let _me=this,_opacity=0.5;
+                this.animate.style.backgroundColor=_second.color;
+                this.animate.style.opacity=_opacity+"";
+                this.secondDom(_second);
+                this.timer=window.setInterval(function(){
+                    _me.animate.style.opacity=(_opacity+=0.05)+"";
+                    _me.model02.children[0].style.left=_me.model02.children[0].offsetLeft+10+"px";
+
+                    if(_opacity>=1){
+                        _me.animate.style.opacity=1;
+                        window.clearInterval(_me.timer);
+                    }
+                },30);
+            }
+            thirdDom(_second){
+                this.animate.appendChild(this.model03);
+                this.model03.children[0].src=_second.img;
+                this.model03.children[1].src=_second.comment;
+                this.model03.children[0].style.left="0";
+                this.model03.children[0].style.top="0";
+                this.model03.children[1].style.right="0";
+                this.model03.children[1].style.top="200px";
+            }
+            third(_third){
+                let _me=this,_opacity=0.5;
+                this.animate.style.backgroundColor=_third.color;
+                this.animate.style.opacity=_opacity+"";
+                this.thirdDom(_third);
+                this.timer=window.setInterval(function(){
+                    _me.animate.style.opacity=(_opacity+=0.05)+"";
+                    _me.model03.children[0].style.left=_me.model03.children[0].offsetLeft+10+"px";
+                    _me.model03.children[1].style.left=_me.model03.children[1].offsetLeft+10+"px";
+                    if(_opacity>=1){
+                        _me.animate.style.opacity=1;
+                        window.clearInterval(_me.timer);
+                    }
+                },30);
+            }
+        }
+        function main(){
+            var _animate=new Animate();
+            _animate.load();
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="animate"></div>
+</body>
+</html>

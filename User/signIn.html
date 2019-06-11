@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        function main(){
+            document.onclick=function(){
+                var _user=document.getElementById("user");
+                var _pwd=document.getElementById("pwd");
+                if(_user.value==="zhangsan" && _pwd.value==="123456"){
+                    alert("恭喜登录成功");
+                    if(/back=true/g.test(window.location.href)){
+                        window.location.href="user.html?user=zhangsan";
+                    }else{
+                        window.location.href="http://www.baidu.com";
+                    }
+                }
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<input type="text" id="user">
+<input type="password" id="pwd">
+</body>
+</html>

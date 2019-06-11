@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width:300px; float: left; margin:5px;
+        }
+        div img{width:300px; border:none; float: left;}
+        div span{
+            display:block; width:100%; height:25px; line-height:25px; font-size:14px; text-align:center;
+            float:left;
+        }
+    </style>
+    <script src="Cookie.js"></script>
+    <script>
+        function create(){
+            var _div,_img,_span,_fragment=document.createDocumentFragment();
+            for(var i=1;i<6;i++){
+                _div=document.createElement("div");
+                _div.id=i;
+                _span=document.createElement("span");
+                _span.innerText=i;
+                _img=document.createElement("img");
+                _img.src="../images/"+i+".jpg";
+                _div.appendChild(_img);
+                _div.appendChild(_span);
+                _fragment.appendChild(_div);
+            }
+            document.getElementsByTagName("body")[0].appendChild(_fragment);
+        }
+
+
+
+        function cart(){
+            Cookie.prototype=new Object();
+            var _cookie=new Cookie();
+            var _list=document.getElementsByTagName("body")[0].children;
+            for(var i=0;i<_list.length;i++){
+                _cookie.add(_list[i].id,_list[i].id,1);
+            }
+            _cookie.save(3,-1);
+            //_cookie.deleteAll();
+        }
+
+
+        window.onload=function(){
+            create();
+            cart();
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function Parent(){
+            this.money=1000000000;
+        }
+
+        function Child(){
+            this.leg=2;
+            this.eat=function(){
+
+            }
+        }
+        var _child=new Child();
+        Child.prototype=new Parent();
+        new Parent().money;
+        Child.prototype.money;
+        Child.prototype.house=100;
+        new Child().house;
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

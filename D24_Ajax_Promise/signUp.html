@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignIn</title>
+    <style>
+        .container{
+            width:300px;
+            height:auto;
+            padding: 20px 0;
+            border:solid 1px #ccc;
+        }
+        .container div{
+            width:100%;
+            margin:5px 0;
+            text-align:center;
+        }
+        .container div.box{
+            width:260px;
+            margin:0 auto;
+        }
+        .container div.box input{
+            text-align:center;
+            font-size:13px;
+            color:#555;
+        }
+        .container div span{
+            font-size:14px;
+        }
+        .container div a{
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div><span>用户注册窗口</span></div>
+    <form action="signUp.php" method="POST">
+        <div class="box"><input type="text" id="account" name="account" placeholder="用户账号"/></div>
+        <div class="box"><input type="password" id="pwd" name="pwd" placeholder="用户密码"/></div>
+        <div class="box"><input type="password" id="repeat" name="repeat" placeholder="重复密码"/></div>
+        <div class="button"><input type="submit" name="submit" id="submit" value="用户注册"/></div>
+        <div><a href="signIn.html">已有账号直接登录</a></div>
+    </form>
+</div>
+<div>必须完成的作业：</div>
+<div>1.限制用户账号只能输入字母数字或者下横线，并完成注册。不能有空格，有空格的时候要给出提示。密码不限制。(提示用正则表达式完成)</div>
+<div>2.结合cookie实现7天免登录</div>
+<div>3.当天案例代码自己实现手敲一边，如果照着案例敲的情况，请敲两遍</div>
+<div>4.实现完整的购物车</div>
+<div>5.提示：正则表达式很重要，在对字符串文本做批量处理的时候建议优先选择正则表达式</div>
+<br>
+<div>选做作业：(为PHP感兴趣的同学留的作业)</div>
+<div>1.注册的时候要带上手机号。需要在原有的表中添加一个字段。</div>
+<div>2.实现删除用户功能。</div>
+<div>2.实现修改手机号功能。</div>
+<br>
+<div>思考题：</div>
+<div>如果页面上有个用户留言的功能，会编程技术的同事有可能直接输入js代码，或者php脚本。我该如何避免这类的事情发生？这种情况也叫脚本攻击XSS，这也是危险的操作。</div>
+</body>
+</html>

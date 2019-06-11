@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            margin:0; padding:0;
+        }
+        #outer{
+            width:600px; height:600px; background-color:red;
+        }
+        #center{
+            width:400px; height:400px; background-color:yellow;
+        }
+        #inner{
+            width:200px; height:200px; background-color:green;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * DOM知识点回顾
+         * firstChild：
+         * lastChild：
+         * outerHTML：
+         */
+        // window.onload=function(){
+        //     console.log(document.getElementsByTagName("body")[0].children[0].children[0].outerHTML);
+        //     console.log(document.getElementsByTagName("body")[0].children[0].children[0].innerHTML);
+        // };
+
+
+        /**
+         * 主要学习任务
+         * 事件
+         */
+
+
+        /**
+         * 常用的事件：
+         * 鼠标事件
+         * 键盘事件
+         */
+        // window.onload=function() {
+        //     var _input = document.createElement("input");
+        //     _input.type = "text";
+        //     document.getElementsByTagName("body")[0].appendChild(_input);
+        //     _input.onchange=function(){//得到光标，然后失去光标焦点
+        //         alert(this.value);
+        //     }
+        // }
+
+
+        /**
+         * 事件的概念：表示发生一个动作，或者一种“行为”后产生有影响的事
+         * 事件的运行机制：在开发过程中，一般情况下我们只要定义事件就可以，等待事件发生的时候由浏览器或者app驱动执行。
+         */
+
+
+        /**
+         * 事件对象event
+         * 该对象包含的信息如下
+         * 1.事件源
+         * 2.事件类型
+         * 3.事件的一些其他属性
+         */
+
+
+
+        /**
+         * event.button：获取鼠标的左右中键的值
+         * event.clientX：浏览器的x轴的位置
+         * event.clientY：
+         * event.offsetX：鼠标相对于事件源对象的坐标
+         * event.offsetY
+         * event.pageX：鼠标相对于网页左上顶点的坐标位置
+         * event.pageY
+         */
+
+        // function left(){
+        //     alert("left key");
+        // }
+        // function middle(){
+        //
+        // }
+        // function right(){
+        //
+        // }
+        // window.onload=function(){
+        //     document.getElementsByTagName("div")[1].onclick=function(e){
+        //         e=e||window.event;
+        //         if(this.currentStyle) {
+        //             switch (e.button) {
+        //                 case 1:
+        //                     left();
+        //                     break;
+        //                 case 2:
+        //                     alert("right key");
+        //                     break;
+        //                 case 4:
+        //                     alert("middle key");
+        //                     break;
+        //             }
+        //         }else{
+        //             switch (e.button) {
+        //                 case 0:
+        //                     left();
+        //                     break;
+        //                 case 2:
+        //                     alert("right key");
+        //                     break;
+        //                 case 1:
+        //                     alert("middle key");
+        //                     break;
+        //             }
+        //         }
+        //     };
+        //     document.getElementsByTagName("div")[1].oncontextmenu=function(e){
+        //         e=e||window.event;
+        //         e.preventDefault?e.preventDefault():e.returnValue=false;
+        //         alert(e.button);
+        //     }
+        // };
+
+
+
+        /**
+         * event.keyCode || event.which
+         * ctrlkey、altkey
+         * e.key
+         */
+        // window.onload=function(){
+        //     document.onkeydown=function(e){
+        //         alert(e.key);
+        //     }
+        // };
+
+
+
+
+        /**
+         * 事件冒泡
+         * 事件监听，多个监听器
+         * 事件捕获
+         */
+        window.onload=function(){
+            document.getElementById("center").onclick=function(){
+                alert("center");
+            };
+            document.getElementById("outer").onclick=function(){
+                alert("outer");
+            };
+            document.getElementById("inner").onclick=function(e){
+                if(e.stopPropagation){
+                    e.stopPropagation();
+                }else{
+                    e.cancelBubble=true;
+                }
+                alert("inner");
+            };
+            // document.getElementById("inner").click();
+        };
+
+
+
+
+        /**
+         * 事件监听器：非IE中第一个参数事件类型，第二个参数是事件监听方法，第三个参数boolean，表示捕获或者冒泡：true捕获，false冒泡
+         * 兼容问题
+         * 用事件监听器的方式可以添加多个相同类型的事件
+         *
+         *
+         * attachEvent
+         */
+
+        function clickEvent(_obj,_type,_listener,_capture){
+            try{
+                _obj.addEventListener(_type,_listener,_capture);
+            }catch (e) {
+                _obj.attachEvent("on"+_type,_listener);
+            }
+        }
+
+        function main(){
+            /*****非IE中用addEventListener****/
+            // document.getElementById("inner").addEventListener("click",function(e){
+            //     alert("inner");
+            // },false);
+            // document.getElementById("inner").addEventListener("mousemove",function(e){
+            //     alert("inner2");
+            // },false);
+            // document.getElementById("center").addEventListener("click",function(e){
+            //     alert("center");
+            // },false);
+            // document.getElementById("outer").addEventListener("click",function(e){
+            //     alert("outer");
+            // },false);
+
+            /****************IE中用 attachEvent****************/
+            // document.getElementById("inner").attachEvent("onclick",function(){
+            //     alert("inner");
+            // });
+            // document.getElementById("center").attachEvent("onclick",function(){
+            //     alert("center");
+            // });
+            // document.getElementById("outer").attachEvent("onclick",function(){
+            //     alert("outer");
+            // });
+
+
+            /***********兼容*********************/
+            clickEvent(document.getElementById("inner"),"click",function(){
+                alert("inner");
+            },true);
+
+
+            // function inner2(e){
+            //     alert("inner2");
+            // }
+            // document.getElementById("inner").onclick=function(e){
+            //     alert("inner");
+            //     inner2(e);
+            // };
+        }
+        window.onload=main;
+
+
+
+
+
+        /**
+         * 事件委托
+         */
+
+
+
+        /**
+         * 阻止默认事件
+         * e.preventDefault() || e.returnValue=false;
+         */
+
+
+
+
+
+        // window.onload=function(e){
+        //     console.log(e);
+        //     console.log(window.event);
+        // }
+
+
+        /**
+         * 添加事件第一种：document.getElementBy().onclick
+         * 第二种方式：html元素中直接加上事件属性（这种方法已经很少看到了）
+         * html元素的事件属性，可以直接接受js语句
+         * addEventListener
+         */
+
+    </script>
+</head>
+<body>
+    <div id="outer">
+        <div id="center">
+            <div id="inner"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /**
+         * 1.继承
+         *      call || apply
+         */
+        // function Cart(_identify,_counter){
+        //     this.storage={};//这个属性的作用:用来存储购物车中的产品信息
+        //     this.insert=function(){
+        //         //TODO: add a product information to cart
+        //         if(_counter>0) {
+        //             if (this.storage[_identify]) {
+        //                 this.storage[_identify] += _counter;
+        //             } else {
+        //                 this.storage[_identify] = _counter;
+        //             }
+        //         }else{
+        //             alert("加入失败");
+        //         }
+        //     };
+        // }
+        // var _obj={
+        //     pay:function(){
+        //         console.log("pay");
+        //     },
+        //     insert:function(){
+        //         console.log("conflict");
+        //     }
+        // };
+        // Cart.apply(_obj,["MAC","1000"]);
+        // _obj.insert();
+        // console.log(_obj);//这个对象的类型是Object字面量对象
+        // var _obj={
+        //     pay:function(){
+        //         console.log("pay");
+        //     },
+        //     insert:function(){
+        //         console.log("conflict");
+        //     }
+        // };
+        // Cart.call(_obj,"MAC","1000");
+        // _obj.insert();
+        // console.log(_obj);//这个对象的类型是Object字面量对象
+        // console.log(new Cart());//这个对象的类型是Cart类型
+        // _obj.insert();
+
+
+        /**
+         * 多继承
+         */
+
+        // function Bird(){
+        //     this.fly=function(){
+        //         console.log("fly");
+        //     }
+        // }
+        // function Cat(){
+        //     this.climb=function(){
+        //         console.log("climb");
+        //     }
+        // }
+        // function Dog(){
+        //     this.program=function(){
+        //         console.log("program");
+        //     }
+        // }
+        // var _dog=new Dog();
+        // Bird.call(_dog);
+        // Cat.call(_dog);
+        // console.log(_dog);
+
+
+        /***
+         * 原型继承
+         */
+        // function Bird(){
+        //     this.fly=function(){
+        //         console.log("fly");
+        //     }
+        // }
+
+        // var _bird=new Bird();
+        // console.log(_bird.prototype);
+        // console.log(Bird.prototype);
+
+        /**
+         * 对象都有__proto__属性
+         */
+        // console.log(_bird.__proto__);
+        // console.log(Bird.__proto__);
+
+
+        /**
+         * __proto__===类的prototype
+         */
+        // Bird.prototype.abcde=1000;
+        // var _bird=new Bird();
+        // console.log(Bird.prototype.abcde);//===1000
+        // console.log(_bird.__proto__===Bird.prototype);
+        // console.log(_bird.__proto__.abcde);
+        // console.log(_bird.abcde);//__proto__属性可以省略
+
+
+
+
+
+            // var _arr1=[8,5,0,3,1];
+            // var _arr2=_arr1;
+            //
+            // _arr1=[1,3,0,5,8];
+            // _arr2=_arr1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**
+         * 当prototype被重新赋值时，新的对象__proto__===函数新的prototype
+         */
+        // Bird.prototype.abcde=[8,5,0,3,1];
+        // var _bird=new Bird();
+        // _bird.__proto__;
+        //
+        //
+        //
+        // Bird.prototype=[1,0,3,5,8];
+        // var _bird2=new Bird();
+        // console.log(_bird2.__proto__===Bird.prototype);
+
+
+
+
+
+
+        // Bird.prototype={
+        //     eat:function(){
+        //         console.log("eat");
+        //         return 10;
+        //     },
+        //     sleep:function(){
+        //         console.log("sleep");
+        //         return 1000;
+        //     },
+        //     name:"pig"
+        // };
+        // var _bird=new Bird();
+        // console.log(_bird.name);
+        // console.log(_bird);
+
+
+
+
+
+
+
+        /***
+         * 原型链继承
+         */
+        function Bird(){
+            this.fly=function(){
+                console.log("fly");
+            }
+        }
+        function Cat(){
+            this.climb=function(){
+                console.log("climb");
+            }
+        }
+
+        function Dog(){
+            this.program=function(){
+                console.log("program");
+            };
+        }
+        var _bird=new Bird();
+        Cat.prototype=_bird;//_bird.__proto__===Bird.prototype
+        var _cat=new Cat();
+        Dog.prototype=_cat;//_cat.__proto__===Cat.prototype===_bird
+        var _dog=new Dog();//_dog.__proto__===Dog.prototype===_cat
+        // console.log(_dog);
+        _dog.fly();
+        _dog.__proto__.__proto__.fly();
+
+
+
+
+        String.prototype.replace=function(_old,_new){
+            return this.split(_old).join(_new);
+        };
+        var _chars="12345678912345678934567890123456789";
+        console.log(_chars.replace("789","a"));
+    </script>
+</head>
+<body>
+
+</body>
+</html>

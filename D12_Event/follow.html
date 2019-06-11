@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            margin:0; padding:0; height:100%;
+        }
+        div{
+            width:66px; height:45px; overflow:hidden;
+            background-image:url("image/2.gif");
+            background-repeat: no-repeat;
+            position:absolute; top:0; left:0;
+        }
+    </style>
+    <script type="text/javascript">
+
+        function main(){
+            document.onmousemove=function(e){
+                e=e||window.event;
+                document.getElementById("block").style.left=e.clientX+"px";
+                document.getElementById("block").style.top=e.clientY+"px";
+            }
+        }
+        window.onload=main;
+    </script>
+</head>
+<body>
+<div id="block"></div>
+</body>
+</html>

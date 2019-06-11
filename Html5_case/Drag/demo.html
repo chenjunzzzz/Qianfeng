@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<style type="text/css">
+		body{ margin:0 auto;}
+		#v{width:250px; height:250px; overflow:hidden; border:solid 3px red; position:relative;}
+		#v span{ display:block; width:50px; height:50px; position:absolute; color:#fff;
+			text-align:center; line-height:50px;
+			background-color:red;
+		}
+		#exchange{
+			width:740px; height:315px; overflow:hidden; position:relative;
+		}
+		#exchange .b{ width:630px; height:315px; overflow:hidden; position:relative; float:left;}
+		#exchange .b img{ border:none; position:absolute; top:0px; left:0px;}
+		#exchange .r{ width:105px; height:315px; overflow:hidden; float:left; margin-lefT:5px;}
+		#exchange .r img{ border:none; height:50px; width:auto; float:left; margin-top:2px;}
+		
+		
+		#nine{ width:810px; height:810px; padding:0px 10px 10px 0px; 
+			overflow:hidden; position:relative;
+			}
+		#nine div{ width:80px; height:80px; overflow:hidden;
+		background-color:#890001; position:absolute; color:#fff; font-size:30px; font-weight:bold;
+		line-height:80px; text-align:center;}
+	</style>
+	<script type="text/javascript" src="Library/Ajax.js"></script>
+	<script type="text/javascript" src="demo.js"></script>
+</head>
+<body>
+	<div class="v" id="v"></div>
+	<div class="exchange" id="exchange">
+		<div class="b"></div>
+		<div class="r"></div>
+	</div>
+	<div id="nine"></div>
+</body>
+</html>
