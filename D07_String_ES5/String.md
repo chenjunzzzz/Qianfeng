@@ -7,7 +7,7 @@
 * 字符串的拼接
 * length属性
 * 通过索引访问对应的字符||charAt(_index);
-* 转义字符：\,\n
+* 转义字符：\\,\n
 ---
 ### 字符串常见API(charCodeAt\fromCharCode\)
 * 字符串的增删改查
