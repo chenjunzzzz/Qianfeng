@@ -1,4 +1,5 @@
 ### BOM:Browser Object Model
+* ![BOM](images/bom.jpg)
 * BOM：Browser Object Model 目前没有正式的标准，因浏览器不同而不同。
 * window对象介绍
     * window.location
